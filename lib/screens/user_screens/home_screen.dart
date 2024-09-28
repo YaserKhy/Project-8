@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:project8/widgets/cards/item_card.dart';
 import 'package:project8/widgets/fields/search_feild.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -93,8 +96,16 @@ class HomeScreen extends StatelessWidget {
             title: "Search",
             controller: searchController,
             prefixIcon: Icons.search,
-          )
-          
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ItemCard(
+            itemImage: Image.asset("assets/images/default_profile_img.png"),
+            name: "Cortado",
+            price: "12.00",
+            cal: "50",
+          ),
         ],
       )),
     );
