@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project8/extensions/screen_size.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,10 +27,10 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -50,6 +52,39 @@ class HomeScreen extends StatelessWidget {
                     size: 30,
                   ))
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ClipRRect( // Add ClipRRect here to apply the border radius
+              borderRadius: BorderRadius.circular(15), 
+              child: SizedBox(
+                height: context.getHeight(divideBy: 5),
+                width: context.getWidth(),
+                child: ImageSlideshow(
+                  indicatorColor: const Color(0xffD9D9D9),
+                  indicatorBackgroundColor: const Color(0xff717171),
+                  onPageChanged: (value) {
+                    debugPrint('Page changed: $value');
+                  },
+                  autoPlayInterval: 7000,
+                  isLoop: true,
+                  children: [
+                    Image.asset(
+                      'assets/images/image_slider_1.png',
+                      fit: BoxFit.fill,
+                    ),
+                    Image.asset(
+                      'assets/images/image_slider_1.png',
+                      fit: BoxFit.fill,
+                    ),
+                    Image.asset(
+                      'assets/images/image_slider_1.png',
+                      fit: BoxFit.fill,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       )),
