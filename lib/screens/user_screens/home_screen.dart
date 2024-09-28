@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:project8/widgets/fields/search_feild.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController searchController = TextEditingController();
     return Scaffold(
       backgroundColor: const Color(0xffEEEDEA),
       body: SafeArea(
@@ -55,8 +57,9 @@ class HomeScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ClipRRect( // Add ClipRRect here to apply the border radius
-              borderRadius: BorderRadius.circular(15), 
+            child: ClipRRect(
+              // Add ClipRRect here to apply the border radius
+              borderRadius: BorderRadius.circular(15),
               child: SizedBox(
                 height: context.getHeight(divideBy: 5),
                 width: context.getWidth(),
@@ -86,6 +89,12 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+          SearchField(
+            title: "Search",
+            controller: searchController,
+            prefixIcon: Icons.search,
+          )
+          
         ],
       )),
     );
