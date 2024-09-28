@@ -13,10 +13,10 @@ class TitleLogo extends StatelessWidget {
           children: [
             Column(
               children: [
-                const SizedBox(height: 16),
+                const SizedBox(height: 28),
                 Container(
-                  width: 150,
-                  height: 45,
+                  width: 137,
+                  height: 54,
                   decoration: const BoxDecoration(
                     color: AppConstants.mainRed,
                     borderRadius: BorderRadius.only(
@@ -27,7 +27,7 @@ class TitleLogo extends StatelessWidget {
                 ),
               ],
             ),
-            Image.asset('assets/images/logo_title1.png', width: 385, height: 71),
+            Image.asset('assets/images/logo_title1.png', width: 385, height: 100),
           ],
         ),
       ],

@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/screens/auth_screens/login_screen.dart';
+import 'package:project8/screens/auth_screens/otp_screen.dart';
 import 'package:project8/widgets/buttons/auth_button.dart';
 import 'package:project8/widgets/buttons/row_button.dart';
 import 'package:project8/widgets/fields/auth_field.dart';
@@ -47,7 +46,11 @@ class SignUpScreen extends StatelessWidget {
                       const SizedBox(height: 25,),
                       AuthField(title: "Name", controller: nameController),
                       const SizedBox(height: 63),
-                      AuthButton(text: "Create Account", onPressed: () => log("message")),
+                      AuthButton(text: "Create Account", onPressed: () {
+                        if(formKey.currentState!.validate()) {
+                          context.pushRemove(screen: OtpScreen(email: emailController.text,));
+                        }
+                      }),
                       RowButton(
                         onPressed: () => context.pushRemove(screen: const LoginScreen()),
                         text: "Have Account? ",

@@ -32,6 +32,9 @@ class AuthField extends StatelessWidget {
               if(text!.isEmpty) {
                 return "$title field is required";
               }
+              if(title.toLowerCase()=='email' && !AppConstants.emailRegex.hasMatch(text)) {
+                return "Enter a Valid email";
+              }
               return null;
             },
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
+import 'package:project8/screens/auth_screens/otp_screen.dart';
 import 'package:project8/screens/auth_screens/sign_up_screen.dart';
 import 'package:project8/widgets/fields/auth_field.dart';
 import 'package:project8/widgets/buttons/auth_button.dart';
@@ -46,7 +47,11 @@ class LoginScreen extends StatelessWidget {
                       // login button
                       AuthButton(
                         text: "Login",
-                        onPressed: ()=>log("Email is ${loginController.text}"),
+                        onPressed: (){
+                          if(formKey.currentState!.validate()) {
+                            context.pushRemove(screen: OtpScreen(email: loginController.text,));
+                          }
+                        },
                       ),
                       // Row button "two texts, one of them is clickable"
                       RowButton(
