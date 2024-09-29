@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:get_it/get_it.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/models/item_model.dart';
