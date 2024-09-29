@@ -72,6 +72,7 @@ class LoginScreen extends StatelessWidget {
                                 child: RowButton(
                                   text: "Continue as ",
                                   buttonText: "guest",
+                                  isBold: true,
                                   onPressed: () => log("You Pressed guest"),
                                 ),
                               ),

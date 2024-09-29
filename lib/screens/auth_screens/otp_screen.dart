@@ -34,7 +34,7 @@ class OtpScreen extends StatelessWidget {
                       const SizedBox(height: 74,),
                       const TitleLogo(),
                       const SizedBox(height: 163,),
-                      const Text("OTP VERIFICATION", style: TextStyle(fontSize: 20, fontFamily: "Poppins", fontWeight: FontWeight.w700, color: Colors.white)),
+                      const Text("OTP VERIFICATION", style: TextStyle(fontSize: 20, fontFamily: "Average", fontWeight: FontWeight.w700, color: Colors.white)),
                       const SizedBox(height: 12,),
                       Text("Enter the OTP sent to - $email", style: const TextStyle(color: AppConstants.mainWhite),),
                       const SizedBox(height: 38),
@@ -45,7 +45,7 @@ class OtpScreen extends StatelessWidget {
                             width: 50,
                             height: 50,
                             margin: const EdgeInsets.symmetric(horizontal: 2),
-                            textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: "Poppins"),
+                            textStyle: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: "Average"),
                             decoration: BoxDecoration(
                               color: AppConstants.mainWhite,
                               border: Border.all(color: const Color(0xff282828).withOpacity(.5), width: .6),
@@ -61,10 +61,10 @@ class OtpScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Didn’t receive code ? ", style: TextStyle(color: AppConstants.mainWhite,fontFamily: "Poppins", fontSize: 15),),
+                          const Text("Didn’t receive code ? ", style: TextStyle(color: AppConstants.mainWhite,fontFamily: "Average", fontSize: 15),),
                           OtpTimerButton(
                             onPressed: ()=>log("message"),
-                            text: const Text("Re-send", style: TextStyle(fontFamily: "Poppins", color: AppConstants.mainRed, fontSize: 15, fontWeight: FontWeight.w700),),
+                            text: const Text("Re-send", style: TextStyle(fontFamily: "Average", color: AppConstants.mainRed, fontSize: 15, fontWeight: FontWeight.w700),),
                             duration: 10,
                             buttonType: ButtonType.text_button,
                           ),

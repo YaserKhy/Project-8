@@ -14,14 +14,14 @@ class AuthPhrase extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text("Take ", style: TextStyle(color: Colors.white, fontFamily: "Poppins", fontSize: 20, fontWeight: FontWeight.w700),),
-                  Text("a coffee &", style: TextStyle(fontFamily: "Poppins",color: Colors.white, fontSize: 20),),
+                  Text("Take ", style: TextStyle(color: Colors.white, fontFamily: "Average", fontSize: 20, fontWeight: FontWeight.w700),),
+                  Text("a coffee &", style: TextStyle(fontFamily: "Average",color: Colors.white, fontSize: 20),),
                 ],
               ),
               Row(
                 children: [
-                  Text("Give ", style: TextStyle(fontFamily: "Poppins",color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),),
-                  Text("me something", style: TextStyle(fontSize: 20,color: Colors.white, fontFamily: "Poppins"),),
+                  Text("Give ", style: TextStyle(fontFamily: "Average",color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),),
+                  Text("me something", style: TextStyle(fontSize: 20,color: Colors.white, fontFamily: "Average"),),
                 ],
               ),
             ],

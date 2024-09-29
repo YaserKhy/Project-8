@@ -13,7 +13,8 @@ class CartScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              PageTitle(title: "Cart")
+              PageTitle(title: "Cart"),
+              SizedBox(height: 27),
             ],
           ),
         ),

@@ -13,10 +13,11 @@ class AuthField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(color: Colors.white,fontFamily: "Poppins", fontWeight: FontWeight.w300, fontSize: 20),),
+          Text(title, style: const TextStyle(color: Colors.white,fontFamily: "Average", fontWeight: FontWeight.w300, fontSize: 20),),
           const SizedBox(height: 10,),
           TextFormField(
             decoration: InputDecoration(
+              errorStyle: const TextStyle(fontFamily: "Average"),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               constraints: const BoxConstraints(minHeight: 43, maxWidth: 319),
               filled: true,
@@ -34,6 +35,9 @@ class AuthField extends StatelessWidget {
               }
               if(title.toLowerCase()=='email' && !AppConstants.emailRegex.hasMatch(text)) {
                 return "Enter a Valid email";
+              }
+              if(title.toLowerCase()=='phone number' && (text.substring(0,2)!="05" || text.length!=10)) {
+                return "Enter a valid phone number";
               }
               return null;
             },

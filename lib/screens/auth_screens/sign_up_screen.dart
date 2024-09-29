@@ -17,6 +17,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController nameController = TextEditingController();
+    TextEditingController phoneController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -35,31 +36,35 @@ class SignUpScreen extends StatelessWidget {
                   width: context.getWidth(),
                   height: context.getHeight(),
                   color: AppConstants.authBgColor,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 74,),
-                      // title logo
-                      const TitleLogo(),
-                      const SizedBox(height: 119,),
-                      // form content
-                      AuthField(title: "Email", controller: emailController),
-                      const SizedBox(height: 25,),
-                      AuthField(title: "Name", controller: nameController),
-                      const SizedBox(height: 63),
-                      AuthButton(text: "Create Account", onPressed: () {
-                        if(formKey.currentState!.validate()) {
-                          context.pushRemove(screen: OtpScreen(email: emailController.text,));
-                        }
-                      }),
-                      RowButton(
-                        onPressed: () => context.pushRemove(screen: const LoginScreen()),
-                        text: "Have Account? ",
-                        buttonText: "Login",
-                        isBold: true
-                      ),
-                      const SizedBox(height: 116),
-                      const AuthPhrase()
-                    ],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 74,),
+                        // title logo
+                        const TitleLogo(),
+                        const SizedBox(height: 67,),
+                        // form content
+                        AuthField(title: "Email", controller: emailController),
+                        const SizedBox(height: 25,),
+                        AuthField(title: "Name", controller: nameController),
+                        const SizedBox(height: 25,),
+                        AuthField(title: "Phone Number", controller: phoneController),
+                        const SizedBox(height: 63),
+                        AuthButton(text: "Create Account", onPressed: () {
+                          if(formKey.currentState!.validate()) {
+                            context.pushRemove(screen: OtpScreen(email: emailController.text,));
+                          }
+                        }),
+                        RowButton(
+                          onPressed: () => context.pushRemove(screen: const LoginScreen()),
+                          text: "Have Account? ",
+                          buttonText: "Login",
+                          isBold: true
+                        ),
+                        const SizedBox(height: 76),
+                        const AuthPhrase()
+                      ],
+                    ),
                   ),
                 ),
               )

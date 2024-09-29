@@ -22,7 +22,7 @@ class SearchField extends StatelessWidget {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5),borderSide: BorderSide.none),
           hintText: title,
           hintStyle: const TextStyle(
-            fontFamily: "Poppins",
+            fontFamily: "Average",
             color: AppConstants.subTextColor,
             fontWeight: FontWeight.w400
           ),

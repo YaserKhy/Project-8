@@ -41,8 +41,8 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Poppins",fontSize: 16)),
-                        Text("Sara",style: TextStyle(fontFamily: "Poppins",fontSize: 18, fontWeight: FontWeight.bold))
+                        Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average",fontSize: 16)),
+                        Text("Sara",style: TextStyle(fontFamily: "Average",fontSize: 18, fontWeight: FontWeight.bold))
                       ],
                     ),
                   ],

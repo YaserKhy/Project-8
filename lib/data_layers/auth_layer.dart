@@ -1,3 +1,3 @@
 class AuthLayer {
-  
+  String? token;
 }

@@ -16,7 +16,7 @@ class RowButton extends StatelessWidget {
         Text(
           text,
           style: const TextStyle(
-            fontFamily: "Poppins",
+            fontFamily: "Average",
             fontSize: 15,
             color: Colors.white
           )
@@ -31,7 +31,7 @@ class RowButton extends StatelessWidget {
           child: Text(
             buttonText,
             style: TextStyle(
-              fontFamily: "Poppins",
+              fontFamily: "Average",
               fontSize: 15,
               color: AppConstants.mainRed,
               fontWeight: isBold ? FontWeight.w600 : null
