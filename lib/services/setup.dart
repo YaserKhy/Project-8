@@ -1,4 +1,5 @@
 import 'package:project8/data_layers/auth_layer.dart';
+import 'package:project8/data_layers/item_layer.dart';
 // import 'package:project8/data_layers/item_layer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,6 +13,6 @@ Future<void> setup() async {
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON']!
   );
-  // GetIt.I.registerSingleton<ItemLayer>(ItemLayer());
+  GetIt.I.registerSingleton<ItemLayer>(ItemLayer());
   GetIt.I.registerSingleton<AuthLayer>(AuthLayer());
 }

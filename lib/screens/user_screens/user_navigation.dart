@@ -22,13 +22,13 @@ class UserNavigation extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         // hideOnScroll: false,
         body: (context, controller) {
-          return const TabBarView(
+          return TabBarView(
             children: [
               HomeScreen(),
-              CartScreen(),
-              FavoriteScreen(),
-              OrdersScreen(),
-              ProfileScreen()
+              const CartScreen(),
+              const FavoriteScreen(),
+              const OrdersScreen(),
+              const ProfileScreen()
             ]
           );
         },
