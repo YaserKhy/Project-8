@@ -1,4 +1,5 @@
 import 'package:project8/data_layers/auth_layer.dart';
+import 'package:project8/data_layers/supabase_layer.dart';
 // import 'package:project8/data_layers/item_layer.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,4 +15,5 @@ Future<void> setup() async {
   );
   // GetIt.I.registerSingleton<ItemLayer>(ItemLayer());
   GetIt.I.registerSingleton<AuthLayer>(AuthLayer());
+  GetIt.I.registerSingleton<SupabaseLayer>(SupabaseLayer());
 }

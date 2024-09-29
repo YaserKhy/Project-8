@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:project8/models/customer_model.dart';
 import 'package:project8/widgets/cards/item_card.dart';
 import 'package:project8/widgets/fields/search_field.dart';
 
@@ -12,6 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CustomerModel customer = GetIt.I.get<AuthLayer>().customer!;
     TextEditingController searchController = TextEditingController();
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -37,12 +41,12 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10,),
                     // welcome and name
-                    const Column(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average",fontSize: 16)),
-                        Text("Sara",style: TextStyle(fontFamily: "Average",fontSize: 18, fontWeight: FontWeight.bold))
+                        const Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average",fontSize: 16)),
+                        Text(customer.name,style: const TextStyle(fontFamily: "Average",fontSize: 18, fontWeight: FontWeight.bold))
                       ],
                     ),
                   ],
