@@ -1,12 +1,13 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:project8/models/item_model.dart';
 
 class ItemLayer {
-
-  List<Map<String,dynamic>> items = [];
-
+  List<ItemModel> items = [];
+  List<String> categories = ['All', "Classic Drinks", "Cold Drinks", "Drip Coffee", "Water"];
   final box = GetStorage();
 
   // ItemLayer(){
-    
+
   // }
+
 }
