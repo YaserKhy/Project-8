@@ -8,7 +8,7 @@ import 'package:project8/services/setup.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
-  getAllItems();
+  // getAllItems();
   runApp(const MainApp());
 }
 

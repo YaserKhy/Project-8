@@ -5,7 +5,7 @@ import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/screens/user_screens/cart_screen.dart';
 import 'package:project8/screens/user_screens/favorite_screen.dart';
-import 'package:project8/screens/user_screens/home_screen.dart';
+import 'package:project8/screens/user_screens/home/home_screen.dart';
 import 'package:project8/screens/user_screens/orders_screen.dart';
 import 'package:project8/screens/user_screens/profile_screen.dart';
 
