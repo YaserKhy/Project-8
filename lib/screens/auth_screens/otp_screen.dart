@@ -5,7 +5,7 @@ import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/screens/auth_screens/bloc/auth_bloc.dart';
-import 'package:project8/screens/user_screens/user_navigation.dart';
+import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/widgets/other/auth_phrase.dart';
 import 'package:project8/widgets/other/title_logo.dart';
 import 'package:pinput/pinput.dart';

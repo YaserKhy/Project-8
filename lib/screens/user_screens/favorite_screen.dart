@@ -15,18 +15,14 @@ class FavoriteScreen extends StatelessWidget {
           child: Column(
             children: [
               const PageTitle(title: "Favorites"),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30,),
               FavoritesCard(
                 itemImage: Image.asset("assets/images/default_profile_img.png"),
                 name: "Cortado",
                 price: "20",
                 cal: "20",
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20,),
               FavoritesCard(
                 itemImage: Image.asset("assets/images/default_profile_img.png"),
                 name: "V60",

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/screens/auth_screens/login_screen.dart';
-import 'package:project8/screens/user_screens/user_navigation.dart';
+import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/services/setup.dart';
 
 void main() async {

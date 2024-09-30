@@ -22,10 +22,10 @@ class OrdersScreen extends StatelessWidget {
                 SizedBox(height: 10),
                 CustomTapbar(),
                 OrderCard(
-                    order:
-                        "hdskjdjfsjfjddjkdkdkssjkdkjfhjeikdjjddkkdkdkdkdkkdk",
-                    orderDate: "25/09/2024, 5:25 PM",
-                    status: "In progress")
+                  order: "hdskjdjfsjfjddjkdkdkssjkdkjfhjeikdjjddkkdkdkdkdkkdk",
+                  orderDate: "25/09/2024, 5:25 PM",
+                  status: "In progress"
+                )
               ],
             ),
           ),
