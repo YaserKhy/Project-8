@@ -39,10 +39,10 @@ class HomeScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average", fontSize: 16)),
+                            const Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average", fontSize: 16)),
                             Text(
                               GetIt.I.get<AuthLayer>().customer!.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: "Average",
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold
@@ -75,12 +75,12 @@ class HomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Column(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 16.0),
+                             Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Best Seller",
                                     style: TextStyle(
                                       fontFamily: "Average",
@@ -88,6 +88,8 @@ class HomeScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  const SizedBox(width: 10),
+                                  Expanded(child: Image.asset("assets/images/star_line.png"))
                                 ],
                               ),
                             ),

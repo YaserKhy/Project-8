@@ -10,7 +10,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     on<GetAllItemsEvent>(getItems);
-    on<ChangeCategoryEvent>(ChangeCategory);
+    on<ChangeCategoryEvent>(changeCategory);
   }
 
   FutureOr<void> getItems(
@@ -24,7 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  FutureOr<void> ChangeCategory(
+  FutureOr<void> changeCategory(
       ChangeCategoryEvent event, Emitter<HomeState> emit) {
     emit(SuccessState(selectedCategory: event.category));
   }
