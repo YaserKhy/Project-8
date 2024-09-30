@@ -5,11 +5,13 @@ import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
+import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/helpers/helper.dart';
 import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
 import 'package:project8/screens/user_screens/home/image_slider.dart';
 import 'package:project8/widgets/cards/item_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project8/widgets/other/category_title.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,126 +28,100 @@ class HomeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              height: 53,
-                              child: Image.asset(
-                                "assets/images/default_profile_img.png",
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text("Welcome Coffee Addict",
-                                  style: TextStyle(
-                                      fontFamily: "Average", fontSize: 16)),
-                              Text(GetIt.I.get<AuthLayer>().customer!.name,
+                  // appbar
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset("assets/images/default_profile_img.png",fit: BoxFit.cover),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average", fontSize: 16)),
+                                Text(
+                                  GetIt.I.get<AuthLayer>().customer!.name,
                                   style: const TextStyle(
-                                      fontFamily: "Average",
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.notifications_none_outlined,
-                          size: 30,
+                                    fontFamily: "Average",
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold
+                                  )
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.notifications_none_outlined,size: 30,),
+                        ),
+                      ],
+                    ),
                   ),
                   const ImageSlider(),
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
                       if (state is LoadingState) {
-                        return const Center(child: CircularProgressIndicator());
+                        log("loading items");
+                        return SizedBox(
+                          height: context.getHeight(divideBy: 3),
+                          child: const Center(child: CircularProgressIndicator())
+                        );
+                      }
+                      if (state is ErrorState) {
+                        log("error loading items");
+                        return SizedBox(
+                          height: context.getHeight(divideBy: 3),
+                          child: const Center(child: Text("Error loading items"))
+                        );
                       }
                       if (state is SuccessState) {
                         final itemLayer = GetIt.I.get<ItemLayer>();
-                        final groupedItems =
-                            groupItemsByCategory(itemLayer.items);
+                        final groupedItems = groupItemsByCategory(itemLayer.items);
+                        log(groupedItems.toString());
                         final selectedCategory = state.selectedCategory;
                         final itemsToDisplay = selectedCategory == 'All'
-                            ? itemLayer.items
-                            : groupedItems[selectedCategory] ?? [];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          ? itemLayer.items
+                          : groupedItems[selectedCategory] ?? [];
+                        return DefaultTabController(
+                          length: itemLayer.categories.length,
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      "Best Seller",
-                                      style: TextStyle(
-                                        fontFamily: "Average",
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Expanded(
-                                        child: Image.asset(
-                                            "assets/images/star_line.png"))
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 10),
+                              const CategoryTitle(title: "Best Seller"),
+                              // best seller
                               SizedBox(
                                 height: 211,
-                                child: ListView.builder(
+                                child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: getBestSellers().length,
-                                  itemBuilder: (context, index) {
-                                    final item = getBestSellers()[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: SizedBox(
-                                        width: 150,
-                                        child: ItemCard(item: item),
-                                      ),
-                                    );
-                                  },
+                                  separatorBuilder: (context, index) => const SizedBox(width: 10),
+                                  itemBuilder: (context, index) => ItemCard(item: getBestSellers()[index]),
                                 ),
                               ),
-                              const SizedBox(height: 20),
-                              DefaultTabController(
-                                length: itemLayer.categories.length,
+                              // tabbar
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 20),
                                 child: TabBar(
-                                  onTap: (index) {
-                                    final category =
-                                        itemLayer.categories[index];
-                                    context.read<HomeBloc>().add(
-                                        ChangeCategoryEvent(
-                                            category: category));
-                                  },
+                                  tabAlignment: TabAlignment.start,
+                                  overlayColor: WidgetStateColor.transparent,
+                                  padding: EdgeInsets.zero,
+                                  indicatorPadding: EdgeInsets.zero,
+                                  labelPadding: EdgeInsets.zero,
+                                  onTap: (index) => context.read<HomeBloc>().add(ChangeCategoryEvent(category: itemLayer.categories[index])),
                                   isScrollable: true,
                                   dividerColor: Colors.transparent,
                                   indicatorColor: Colors.transparent,
                                   tabs: itemLayer.categories.map((category) {
-                                    final isSelected =
-                                        selectedCategory == category;
+                                    final isSelected = selectedCategory == category;
                                     return Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
+                                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                                       decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? AppConstants.mainBlue
-                                            : Colors.white,
+                                        color: isSelected ? AppConstants.mainBlue : Colors.white,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Text(
@@ -153,59 +129,85 @@ class HomeScreen extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
-                                          color: isSelected
-                                              ? AppConstants.mainBgColor
-                                              : Colors.black,
+                                          color: isSelected ? AppConstants.mainBgColor : Colors.black,
                                         ),
                                       ),
                                     );
                                   }).toList(),
                                 ),
                               ),
-                              GridView.builder(
-                                shrinkWrap: true,
-                                itemCount: itemsToDisplay.length,
-                                itemBuilder: (context, index) {
-                                  final item = itemsToDisplay[index];
-                                  return ItemCard(
-                                      item: item,
-                                      onFav: () async {
-                                        log(item.name);
-                                        log(item.itemId);
-                                        log(GetIt.I
-                                            .get<AuthLayer>()
-                                            .customer!
-                                            .id);
-                                        final data = await GetIt.I
-                                            .get<SupabaseLayer>()
-                                            .supabase
-                                            .rpc('fav_item', params: {
-                                          'item_id': item.itemId,
-                                          'customer_id': GetIt.I
-                                              .get<AuthLayer>()
-                                              .customer
-                                              ?.id
-                                        });
-                                        print(data);
-                                      });
-                                },
+                              // if all is selected
+                              selectedCategory=='All' ?
+                              ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                shrinkWrap: true,
+                                itemCount: groupedItems.length,
+                                itemBuilder: (context, index) {
+                                  final category = groupedItems.keys.toList()[index];
+                                  final items = groupedItems[category];
+                                  return Column(
+                                    children: [
+                                      CategoryTitle(title: category),
+                                      GridView.builder(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 1.69 / 2,
+                                          crossAxisSpacing: 10,
+                                          mainAxisSpacing: 10,
+                                        ),
+                                        itemCount: items!.length,
+                                        itemBuilder: (context, index) {
+                                          return ItemCard(
+                                            item: items[index],
+                                            onFav: () async {
+                                              await GetIt.I.get<SupabaseLayer>().supabase.rpc(
+                                                'fav_item',
+                                                params: {
+                                                  'item_id': items[index].itemId,
+                                                  'customer_id': GetIt.I.get<AuthLayer>().customer?.id
+                                                }
+                                              );
+                                            }
+                                          );
+                                        }
+                                      )
+                                    ],
+                                  );
+                                },
+                              )
+                              // if specific category is selected
+                              : GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   childAspectRatio: 1.69 / 2,
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10,
                                 ),
+                                itemCount: itemsToDisplay.length,
+                                itemBuilder: (context, index) {
+                                  final item = itemsToDisplay[index];
+                                  return ItemCard(
+                                    item: item,
+                                    onFav: () async {
+                                      await GetIt.I.get<SupabaseLayer>().supabase.rpc(
+                                        'fav_item',
+                                        params: {
+                                          'item_id': item.itemId,
+                                          'customer_id': GetIt.I.get<AuthLayer>().customer?.id
+                                        }
+                                      );
+                                    }
+                                  );
+                                },
                               ),
                               const SizedBox(height: 20),
                             ],
                           ),
                         );
-                      }
-                      if (state is ErrorState) {
-                        log("error");
-                        return const Center(child: Text("Error loading items"));
                       }
                       return const SizedBox.shrink();
                     },

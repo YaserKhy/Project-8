@@ -34,6 +34,7 @@ class UserNavigation extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           body: (context, controller) {
             return const TabBarView(
+              physics: NeverScrollableScrollPhysics(),
               children: [
                 HomeScreen(), // HomeScreen can access HomeBloc
                 CartScreen(), // CartScreen can access CartBloc
