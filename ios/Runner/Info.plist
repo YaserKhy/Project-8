@@ -4,6 +4,11 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>sms</string>
+  <string>https:<URL></string>
+</array>
 	<key>CFBundleDisplayName</key>
 	<string>Project8</string>
 	<key>CFBundleExecutable</key>

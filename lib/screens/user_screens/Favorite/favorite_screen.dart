@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/extensions/screen_size.dart';
@@ -27,7 +28,9 @@ class FavoriteScreen extends StatelessWidget {
                   if (state is LoadingState) {
                     return SizedBox(
                       height: context.getHeight(divideBy: 1.5),
-                      child: const Center(child: CircularProgressIndicator())
+                      child: Center(child: LottieBuilder.asset(
+                        "assets/images/Animation - 1727608827461.json",
+                      ))
                     );
                   }
                   if (state is ErrorState) {

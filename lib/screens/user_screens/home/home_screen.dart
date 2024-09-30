@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
@@ -69,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                               log("loading items");
                               return SizedBox(
                                 height: context.getHeight(divideBy: 3),
-                                child: const Center(child: CircularProgressIndicator())
+                                child: Center(child: LottieBuilder.asset("assets/images/Animation - 1727608827461.json"))
                               );
                             }
                             if (state is ErrorState) {
