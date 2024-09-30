@@ -142,33 +142,34 @@ class HomeScreen extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemCount: groupedItems.length,
                                       itemBuilder: (context, index) {
-                                      final category = groupedItems.keys.toList()[index];
-                                      final items = groupedItems[category];
-                                      return Column(
-                                        children: [
-                                          CategoryTitle(title: category),
-                                          GridView.builder(
-                                            shrinkWrap: true,
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2,
-                                              childAspectRatio: 1.69 / 2,
-                                              crossAxisSpacing: 10,
-                                              mainAxisSpacing: 10,
-                                            ),
-                                            itemCount: items!.length,
-                                            itemBuilder: (context, index) {
-                                              return ItemCard(
-                                                item: items[index],
-                                                onFav: () async {
-                                                  favbloc.add(fav_bloc.AddToFavEvent(itemId: items[index].itemId));
-                                                }
-                                              );
-                                            }
-                                          )
-                                        ],
-                                      );
-                                    })
+                                        final category = groupedItems.keys.toList()[index];
+                                        final items = groupedItems[category];
+                                        return Column(
+                                          children: [
+                                            CategoryTitle(title: category),
+                                            GridView.builder(
+                                              shrinkWrap: true,
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2,
+                                                childAspectRatio: 1.69 / 2,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 10,
+                                              ),
+                                              itemCount: items!.length,
+                                              itemBuilder: (context, index) {
+                                                return ItemCard(
+                                                  item: items[index],
+                                                  onFav: () async {
+                                                    favbloc.add(fav_bloc.AddToFavEvent(itemId: items[index].itemId));
+                                                  }
+                                                );
+                                              }
+                                            )
+                                          ],
+                                        );
+                                      }
+                                    )
                                     // if specific category is selected
                                     : GridView.builder(
                                       shrinkWrap: true,
