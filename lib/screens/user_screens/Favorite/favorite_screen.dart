@@ -20,32 +20,26 @@ class FavoriteScreen extends StatelessWidget {
           child: Column(
             children: [
               const PageTitle(title: "Favorites"),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
               BlocBuilder<FavoriteBloc, FavoriteState>(
                 builder: (context, state) {
                   if (state is LoadingState) {
-                    return const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   }
                   if (state is ErrorState) {
                     return Text(state.msg);
                   }
                   if (state is SuccessState) {
-                    final List<ItemModel> fav =
-                        GetIt.I.get<ItemLayer>().favItems;
-                    return ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: fav.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            FavoritesCard(favItem: fav[index]),
-                            const SizedBox(height: 20),
-                          ],
-                        );
-                      },
+                    final List<ItemModel> fav = GetIt.I.get<ItemLayer>().favItems;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: fav.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index)=> FavoritesCard(favItem: fav[index]),
+                        separatorBuilder: (context, index) => const SizedBox(height: 20),
+                      ),
                     );
                   }
                   return const SizedBox.shrink();
