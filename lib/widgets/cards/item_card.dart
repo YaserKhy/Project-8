@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/models/item_model.dart';
 
 class ItemCard extends StatelessWidget {
-  final Image itemImage;
-  final String name;
-  final String price;
-  final String cal;
-  const ItemCard({super.key,required this.itemImage,required this.name,required this.price,required this.cal,});
+  final ItemModel item;
+  const ItemCard({
+    super.key,
+    required this.item,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +16,8 @@ class ItemCard extends StatelessWidget {
       height: 211,
       width: 175,
       decoration: BoxDecoration(
-        color: const Color(0xffF7F6F4),
-        borderRadius: BorderRadius.circular(20)
-      ),
+          color: const Color(0xffF7F6F4),
+          borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -27,13 +27,15 @@ class ItemCard extends StatelessWidget {
               height: 100,
               width: 175,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 232, 231, 231),
-                borderRadius: BorderRadius.circular(15)
-              ),
-              child: itemImage,
+                  color: const Color.fromARGB(255, 232, 231, 231),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Image.network(item.image),
             ),
-            Text(name,style: const TextStyle(fontSize: 18),),
-            Text("$price SR", style: const TextStyle(fontSize: 12)),
+            Text(
+              item.name,
+              style: const TextStyle(fontSize: 18),
+            ),
+            Text("${item.price} SR", style: const TextStyle(fontSize: 12)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -44,14 +46,15 @@ class ItemCard extends StatelessWidget {
                       size: 15,
                       color: AppConstants.mainRed,
                     ),
-                    const SizedBox(width: 5,),
-                    Text("$cal Cal"),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text("${item.calories} Cal"),
                   ],
                 ),
                 IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.favorite_border_rounded)
-                )
+                    onPressed: () {},
+                    icon: const Icon(Icons.favorite_border_rounded))
               ],
             )
           ],
