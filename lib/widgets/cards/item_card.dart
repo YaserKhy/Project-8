@@ -6,7 +6,7 @@ import 'package:project8/models/item_model.dart';
 class ItemCard extends StatelessWidget {
   final ItemModel item;
   final Function()? onFav;
-  const ItemCard({super.key,required this.item, this.onFav});
+  const ItemCard({super.key, required this.item, this.onFav});
 
   @override
   Widget build(BuildContext context) {
@@ -31,29 +31,34 @@ class ItemCard extends StatelessWidget {
             ),
             Text(
               item.name,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 17),
             ),
             Text("${item.price} SR", style: const TextStyle(fontSize: 12)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const FaIcon(
-                      FontAwesomeIcons.fireFlameCurved,
-                      size: 15,
-                      color: AppConstants.mainRed,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text("${item.calories} Cal"),
-                  ],
-                ),
-                IconButton(
-                    onPressed: onFav,
-                    icon: const Icon(Icons.favorite, color: AppConstants.mainRed,))
-              ],
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.fireFlameCurved,
+                        size: 15,
+                        color: AppConstants.mainRed,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text("${item.calories} Cal"),
+                    ],
+                  ),
+                  IconButton(
+                      onPressed: onFav,
+                      icon: const Icon(
+                        Icons.favorite,
+                        color: AppConstants.mainRed,
+                      ))
+                ],
+              ),
             )
           ],
         ),
