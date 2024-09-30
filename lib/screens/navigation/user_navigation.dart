@@ -4,8 +4,9 @@ import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_size.dart';
+import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart';
 import 'package:project8/screens/user_screens/cart_screen.dart';
-import 'package:project8/screens/user_screens/favorite_screen.dart';
+import 'package:project8/screens/user_screens/Favorite/favorite_screen.dart';
 import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
 import 'package:project8/screens/user_screens/home/home_screen.dart';
 import 'package:project8/screens/user_screens/orders_screen.dart';
@@ -24,7 +25,7 @@ class UserNavigation extends StatelessWidget {
             create: (context) => HomeBloc()..add(GetAllItemsEvent()),
           ),
           // BlocProvider(create: (context) => CartBloc()),
-          // BlocProvider(create: (context) => FavoriteBloc()),
+          BlocProvider(create: (context) => FavoriteBloc()..add(GetFavItemsEvent())),
           // BlocProvider(create: (context) => OrdersBloc()),
           // BlocProvider(create: (context) => ProfileBloc()),
         ],

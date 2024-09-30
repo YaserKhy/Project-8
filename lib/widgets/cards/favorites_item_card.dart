@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/extensions/screen_size.dart';
+import 'package:project8/models/item_model.dart';
 
 class FavoritesCard extends StatelessWidget {
-  final Image itemImage;
-  final String name;
-  final String price;
-  final String cal;
-  const FavoritesCard(
-      {super.key,
-      required this.itemImage,
-      required this.name,
-      required this.price,
-      required this.cal});
+  final ItemModel favItem;
+  const FavoritesCard({super.key, required this.favItem});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 130,
-      width: 420,
+      height: 135,
+      width: context.getWidth(divideBy: 1.1),
       decoration: BoxDecoration(
         color: const Color(0xffF7F6F4),
         borderRadius: BorderRadius.circular(20),
@@ -38,11 +32,11 @@ class FavoritesCard extends StatelessWidget {
           children: [
             Container(
               height: 100,
-              width: 170,
+              width: context.getWidth(divideBy: 3),
               decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 232, 231, 231),
                   borderRadius: BorderRadius.circular(15)),
-              child: itemImage,
+              child: Image.network(favItem.image),
             ),
             const SizedBox(
               width: 20,
@@ -54,30 +48,33 @@ class FavoritesCard extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  name,
+                  favItem.name,
                   style: const TextStyle(fontSize: 22, fontFamily: "Average"),
                 ),
-                Text("$price SR",
+                Text("${favItem.price} SR",
                     style:
                         const TextStyle(fontSize: 16, fontFamily: "Average")),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        const FaIcon(
-                          FontAwesomeIcons.fireFlameCurved,
-                          size: 15,
-                          color: AppConstants.mainRed,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text("$cal Cal"),
-                      ],
+                    SizedBox(
+                      width: 70,
+                      child: Row(
+                        children: [
+                          const FaIcon(
+                            FontAwesomeIcons.fireFlameCurved,
+                            size: 15,
+                            color: AppConstants.mainRed,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text("${favItem.calories} Cal"),
+                        ],
+                      ),
                     ),
                     const SizedBox(
-                      width: 100,
+                      width: 80,
                     ),
                     IconButton(
                         onPressed: () {},

@@ -23,6 +23,7 @@ dependencies:
   dotenv: ^4.2.0
   bloc: ^8.1.4
   meta: ^1.15.0
+  onesignal_flutter: ^5.2.5
 
 dev_dependencies:
   flutter_test:
