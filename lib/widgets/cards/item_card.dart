@@ -5,10 +5,8 @@ import 'package:project8/models/item_model.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemModel item;
-  const ItemCard({
-    super.key,
-    required this.item,
-  });
+  final Function()? onFav;
+  const ItemCard({super.key,required this.item, this.onFav});
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +51,8 @@ class ItemCard extends StatelessWidget {
                   ],
                 ),
                 IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.favorite_border_rounded))
+                    onPressed: onFav,
+                    icon: const Icon(Icons.favorite, color: AppConstants.mainRed,))
               ],
             )
           ],
