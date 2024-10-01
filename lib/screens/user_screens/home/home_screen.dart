@@ -172,7 +172,17 @@ class HomeScreen extends StatelessWidget {
                                       CategoryTitle(title: category),
                                       GridView.builder(
                                         itemCount: items!.length,
-                                        itemBuilder: (context, index)=> ItemCard(item: items[index]),
+                                        itemBuilder: (context, index)=> ItemCard(
+                                          item: items[index],
+                                          onView: () => context.push(
+                                            screen: ViewItem(item: items[index]),
+                                            updateInfo:(p0){
+                                              if(p0!=null) {
+                                                bloc.add(GetAllItemsEvent());
+                                              }
+                                            }
+                                          ),
+                                        ),
                                         shrinkWrap: true,
                                         physics: const NeverScrollableScrollPhysics(),
                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -189,7 +199,17 @@ class HomeScreen extends StatelessWidget {
                               // if specific category is selected
                               : GridView.builder(
                                 itemCount: itemsToDisplay.length,
-                                itemBuilder: (context, index)=> ItemCard(item: itemsToDisplay[index]),
+                                itemBuilder: (context, index)=> ItemCard(
+                                  item: itemsToDisplay[index],
+                                  onView: () => context.push(
+                                    screen: ViewItem(item: itemsToDisplay[index]),
+                                    updateInfo:(p0){
+                                      if(p0!=null) {
+                                        bloc.add(GetAllItemsEvent());
+                                      }
+                                    }
+                                  ),
+                                ),
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
