@@ -15,16 +15,18 @@ class CategoryTitle extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontFamily: "Average",
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text(title,
+                style: const TextStyle(fontFamily: "Average", fontSize: 24)),
             const SizedBox(width: 10),
-            title!='Water' ? const SizedBox.shrink() : Container(margin: const EdgeInsets.only(top: 1), padding: EdgeInsets.zero,width: 75,color: AppConstants.mainRed,height: 1,),
+            title != 'Water'
+                ? const SizedBox.shrink()
+                : Container(
+                    margin: const EdgeInsets.only(top: 1),
+                    padding: EdgeInsets.zero,
+                    width: 75,
+                    color: AppConstants.mainRed,
+                    height: 1,
+                  ),
             Expanded(child: Image.asset("assets/images/star_line.png"))
           ],
         ),

@@ -8,7 +8,7 @@ import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart';
 import 'package:project8/screens/user_screens/Favorite/favorite_screen.dart';
 import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
 import 'package:project8/screens/user_screens/home/home_screen.dart';
-import 'package:project8/screens/user_screens/orders_screen.dart';
+import 'package:project8/screens/user_screens/order/orders_screen.dart';
 import 'package:project8/screens/user_screens/profile_screen.dart';
 
 class UserNavigation extends StatelessWidget {

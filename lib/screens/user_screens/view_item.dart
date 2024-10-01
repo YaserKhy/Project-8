@@ -25,22 +25,27 @@ class ViewItem extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: AppConstants.mainlightBlue,
               foregroundColor: AppConstants.mainWhite,
-              leading: BackButton(onPressed: ()=>context.pop(updateFlag:isClicked)),
+              leading: BackButton(
+                  onPressed: () => context.pop(updateFlag: isClicked)),
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: BlocBuilder<FavoriteBloc, FavoriteState>(
                     builder: (context, state) {
-                      final isFavorite = GetIt.I.get<ItemLayer>().favItems.map((item) => item.itemId).toList().contains(item.itemId);
+                      final isFavorite = GetIt.I
+                          .get<ItemLayer>()
+                          .favItems
+                          .map((item) => item.itemId)
+                          .toList()
+                          .contains(item.itemId);
                       return IconButton(
-                        isSelected: isFavorite,
-                        selectedIcon: const Icon(Icons.favorite, size: 28),
-                        onPressed: (){
-                          favbloc.add(ToggleFavoriteEvent(item: item));
-                          isClicked=true;
-                        },
-                        icon: const Icon(Icons.favorite_border,size: 28)
-                      );
+                          isSelected: isFavorite,
+                          selectedIcon: const Icon(Icons.favorite, size: 28),
+                          onPressed: () {
+                            favbloc.add(ToggleFavoriteEvent(item: item));
+                            isClicked = true;
+                          },
+                          icon: const Icon(Icons.favorite_border, size: 28));
                     },
                   ),
                 )
@@ -71,7 +76,10 @@ class ViewItem extends StatelessWidget {
                               Image.asset('assets/images/stars.png'),
                             ],
                           ),
-                          Center(child: Image.network(item.image)),
+                          Center(
+                              child: Image.network(
+                            item.image,
+                          )),
                           const SizedBox(height: 10),
                           Text(
                             item.name,
