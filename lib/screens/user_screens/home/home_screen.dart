@@ -164,7 +164,7 @@ class HomeScreen extends StatelessWidget {
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount: 2,
-                                                  childAspectRatio: 1.69 / 2,
+                                                  childAspectRatio: 1.54 / 2,
                                                   crossAxisSpacing: 10,
                                                   mainAxisSpacing: 10,
                                                 ),
@@ -186,7 +186,7 @@ class HomeScreen extends StatelessWidget {
                                         physics: const NeverScrollableScrollPhysics(),
                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
-                                          childAspectRatio: 1.69 / 2,
+                                          childAspectRatio: 1.54 / 2,
                                           crossAxisSpacing: 10,
                                           mainAxisSpacing: 10,
                                         ),

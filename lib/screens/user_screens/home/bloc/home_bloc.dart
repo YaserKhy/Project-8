@@ -49,17 +49,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Future<void> toggleFavorite(ToggleFavoriteEvent event, Emitter<HomeState> emit) async {
-    if (GetIt.I.get<ItemLayer>().favItems.contains(event.item)) {
-      GetIt.I.get<ItemLayer>().favItems.remove(event.item);
+  Future<void> toggleFavorite(
+      ToggleFavoriteEvent event, Emitter<HomeState> emit) async {
+    if (GetIt.I
+        .get<ItemLayer>()
+        .favItems
+        .map((item) => item.itemId)
+        .contains(event.item.itemId)) {
+      log("deleting");
+      await GetIt.I
+          .get<SupabaseLayer>()
+          .deleteFromFav(itemId: event.item.itemId);
+      await GetIt.I.get<SupabaseLayer>().getFav();
     } else {
-    log(GetIt.I.get<ItemLayer>().favItems.map((item)=>item.name).toString());
-    log("adding");
+      log(GetIt.I
+          .get<ItemLayer>()
+          .favItems
+          .map((item) => item.name)
+          .toString());
+      log("adding");
       await GetIt.I.get<SupabaseLayer>().addToFav(itemId: event.item.itemId);
       await GetIt.I.get<SupabaseLayer>().getFav();
       // favorites.add(event.item);
     }
-    log(GetIt.I.get<ItemLayer>().favItems.map((item)=>item.name).toString());
+    log(GetIt.I.get<ItemLayer>().favItems.map((item) => item.name).toString());
     if (state is SuccessState) {
       final successState = state as SuccessState;
       emit(SuccessState(

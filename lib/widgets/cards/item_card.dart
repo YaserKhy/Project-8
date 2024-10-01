@@ -45,7 +45,7 @@ class ItemCard extends StatelessWidget {
               ),
               Text(
                 item.name,
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18, overflow: TextOverflow.ellipsis),
               ),
               Text("${item.price} SR", style: const TextStyle(fontSize: 12)),
               Row(

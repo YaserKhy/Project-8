@@ -73,18 +73,35 @@ class SupabaseLayer {
   }
 
   addToFav({required String itemId}) async {
-    await GetIt.I.get<SupabaseLayer>().supabase.rpc(
-      'fav_item',
-      params: {
-        'item_id': itemId,
-        'customer_id': GetIt.I.get<AuthLayer>().customer?.id
-      }
-    );
+    await GetIt.I.get<SupabaseLayer>().supabase.rpc('fav_item', params: {
+      'item_id': itemId,
+      'customer_id': GetIt.I.get<AuthLayer>().customer?.id
+    });
+  }
+
+  deleteFromFav({required String itemId}) async {
+    log("deleting from fav");
+    log(itemId);
+    log(GetIt.I.get<AuthLayer>().customer!.id.toString());
+    // await GetIt.I.get<SupabaseLayer>().supabase.rpc('unfav', params: {
+    //   'item_id': itemId,
+    //   'customer_id': GetIt.I.get<AuthLayer>().customer?.id
+    // });
+await GetIt.I
+    .get<SupabaseLayer>()
+    .supabase
+    .from('favorite')
+    .delete()
+    .match({
+      'item_id': itemId,
+      'customer_id': GetIt.I.get<AuthLayer>().customer!.id
+    });
   }
 
   getFav() async {
     final List<ItemModel> favList = [];
-    final List data = await supabase.rpc("get_fav", params: {"id": GetIt.I.get<AuthLayer>().customer?.id});
+    final List data = await supabase
+        .rpc("get_fav", params: {"id": GetIt.I.get<AuthLayer>().customer?.id});
     for (Map<String, dynamic> element in data) {
       favList.add(ItemModel.fromJson(element));
     }
