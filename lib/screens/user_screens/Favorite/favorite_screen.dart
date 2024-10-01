@@ -28,9 +28,7 @@ class FavoriteScreen extends StatelessWidget {
                   if (state is LoadingState) {
                     return SizedBox(
                       height: context.getHeight(divideBy: 1.5),
-                      child: Center(child: LottieBuilder.asset(
-                        "assets/images/Animation - 1727608827461.json",
-                      ))
+                      child: Center(child: LottieBuilder.asset("assets/images/Animation - 1727608827461.json",))
                     );
                   }
                   if (state is ErrorState) {
@@ -53,7 +51,9 @@ class FavoriteScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: fav.length,
                         shrinkWrap: true,
-                        itemBuilder: (context, index)=> FavoritesCard(favItem: fav[index]),
+                        itemBuilder: (context, index)=> FavoritesCard(
+                          favItem: fav[index]
+                        ),
                         separatorBuilder: (context, index) => const SizedBox(height: 20),
                       ),
                     );
