@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,19 +10,19 @@ import 'package:project8/screens/user_screens/view_item.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemModel item;
+  final HomeBloc? homeBloc;
   const ItemCard({
     super.key,
-    required this.item,
+    required this.item, this.homeBloc,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      overlayColor: WidgetStateColor.transparent,
-      onTap: () => context.push(screen: ViewItem(item: item)),
+      splashColor: Colors.transparent,
+      onTap: () => context.push(screen: ViewItem(item: item, homeBloc: homeBloc,)),
       child: Container(
-        height: 211,
-        width: 175,
+        width: 150,
         decoration: BoxDecoration(
           color: const Color(0xffF7F6F4),
           borderRadius: BorderRadius.circular(20),
@@ -32,11 +30,12 @@ class ItemCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: 100,
-                width: 175,
+                width: context.getWidth(),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 232, 231, 231),
                   borderRadius: BorderRadius.circular(15),
@@ -45,9 +44,9 @@ class ItemCard extends StatelessWidget {
               ),
               Text(
                 item.name,
-                style: const TextStyle(fontSize: 18, overflow: TextOverflow.ellipsis),
+                style: const TextStyle(fontSize: 17, overflow: TextOverflow.ellipsis, fontFamily: "Average"),
               ),
-              Text("${item.price} SR", style: const TextStyle(fontSize: 12)),
+              Text("${item.price} SR", style: const TextStyle(fontSize: 12, fontFamily: "Average")),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -59,7 +58,7 @@ class ItemCard extends StatelessWidget {
                         color: AppConstants.mainRed,
                       ),
                       const SizedBox(width: 5),
-                      Text("${item.calories} Cal"),
+                      Text("${item.calories} Cal", style: TextStyle(fontFamily: "Average"),),
                     ],
                   ),
                   BlocBuilder<HomeBloc, HomeState>(
@@ -70,14 +69,18 @@ class ItemCard extends StatelessWidget {
                         final isFavorite = state.favorites.map((item)=>item.itemId).toList().contains(item.itemId);
                         // log(item.name);
                         // log(isFavorite.toString());
-                        return IconButton(
-                          icon: Icon(
-                            isFavorite ? Icons.favorite : Icons.favorite_border,
-                            color: isFavorite ? AppConstants.mainRed : null,
+                        return SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: IconButton(
+                            icon: Icon(
+                              isFavorite ? Icons.favorite : Icons.favorite_border,
+                              color: isFavorite ? AppConstants.mainRed : null,
+                            ),
+                            onPressed: () {
+                              context.read<HomeBloc>().add(ToggleFavoriteEvent(item: item));
+                            },
                           ),
-                          onPressed: () {
-                            context.read<HomeBloc>().add(ToggleFavoriteEvent(item: item));
-                          },
                         );
                       }
                       return const SizedBox.shrink(); // Default fallback

@@ -7,7 +7,7 @@ import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/helpers/helper.dart';
-import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart' as fav_bloc;
+// import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart' as fav_bloc;
 import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
 import 'package:project8/screens/user_screens/home/image_slider.dart';
 import 'package:project8/widgets/cards/item_card.dart';
@@ -29,53 +29,57 @@ class HomeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              height: 53,
-                              child: Image.asset(
-                                "assets/images/default_profile_img.png",
-                                fit: BoxFit.cover,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom:8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 53,
+                                child: Image.asset(
+                                  "assets/images/default_profile_img.png",
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Welcome Coffee Addict",
-                                style: TextStyle(
-                                    fontFamily: "Average", fontSize: 16),
-                              ),
-                              Text(
-                                GetIt.I.get<AuthLayer>().customer!.name,
-                                style: const TextStyle(
-                                    fontFamily: "Average",
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.notifications_none_outlined,
-                          size: 30,
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Welcome Coffee Addict",
+                                  style: TextStyle(
+                                      fontFamily: "Average", fontSize: 16),
+                                ),
+                                Text(
+                                  GetIt.I.get<AuthLayer>().customer!.name,
+                                  style: const TextStyle(
+                                      fontFamily: "Average",
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.notifications_none_outlined,
+                            size: 30,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const ImageSlider(),
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
+                      final bloc = context.read<HomeBloc>();
                       if (state is LoadingState) {
                         log("loading items");
                         return SizedBox(
@@ -117,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 20),
                                         child: TabBar(
-                                          onTap: (index) => context.read<HomeBloc>().add(ChangeCategoryEvent(category:itemLayer.categories[index])),
+                                          onTap: (index) => bloc.add(ChangeCategoryEvent(category:itemLayer.categories[index])),
                                           tabAlignment: TabAlignment.start,
                                           overlayColor: WidgetStateColor.transparent,
                                           padding: EdgeInsets.zero,
@@ -164,7 +168,7 @@ class HomeScreen extends StatelessWidget {
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount: 2,
-                                                  childAspectRatio: 1.54 / 2,
+                                                  childAspectRatio: 1.69 / 2,
                                                   crossAxisSpacing: 10,
                                                   mainAxisSpacing: 10,
                                                 ),
@@ -172,7 +176,7 @@ class HomeScreen extends StatelessWidget {
                                                 itemBuilder: (context, index) {
                                                   return ItemCard(
                                                     item: items[index],
-                                                    
+                                                    homeBloc: bloc,
                                                   );
                                                 }
                                               )
@@ -186,7 +190,7 @@ class HomeScreen extends StatelessWidget {
                                         physics: const NeverScrollableScrollPhysics(),
                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
-                                          childAspectRatio: 1.54 / 2,
+                                          childAspectRatio: 1.69 / 2,
                                           crossAxisSpacing: 10,
                                           mainAxisSpacing: 10,
                                         ),
@@ -195,7 +199,7 @@ class HomeScreen extends StatelessWidget {
                                           final item = itemsToDisplay[index];
                                           return ItemCard(
                                             item: item,
-                                            
+                                            homeBloc: bloc,
                                           );
                                         },
                                       ),

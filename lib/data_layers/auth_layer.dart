@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:get_storage/get_storage.dart';
 import 'package:project8/models/customer_model.dart';
 

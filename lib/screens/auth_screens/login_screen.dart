@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
@@ -29,7 +30,9 @@ class LoginScreen extends StatelessWidget {
               showDialog(
                 context: context,
                 barrierDismissible: false,
-                builder: (context)=>const Center(child: CircularProgressIndicator())
+                builder: (context)=> Center(child: LottieBuilder.asset(
+                        "assets/images/Animation - 1727608827461.json",
+                      ))
               );
             }
             if(state is ErrorState) {

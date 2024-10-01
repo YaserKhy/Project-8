@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/item_model.dart';
+import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
 
 class ViewItem extends StatelessWidget {
   final ItemModel item;
-  const ViewItem({super.key, required this.item});
+  final HomeBloc? homeBloc;
+  const ViewItem({super.key, required this.item, this.homeBloc});
 
   @override
   Widget build(BuildContext context) {
+    final isFavorite = GetIt.I.get<ItemLayer>().favItems.map((item)=>item.itemId).toList().contains(item.itemId);
     return Scaffold(
       backgroundColor: AppConstants.mainBgColor,
       appBar: AppBar(
@@ -23,8 +28,13 @@ class ViewItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.favorite_border_rounded,color: AppConstants.mainWhite,size: 28)
+              selectedIcon: const Icon(Icons.favorite),
+              onPressed: () => homeBloc?.add(ToggleFavoriteEvent(item: item)),
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: AppConstants.mainWhite,
+                size: 28
+              )
             ),
           )
         ],

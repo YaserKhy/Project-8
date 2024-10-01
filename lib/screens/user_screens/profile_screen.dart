@@ -85,32 +85,24 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const ProfileCard(title: "Q&A", icon: Icons.question_answer_outlined),
                 const ProfileCard(title: "Dark mode", icon: Icons.dark_mode),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextButton(
-                    onPressed: () {
-                      log("bye bye");
-                      GetIt.I.get<AuthLayer>().customer = null;
-                      GetIt.I.get<AuthLayer>().box.erase();
-                      log("box now is empty");
-                      context.pushRemove(screen: const LoginScreen());
-                    },
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.power_settings_new,color: AppConstants.mainRed, size: 30),
-                        SizedBox(width: 8),
-                        Text(
-                          "Logout",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontFamily: "Average",
-                            color: AppConstants.mainRed
-                          )
-                        ),
-                      ],
+                TextButton.icon(
+                  label: const Text(
+                    "Logout",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontFamily: "Average",
+                      color: AppConstants.mainRed
                     )
                   ),
+                  icon: const Icon(Icons.power_settings_new,color: AppConstants.mainRed, size: 30),
+                  style: const ButtonStyle(overlayColor: WidgetStateColor.transparent, padding: WidgetStatePropertyAll(EdgeInsets.only(top: 8))),
+                  onPressed: () {
+                    log("bye bye");
+                    GetIt.I.get<AuthLayer>().customer = null;
+                    GetIt.I.get<AuthLayer>().box.erase();
+                    log("box now is empty");
+                    context.pushRemove(screen: const LoginScreen());
+                  },
                 )
               ],
             ),
