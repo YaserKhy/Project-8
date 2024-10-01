@@ -8,7 +8,7 @@ import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/item_model.dart';
 import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart';
 import 'package:project8/widgets/cards/favorites_item_card.dart';
-import 'package:project8/widgets/other/page_title.dart';
+import 'package:project8/widgets/texts/page_title.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
