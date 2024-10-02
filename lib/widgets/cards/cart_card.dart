@@ -1,4 +1,4 @@
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +17,7 @@ class CartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(GetIt.I.get<ItemLayer>().cartItems);
+    log(GetIt.I.get<ItemLayer>().cartItems.toString());
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
