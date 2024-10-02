@@ -19,7 +19,7 @@ class _SplachScreenState extends State<SplachScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 11,milliseconds: 400), () {
+    Timer(const Duration(seconds: 6,milliseconds: 900), () {
       bool isLoggedIn = GetIt.I.get<AuthLayer>().box.hasData("customer");
       if (isLoggedIn) {
         context.pushRemove(screen: const UserNavigation());
@@ -52,7 +52,7 @@ class _SplachScreenState extends State<SplachScreen> {
           ),
           Expanded(
             child: Image.asset(
-              'assets/images/splash_big_version.gif',
+              'assets/images/Splach_faster.gif',
               fit: BoxFit.cover,
               width: double.infinity,
             ),
