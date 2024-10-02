@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
@@ -83,6 +84,7 @@ class ProfileScreen extends StatelessWidget {
                     GetIt.I.get<AuthLayer>().customer = null;
                     GetIt.I.get<AuthLayer>().box.erase();
                     log("box now is empty");
+                    OneSignal.logout();
                     context.pushRemove(screen: const LoginScreen());
                   },
                 )

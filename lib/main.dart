@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:project8/screens/splach_screen/splach_screen.dart';
+import 'package:project8/screens/user_screens/order/order_info_screen.dart';
 import 'package:project8/services/setup.dart';
 
 void main() async {
@@ -11,9 +12,6 @@ void main() async {
 
   OneSignal.initialize("31059eb9-e7cf-432e-870e-2d99883fa36b");
 
-// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-  OneSignal.Notifications.requestPermission(true);
-
   runApp(const MainApp());
 }
 
@@ -22,9 +20,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+    OneSignal.Notifications.addClickListener(
+      (event) {
+        navigatorKey.currentState!.push(
+          MaterialPageRoute(
+            builder: (context) => OrderInfoScreen(),
+          ),
+        );
+      },
+    );
+    return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      home: SplachScreen(),
+      home: const SplachScreen(),
       // home: GetIt.I.get<AuthLayer>().box.hasData("customer")
       //     ? const UserNavigation()
       //     : const LoginScreen()
