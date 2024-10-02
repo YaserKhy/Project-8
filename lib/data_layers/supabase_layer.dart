@@ -116,7 +116,8 @@ class SupabaseLayer {
     log("from supabase layer");
 
     final List<CartItemModel> cartItems = [];
-    final List data = await supabase.rpc("get_cart_items", params: {"customer_id": GetIt.I.get<AuthLayer>().customer?.id});
+    final List data = await supabase.rpc("get_cart_items",
+        params: {"customer_id": GetIt.I.get<AuthLayer>().customer?.id});
     print(data);
     for (Map<String, dynamic> element in data) {
       cartItems.add(CartItemModel.fromJson(element));
@@ -124,5 +125,20 @@ class SupabaseLayer {
     log("from supabase layer");
     GetIt.I.get<ItemLayer>().cartItems = cartItems;
     log(cartItems.toString());
+  }
+
+  deleteCartItem({required String itemId}) async {
+    log("from delete cart item");
+    log(itemId);
+    log(GetIt.I.get<AuthLayer>().customer!.id.toString());
+    try {
+      await supabase.rpc("delete_item_from_cart", params: {
+        "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
+        "item_uuid": itemId
+      });
+    } catch (e) {
+      log("deleteCartItem error");
+      log(e.toString());
+    }
   }
 }
