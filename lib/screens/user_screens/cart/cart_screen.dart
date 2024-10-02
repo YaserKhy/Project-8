@@ -51,8 +51,8 @@ class CartScreen extends StatelessWidget {
                                 "assets/images/Animation - 1727608827461.json")));
                   }
                   if (state is SuccessState) {
-                    if (matchingCartItems.length == 0) {
-                      return Center(child: Text("Cart is empty"));
+                    if (matchingCartItems.isEmpty) {
+                      return const Center(child: Text("Cart is empty"));
                     } else {
                       return Column(
                           children: matchingCartItems

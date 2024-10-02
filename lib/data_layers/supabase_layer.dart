@@ -127,7 +127,24 @@ class SupabaseLayer {
     log(cartItems.toString());
   }
 
-  deleteCartItem({required String itemId}) async {
+  addCartItem({required String itemId, required int quantity}) async {
+    log("from add cart item");
+    log(itemId);
+    log(GetIt.I.get<AuthLayer>().customer!.id.toString());
+    try {
+      await supabase.rpc("insert_to_cart", params: {
+        "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
+        "item_uuid": itemId,
+        "item_quantity": quantity,
+        "sugar_preference": "asdf"
+      });
+    } catch (e) {
+      log("addCartItem error");
+      log(e.toString());
+    }
+  }
+
+    deleteCartItem({required String itemId}) async {
     log("from delete cart item");
     log(itemId);
     log(GetIt.I.get<AuthLayer>().customer!.id.toString());
