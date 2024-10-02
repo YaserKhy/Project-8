@@ -41,7 +41,7 @@ class FavoritesCard extends StatelessWidget {
               ),
               child: Image.network(favItem.image),
             ),
-            const SizedBox(width: 20,),
+            const SizedBox(width: 10,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

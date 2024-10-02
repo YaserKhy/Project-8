@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:get_it/get_it.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
+import 'package:project8/models/cart_item_model.dart';
 import 'package:project8/models/customer_model.dart';
 import 'package:project8/models/item_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -87,12 +88,12 @@ class SupabaseLayer {
     //   'item_id': itemId,
     //   'customer_id': GetIt.I.get<AuthLayer>().customer?.id
     // });
-await GetIt.I
-    .get<SupabaseLayer>()
-    .supabase
-    .from('favorite')
-    .delete()
-    .match({
+    await GetIt.I
+        .get<SupabaseLayer>()
+        .supabase
+        .from('favorite')
+        .delete()
+        .match({
       'item_id': itemId,
       'customer_id': GetIt.I.get<AuthLayer>().customer!.id
     });
@@ -109,5 +110,19 @@ await GetIt.I
     GetIt.I.get<ItemLayer>().favItems = favList;
 
     log(favList.toString());
+  }
+
+  getCartItems() async {
+    log("from supabase layer");
+
+    final List<CartItemModel> cartItems = [];
+    final List data = await supabase.from("cart_item").select();
+    print(data);
+    for (Map<String, dynamic> element in data) {
+      cartItems.add(CartItemModel.fromJson(element));
+    }
+    log("from supabase layer");
+    GetIt.I.get<ItemLayer>().cartItems = cartItems;
+    log(cartItems.toString());
   }
 }

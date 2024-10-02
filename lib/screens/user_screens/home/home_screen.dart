@@ -8,7 +8,7 @@ import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/helpers/helper.dart';
-import 'package:project8/screens/user_screens/cart_screen.dart';
+import 'package:project8/screens/user_screens/cart/cart_screen.dart';
 import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
 import 'package:project8/screens/user_screens/home/image_slider.dart';
 import 'package:project8/screens/user_screens/view_item.dart';

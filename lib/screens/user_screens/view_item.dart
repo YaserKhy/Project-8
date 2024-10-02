@@ -16,6 +16,7 @@ class ViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool? isClicked;
+    int qty = 1;
     return BlocProvider(
       create: (context) => FavoriteBloc(),
       child: Builder(builder: (context) {
@@ -25,22 +26,27 @@ class ViewItem extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: AppConstants.mainlightBlue,
               foregroundColor: AppConstants.mainWhite,
-              leading: BackButton(onPressed: ()=>context.pop(updateFlag:isClicked)),
+              leading: BackButton(
+                  onPressed: () => context.pop(updateFlag: isClicked)),
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: BlocBuilder<FavoriteBloc, FavoriteState>(
                     builder: (context, state) {
-                      final isFavorite = GetIt.I.get<ItemLayer>().favItems.map((item) => item.itemId).toList().contains(item.itemId);
+                      final isFavorite = GetIt.I
+                          .get<ItemLayer>()
+                          .favItems
+                          .map((item) => item.itemId)
+                          .toList()
+                          .contains(item.itemId);
                       return IconButton(
-                        isSelected: isFavorite,
-                        selectedIcon: const Icon(Icons.favorite, size: 28),
-                        onPressed: (){
-                          favbloc.add(ToggleFavoriteEvent(item: item));
-                          isClicked=true;
-                        },
-                        icon: const Icon(Icons.favorite_border,size: 28)
-                      );
+                          isSelected: isFavorite,
+                          selectedIcon: const Icon(Icons.favorite, size: 28),
+                          onPressed: () {
+                            favbloc.add(ToggleFavoriteEvent(item: item));
+                            isClicked = true;
+                          },
+                          icon: const Icon(Icons.favorite_border, size: 28));
                     },
                   ),
                 )
@@ -149,12 +155,16 @@ class ViewItem extends StatelessWidget {
                       const Spacer(),
                       IconButton(
                         icon: const Icon(Icons.remove),
-                        onPressed: () {},
+                        onPressed: () {
+                          qty--;
+                        },
                       ),
-                      const Text('1', style: TextStyle(fontSize: 18)),
+                      Text("$qty", style: TextStyle(fontSize: 18)),
                       IconButton(
                         icon: const Icon(Icons.add),
-                        onPressed: () {},
+                        onPressed: () {
+                          qty++;
+                        },
                       ),
                     ],
                   ),
