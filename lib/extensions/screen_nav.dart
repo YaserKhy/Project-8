@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 extension ScreenNav on BuildContext {
-  push({required Widget screen}) {
-    Navigator.push(this, MaterialPageRoute(builder: (context)=> screen));
+  push({required Widget screen, Function(dynamic)? updateInfo}) {
+    Navigator.push(this, MaterialPageRoute(builder: (context) => screen)).then((test){
+      if(updateInfo!=null) {
+        updateInfo(test);
+      }
+    });
   }
 
   pushReplacement({required Widget screen}) {
@@ -13,7 +17,12 @@ extension ScreenNav on BuildContext {
     Navigator.pushAndRemoveUntil(this,MaterialPageRoute(builder: (context) => screen), (predicate) => false);
   }
 
-  pop() {
-    Navigator.pop(this);
+  pop({bool? updateFlag}) {
+    if(updateFlag!=null) {
+      Navigator.pop(this,true);
+    }
+    else {
+      Navigator.pop(this);
+    }
   }
 }

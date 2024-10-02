@@ -1,97 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project8/constants/app_constants.dart';
-import 'package:project8/extensions/screen_nav.dart';
+import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/item_model.dart';
-import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
-import 'package:project8/screens/user_screens/view_item.dart';
+import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart' as fav_bloc;
 
 class ItemCard extends StatelessWidget {
   final ItemModel item;
-  final HomeBloc? homeBloc;
-  const ItemCard({
-    super.key,
-    required this.item, this.homeBloc,
-  });
+  final Function()? onView;
+  const ItemCard({super.key,required this.item, this.onView});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      splashColor: Colors.transparent,
-      onTap: () => context.push(screen: ViewItem(item: item, homeBloc: homeBloc,)),
-      child: Container(
-        width: 150,
-        decoration: BoxDecoration(
-          color: const Color(0xffF7F6F4),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 100,
-                width: context.getWidth(),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 232, 231, 231),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Image.network(item.image),
-              ),
-              Text(
-                item.name,
-                style: const TextStyle(fontSize: 17, overflow: TextOverflow.ellipsis, fontFamily: "Average"),
-              ),
-              Text("${item.price} SR", style: const TextStyle(fontSize: 12, fontFamily: "Average")),
-              Row(
+    return BlocProvider(
+      create: (context) => fav_bloc.FavoriteBloc(),
+      child: Builder(builder: (context) {
+        final favbloc = context.read<fav_bloc.FavoriteBloc>();
+        return InkWell(
+          splashColor: Colors.transparent,
+          onTap: onView,
+          child: Container(
+            width: 150,
+            decoration: BoxDecoration(color: const Color(0xffF7F6F4),borderRadius: BorderRadius.circular(20),),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const FaIcon(
-                        FontAwesomeIcons.fireFlameCurved,
-                        size: 15,
-                        color: AppConstants.mainRed,
-                      ),
-                      const SizedBox(width: 5),
-                      Text("${item.calories} Cal", style: TextStyle(fontFamily: "Average"),),
-                    ],
+                  Container(
+                    height: 100,
+                    width: context.getWidth(),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 232, 231, 231),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Image.network(item.image),
                   ),
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      if (state is SuccessState) {
-                        // log("currently fav is");
-                        // log(state.favorites.map((item)=>item.name).toList().toString());
-                        final isFavorite = state.favorites.map((item)=>item.itemId).toList().contains(item.itemId);
-                        // log(item.name);
-                        // log(isFavorite.toString());
-                        return SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: IconButton(
-                            icon: Icon(
-                              isFavorite ? Icons.favorite : Icons.favorite_border,
-                              color: isFavorite ? AppConstants.mainRed : null,
-                            ),
-                            onPressed: () {
-                              context.read<HomeBloc>().add(ToggleFavoriteEvent(item: item));
-                            },
+                  Text(
+                    item.name,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      overflow: TextOverflow.ellipsis,
+                      fontFamily: "Average"
+                    ),
+                  ),
+                  Text(
+                    "${item.price} SR",
+                    style: const TextStyle(fontSize: 12, fontFamily: "Average")
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const FaIcon(
+                            FontAwesomeIcons.fireFlameCurved,
+                            size: 15,
+                            color: AppConstants.mainRed,
                           ),
-                        );
-                      }
-                      return const SizedBox.shrink(); // Default fallback
-                    },
+                          const SizedBox(width: 5),
+                          Text(
+                            "${item.calories} Cal",
+                            style: const TextStyle(fontFamily: "Average"),
+                          ),
+                        ],
+                      ),
+                      BlocBuilder<fav_bloc.FavoriteBloc, fav_bloc.FavoriteState>(
+                        builder: (context, state) {
+                          final isFavorite = GetIt.I.get<ItemLayer>().favItems.map((item) => item.itemId).toList().contains(item.itemId);
+                          return SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: IconButton(
+                              isSelected: isFavorite,
+                              selectedIcon: const Icon(Icons.favorite, color: AppConstants.mainRed,),
+                              icon: const Icon(Icons.favorite_border),
+                              onPressed: ()=>favbloc.add(fav_bloc.ToggleFavoriteEvent(item: item)),
+                            ),
+                          );
+                        },
+                      )
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

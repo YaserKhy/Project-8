@@ -5,11 +5,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart';
-import 'package:project8/screens/user_screens/cart_screen.dart';
 import 'package:project8/screens/user_screens/Favorite/favorite_screen.dart';
 import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
 import 'package:project8/screens/user_screens/home/home_screen.dart';
-import 'package:project8/screens/user_screens/orders_screen.dart';
+import 'package:project8/screens/user_screens/order/orders_screen.dart';
 import 'package:project8/screens/user_screens/profile_screen.dart';
 
 class UserNavigation extends StatelessWidget {
@@ -18,13 +17,10 @@ class UserNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => HomeBloc()..add(GetAllItemsEvent()),
-          ),
-          // BlocProvider(create: (context) => CartBloc()),
+          BlocProvider(create: (context) => HomeBloc()..add(GetAllItemsEvent()),),
           BlocProvider(create: (context) => FavoriteBloc()..add(GetFavItemsEvent())),
           // BlocProvider(create: (context) => OrdersBloc()),
           // BlocProvider(create: (context) => ProfileBloc()),
@@ -38,7 +34,6 @@ class UserNavigation extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 HomeScreen(), // HomeScreen can access HomeBloc
-                CartScreen(), // CartScreen can access CartBloc
                 FavoriteScreen(), // FavoriteScreen can access FavoriteBloc
                 OrdersScreen(), // OrdersScreen can access OrdersBloc
                 ProfileScreen(), // ProfileScreen can access ProfileBloc
@@ -54,7 +49,6 @@ class UserNavigation extends StatelessWidget {
               dividerColor: Colors.transparent,
               tabs: [
                 FaIcon(FontAwesomeIcons.house),
-                FaIcon(FontAwesomeIcons.cartShopping),
                 FaIcon(FontAwesomeIcons.heart),
                 FaIcon(FontAwesomeIcons.list),
                 Icon(Icons.person),

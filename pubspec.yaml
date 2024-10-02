@@ -26,6 +26,8 @@ dependencies:
   onesignal_flutter: ^5.2.5
   url_launcher: ^6.3.0
   lottie: ^3.1.2
+  easy_stepper: ^0.8.5+1
+  rive: ^0.13.14
 
 dev_dependencies:
   flutter_test:

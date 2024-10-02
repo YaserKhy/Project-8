@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:project8/screens/user_screens/cart_screen.dart';
+import 'package:project8/screens/user_screens/cart/cart_screen.dart';
 import 'package:project8/screens/user_screens/Favorite/favorite_screen.dart';
 import 'package:project8/screens/user_screens/home/home_screen.dart';
-import 'package:project8/screens/user_screens/orders_screen.dart';
+import 'package:project8/screens/user_screens/order/orders_screen.dart';
 import 'package:project8/screens/user_screens/profile_screen.dart';
 part 'page_event.dart';
 part 'page_state.dart';

@@ -10,6 +10,7 @@ class AppConstants {
   static const Color mainBlue = Color(0xff4C6A7C);
   static const Color mainlightBlue = Color(0xff93B0C4);
 
+  static const Color green = Color(0xff34A853);
   static const Color textColor = Color(0xff313131);
   static const Color subTextColor = Color(0xff525252);
 
