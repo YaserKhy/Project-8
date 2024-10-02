@@ -90,7 +90,7 @@ class FavoritesCard extends StatelessWidget {
                 ),
                 child: Image.network(favItem.image),
               ),
-              const SizedBox(width: 20,),
+              const SizedBox(width: 10,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -120,13 +120,9 @@ class FavoritesCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 80,),
-                      BlocBuilder<FavoriteBloc, FavoriteState>(
-                        builder: (context, state) {
-                          return IconButton(
-                            onPressed: () => bloc.add(ToggleFavoriteEvent(item: favItem)),
-                            icon: const Icon(Icons.favorite,color: AppConstants.mainRed)
-                          );
-                        },
+                      IconButton(
+                        onPressed: () => bloc.add(ToggleFavoriteEvent(item: favItem)),
+                        icon: const Icon(Icons.favorite,color: AppConstants.mainRed)
                       )
                     ],
                   )
