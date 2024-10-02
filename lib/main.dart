@@ -27,11 +27,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:SplachScreen(),
-        // debugShowCheckedModeBanner: false,
-        // home: GetIt.I.get<AuthLayer>().box.hasData("customer")
-        //     ? const UserNavigation()
-        //     : const LoginScreen()
-        );
+      home: SplachScreen(),
+      // debugShowCheckedModeBanner: false,
+      // home: GetIt.I.get<AuthLayer>().box.hasData("customer")
+      //     ? const UserNavigation()
+      //     : const LoginScreen()
+    );
   }
 }
