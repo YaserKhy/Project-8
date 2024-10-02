@@ -85,7 +85,8 @@ class ProfileScreen extends StatelessWidget {
                     log("box now is empty");
                     context.pushRemove(screen: const LoginScreen());
                   },
-                )
+                ),
+                SizedBox(height: 70)
               ],
             ),
           ),

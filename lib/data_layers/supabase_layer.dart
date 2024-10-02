@@ -116,7 +116,7 @@ class SupabaseLayer {
     log("from supabase layer");
 
     final List<CartItemModel> cartItems = [];
-    final List data = await supabase.from("cart_item").select();
+    final List data = await supabase.rpc("get_cart_items", params: {"customer_id": GetIt.I.get<AuthLayer>().customer?.id});
     print(data);
     for (Map<String, dynamic> element in data) {
       cartItems.add(CartItemModel.fromJson(element));
