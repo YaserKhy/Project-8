@@ -17,14 +17,6 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log(GetIt.I.get<ItemLayer>().cartItems.toString());
-    // var matchingCartItems = GetIt.I.get<ItemLayer>().items.where((cartItem) {
-    //   return GetIt.I
-    //       .get<ItemLayer>()
-    //       .cartItems
-    //       .any((item) => item.itemId == cartItem.itemId);
-    // }).toList();
-    // matchingCartItems.map((item) {
-    // });
       final item =  GetIt.I.get<ItemLayer>().items.where((item) => item.itemId == cartItem.itemId).first;
       return Padding(
         padding: const EdgeInsets.all(16.0),
@@ -89,7 +81,7 @@ class CartCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text("${item.price} SR",
@@ -103,7 +95,7 @@ class CartCard extends StatelessWidget {
                   children: [
                     IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.delete,
                           size: 20,
                           color: AppConstants.mainRed,
@@ -115,7 +107,7 @@ class CartCard extends StatelessWidget {
                               cartItem.quantity--;
                               print(cartItem.quantity);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.remove_circle_outline,
                               size: 20,
                             )),
@@ -128,7 +120,7 @@ class CartCard extends StatelessWidget {
                             onPressed: () {
                               cartItem.quantity++;
                             },
-                            icon: Icon(Icons.add_circle_outline, size: 20)),
+                            icon: const Icon(Icons.add_circle_outline, size: 20)),
                       ],
                     )
                   ],

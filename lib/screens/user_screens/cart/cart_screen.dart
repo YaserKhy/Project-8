@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/item_layer.dart';
+import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/screens/user_screens/cart/bloc/cart_bloc.dart';
 import 'package:project8/widgets/cards/cart_card.dart';
 
@@ -13,15 +15,6 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var matchingCartItems =
-    //     GetIt.I.get<ItemLayer>().cartItems.where((cartItem) {
-    //   return GetIt.I
-    //       .get<ItemLayer>()
-    //       .items
-    //       .any((item) => item.itemId == cartItem.itemId);
-    // }).toList();
-    // Find the matching cart items where item_id is present in the items list
-
     return BlocProvider(
       create: (context) => CartBloc()..add(GetAllCartItemsEvent()),
       child: Builder(builder: (context) {
@@ -47,13 +40,30 @@ class CartScreen extends StatelessWidget {
                   log(GetIt.I.get<ItemLayer>().cartItems.toString());
                   log(matchingCartItems.length.toString());
                   log(matchingCartItems.length.toString());
-                  return Column(
-                    children: matchingCartItems
-                        .map((item) => CartCard(
-                              cartItem: item,
-                            ))
-                        .toList(),
-                  );
+                  if (state is LoadingState) {
+                    return SizedBox(
+                        height: context.getHeight(divideBy: 3),
+                        child: Center(
+                            child: LottieBuilder.asset(
+                                "assets/images/Animation - 1727608827461.json")));
+                  }
+                  if (state is SuccessState) {
+                    return Column(
+                      children: matchingCartItems
+                          .map((item) => CartCard(
+                                cartItem: item,
+                              ))
+                          .toList(),
+                    );
+                  }
+                  if (state is ErrorState) {
+                    log("error loading cart items");
+                    return SizedBox(
+                        height: context.getHeight(divideBy: 3),
+                        child:
+                            const Center(child: Text("Error loading items")));
+                  }
+                  return const SizedBox.shrink();
                 },
               ),
             ),
