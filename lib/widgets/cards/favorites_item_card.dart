@@ -30,6 +30,51 @@ class FavoritesCard extends StatelessWidget {
               blurRadius: 5, // Softness of the shadow
               offset: const Offset(6, 6), // Horizontal and vertical offset
             ),
+// <<<<<<< HEAD
+// =======
+            // const SizedBox(width: 10,),
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     const SizedBox(height: 10,),
+            //     Text(
+            //       favItem.name,
+            //       style: const TextStyle(fontSize: 22, fontFamily: "Average"),
+            //     ),
+            //     Text(
+            //       "${favItem.price} SR",
+            //       style:const TextStyle(fontSize: 16, fontFamily: "Average")
+            //     ),
+            //     Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         SizedBox(
+            //           width: 70,
+            //           child: Row(
+            //             children: [
+            //               const FaIcon(FontAwesomeIcons.fireFlameCurved,size: 15,color: AppConstants.mainRed,),
+            //               const SizedBox(width: 5,),
+            //               Text(
+            //                 "${favItem.calories} Cal",
+            //                 style: const TextStyle(fontFamily: "Average")
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         const SizedBox(width: 80,),
+            //         BlocBuilder<FavoriteBloc, FavoriteState>(
+            //           builder: (context, state) {
+            //             return IconButton(
+            //               onPressed: () => bloc.add(ToggleFavoriteEvent(item: favItem)),
+            //               icon: const Icon(Icons.favorite,color: AppConstants.mainRed)
+            //             );
+            //           },
+            //         )
+            //       ],
+            //     )
+            //   ],
+            // )
+// >>>>>>> origin/turki
           ],
         ),
         child: Padding(

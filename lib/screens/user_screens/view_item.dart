@@ -16,6 +16,7 @@ class ViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool? isClicked;
+    int qty = 1;
     return BlocProvider(
       create: (context) => FavoriteBloc(),
       child: Builder(builder: (context) {
@@ -157,12 +158,16 @@ class ViewItem extends StatelessWidget {
                       const Spacer(),
                       IconButton(
                         icon: const Icon(Icons.remove),
-                        onPressed: () {},
+                        onPressed: () {
+                          qty--;
+                        },
                       ),
-                      const Text('1', style: TextStyle(fontSize: 18)),
+                      Text("$qty", style: TextStyle(fontSize: 18)),
                       IconButton(
                         icon: const Icon(Icons.add),
-                        onPressed: () {},
+                        onPressed: () {
+                          qty++;
+                        },
                       ),
                     ],
                   ),
