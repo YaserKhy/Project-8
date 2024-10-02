@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -11,6 +13,15 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // var matchingCartItems =
+    //     GetIt.I.get<ItemLayer>().cartItems.where((cartItem) {
+    //   return GetIt.I
+    //       .get<ItemLayer>()
+    //       .items
+    //       .any((item) => item.itemId == cartItem.itemId);
+    // }).toList();
+    // Find the matching cart items where item_id is present in the items list
+
     return BlocProvider(
       create: (context) => CartBloc()..add(GetAllCartItemsEvent()),
       child: Builder(builder: (context) {
@@ -24,19 +35,26 @@ class CartScreen extends StatelessWidget {
           backgroundColor: AppConstants.mainBgColor,
           body: SafeArea(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CartCard(
-                    item: GetIt.I.get<ItemLayer>().items[0],
-                    qty: 5,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        context.read<CartBloc>().add(GetAllCartItemsEvent());
-                        print(GetIt.I.get<ItemLayer>().cartItems);
-                      },
-                      child: Text("Asdf"))
-                ],
+              child: BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) {
+                  var matchingCartItems =
+                      GetIt.I.get<ItemLayer>().cartItems.where((cartItem) {
+                    return GetIt.I
+                        .get<ItemLayer>()
+                        .items
+                        .any((item) => item.itemId == cartItem.itemId);
+                  }).toList();
+                  log(GetIt.I.get<ItemLayer>().cartItems.toString());
+                  log(matchingCartItems.length.toString());
+                  log(matchingCartItems.length.toString());
+                  return Column(
+                    children: matchingCartItems
+                        .map((item) => CartCard(
+                              cartItem: item,
+                            ))
+                        .toList(),
+                  );
+                },
               ),
             ),
           ),
