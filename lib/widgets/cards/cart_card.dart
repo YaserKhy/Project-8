@@ -44,54 +44,62 @@ class CartCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                height: 100,
-                width: context.getWidth(divideBy: 3.9),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 232, 231, 231),
-                    borderRadius: BorderRadius.circular(15)),
-                child: Image.network(item.image),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
+                  Container(
+                    height: 100,
+                    width: context.getWidth(divideBy: 3.9),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 232, 231, 231),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Image.network(item.image),
+                  ),
                   const SizedBox(
-                    height: 10,
+                    width: 10,
                   ),
-                  Text(
-                    item.name,
-                    style: const TextStyle(
-                        fontSize: 17,
-                        fontFamily: "Average",
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                  SizedBox(
-                    width: 70,
-                    child: Row(
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 120),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const FaIcon(
-                          FontAwesomeIcons.fireFlameCurved,
-                          size: 15,
-                          color: AppConstants.mainRed,
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          item.name,
+                          style: const TextStyle(
+                              fontSize: 17,
+                              fontFamily: "Average",
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                        SizedBox(
+                          width: 70,
+                          child: Row(
+                            children: [
+                              const FaIcon(
+                                FontAwesomeIcons.fireFlameCurved,
+                                size: 15,
+                                color: AppConstants.mainRed,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text("${item.calories} Cal",
+                                  style: const TextStyle(fontFamily: "Average")),
+                            ],
+                          ),
                         ),
                         const SizedBox(
-                          width: 5,
+                          height: 10,
                         ),
-                        Text("${item.calories} Cal",
-                            style: const TextStyle(fontFamily: "Average")),
+                        Text("${item.price} SR",
+                            style: const TextStyle(
+                                fontSize: 16, fontFamily: "Average")),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text("${item.price} SR",
-                      style:
-                          const TextStyle(fontSize: 16, fontFamily: "Average")),
                 ],
               ),
               Column(
