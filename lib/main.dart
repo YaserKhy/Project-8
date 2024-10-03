@@ -9,7 +9,7 @@ void main() async {
   await setup();
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  OneSignal.initialize(dotenv.env['ONE_SIGNAL']!);
+  OneSignal.initialize(dotenv.env['ONE_SIGNAL_APP_ID']!);
   runApp(const MainApp());
 }
 
