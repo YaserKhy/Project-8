@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:project8/data_layers/auth_layer.dart';
-import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/screens/splach_screen/splach_screen.dart';
-import 'package:project8/screens/user_screens/order/order_info_screen.dart';
 import 'package:project8/services/setup.dart';
 
 void main() async {
@@ -12,9 +9,7 @@ void main() async {
   await setup();
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-
-  OneSignal.initialize("31059eb9-e7cf-432e-870e-2d99883fa36b");
-
+  OneSignal.initialize(dotenv.env['ONE_SIGNAL']!);
   runApp(const MainApp());
 }
 
