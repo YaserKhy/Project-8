@@ -10,7 +10,7 @@ import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/item_model.dart';
-import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart';
+import 'package:project8/screens/user_screens/view_item/bloc/view_item_bloc.dart';
 
 class ViewItem extends StatelessWidget {
   final ItemModel item;
@@ -21,9 +21,9 @@ class ViewItem extends StatelessWidget {
     bool? isClicked;
     int quantity = 1;
     return BlocProvider(
-      create: (context) => FavoriteBloc(),
+      create: (context) => ViewItemBloc(),
       child: Builder(builder: (context) {
-        final favbloc = context.read<FavoriteBloc>();
+        final bloc = context.read<ViewItemBloc>();
         return Scaffold(
             backgroundColor: AppConstants.mainBgColor,
             appBar: AppBar(
@@ -34,7 +34,7 @@ class ViewItem extends StatelessWidget {
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: BlocBuilder<FavoriteBloc, FavoriteState>(
+                  child: BlocBuilder<ViewItemBloc, ViewItemState>(
                     builder: (context, state) {
                       final isFavorite = GetIt.I
                           .get<ItemLayer>()
@@ -46,7 +46,7 @@ class ViewItem extends StatelessWidget {
                           isSelected: isFavorite,
                           selectedIcon: const Icon(Icons.favorite, size: 28),
                           onPressed: () {
-                            favbloc.add(ToggleFavoriteEvent(item: item));
+                            bloc.add(ToggleFavoriteEvent(item: item));
                             isClicked = true;
                           },
                           icon: const Icon(Icons.favorite_border, size: 28));
@@ -173,6 +173,7 @@ class ViewItem extends StatelessWidget {
                         icon: const Icon(Icons.add),
                         onPressed: () {
                           quantity++;
+                          log(quantity.toString());
                         },
                       ),
                     ],

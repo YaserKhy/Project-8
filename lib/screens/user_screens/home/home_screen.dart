@@ -11,7 +11,7 @@ import 'package:project8/helpers/helper.dart';
 import 'package:project8/screens/user_screens/cart/cart_screen.dart';
 import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart';
 import 'package:project8/screens/user_screens/home/image_slider.dart';
-import 'package:project8/screens/user_screens/view_item.dart';
+import 'package:project8/screens/user_screens/view_item/view_item.dart';
 import 'package:project8/widgets/cards/item_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project8/widgets/texts/category_title.dart';

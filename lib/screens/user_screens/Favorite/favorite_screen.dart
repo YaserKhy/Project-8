@@ -9,7 +9,7 @@ import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/item_model.dart';
 import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart';
 import 'package:project8/screens/user_screens/home/bloc/home_bloc.dart' as home_bloc;
-import 'package:project8/screens/user_screens/view_item.dart';
+import 'package:project8/screens/user_screens/view_item/view_item.dart';
 import 'package:project8/widgets/cards/favorites_item_card.dart';
 import 'package:project8/widgets/texts/page_title.dart';
 
