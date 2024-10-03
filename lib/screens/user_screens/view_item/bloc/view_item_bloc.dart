@@ -12,22 +12,21 @@ part 'view_item_event.dart';
 part 'view_item_state.dart';
 
 class ViewItemBloc extends Bloc<ViewItemEvent, ViewItemState> {
+  int quantity = 1;
   ViewItemBloc() : super(ViewItemInitial()) {
-    on<ToggleFavoriteEvent>(toggleFavorite);
+    on<IncreaseQuantityEvent>(increaseQuantity);
+    on<DecreaseQuantityEvent>(decreaseQuantity);
   }
-    FutureOr<void> toggleFavorite(event, emit) async {
-    if (GetIt.I.get<ItemLayer>().favItems.map((item) => item.itemId).contains(event.item.itemId)) {
-      log("deleting");
-      await GetIt.I.get<SupabaseLayer>().deleteFromFav(itemId: event.item.itemId);
-      await GetIt.I.get<SupabaseLayer>().getFav();
-    }
-    else {
-      log(GetIt.I.get<ItemLayer>().favItems.map((item) => item.name).toString());
-      log("adding");
-      await GetIt.I.get<SupabaseLayer>().addToFav(itemId: event.item.itemId);
-      await GetIt.I.get<SupabaseLayer>().getFav();
-      log(GetIt.I.get<ItemLayer>().favItems.map((item) => item.name).toString());
-    }
-    emit(SuccessState());
+
+  FutureOr<void> increaseQuantity(
+      IncreaseQuantityEvent event, Emitter<ViewItemState> emit) {
+    quantity = event.quantity + 1;
+    emit(UpdateQuantityState(quantity: quantity));
+  }
+
+  FutureOr<void> decreaseQuantity(
+      DecreaseQuantityEvent event, Emitter<ViewItemState> emit) {
+    quantity = event.quantity - 1;
+    emit(UpdateQuantityState(quantity: quantity));
   }
 }
