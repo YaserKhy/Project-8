@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:get_it/get_it.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/helpers/helper.dart';
@@ -25,11 +26,20 @@ class SupabaseLayer {
     }
   }
 
-  Future login({required String email, required String password}) async {
+  Future login(
+      {required String email,
+      required String password,
+      required String externalId}) async {
     try {
       log("entered");
       final AuthResponse response = await supabase.auth
           .signInWithPassword(email: email, password: password);
+
+      OneSignal.login(externalId);
+      await supabase
+          .from('customer')
+          .update({'notification_id': externalId}).eq('customer_id', response.user!.id);
+
       final temp = await supabase
           .from('customer')
           .select()
@@ -51,17 +61,21 @@ class SupabaseLayer {
       {required String email,
       required String otp,
       required String name,
-      required String phoneNumber}) async {
+      required String phoneNumber,
+      required String externalId}) async {
     try {
       log("otp verify");
       final AuthResponse response = await supabase.auth
           .verifyOTP(email: email, token: otp, type: OtpType.email);
       final id = response.user!.id;
+      OneSignal.Notifications.requestPermission(true);
+      OneSignal.login(externalId);
       CustomerModel customer = CustomerModel.fromJson({
         'customer_id': id,
         'email': email,
         'name': name,
-        'phone_number': phoneNumber
+        'phone_number': phoneNumber,
+        'notification_id': externalId
       });
       await supabase.from("customer").insert(customer.toJson());
       GetIt.I.get<AuthLayer>().box.write('customer', customer.toJson());
