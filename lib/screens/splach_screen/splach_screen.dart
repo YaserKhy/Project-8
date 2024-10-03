@@ -8,37 +8,23 @@ import 'package:get_it/get_it.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/widgets/other/title_logo.dart';
 
-class SplachScreen extends StatefulWidget {
+class SplachScreen extends StatelessWidget {
   const SplachScreen({super.key});
 
-  @override
-  _SplachScreenState createState() => _SplachScreenState();
-}
-
-class _SplachScreenState extends State<SplachScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 6,milliseconds: 900), () {
+  void _navigate(BuildContext context) {
+    Future.delayed(const Duration(seconds: 6, milliseconds: 900), () {
       bool isLoggedIn = GetIt.I.get<AuthLayer>().box.hasData("customer");
       if (isLoggedIn) {
         context.pushRemove(screen: const UserNavigation());
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const UserNavigation()),
-        // );
       } else {
         context.pushRemove(screen: const LoginScreen());
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const LoginScreen()),
-        // );
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _navigate(context);
     return Scaffold(
       backgroundColor: AppConstants.mainBlue,
       body: Column(
