@@ -7,6 +7,7 @@ class ItemLayer {
   List<ItemModel> favItems = [];
   List<CartItemModel> cartItems = [];
   List<CartItemModel> matchingCartItems = [];
+  List<Map<String,dynamic>> orders = [];
   List<String> categories = [
     'All',
     "Classic Drinks",

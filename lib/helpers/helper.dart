@@ -17,7 +17,7 @@ Map<String, List<ItemModel>> groupItemsByCategory(List<ItemModel> items) {
 
 List<ItemModel> getBestSellers() {
   final bestSellers = GetIt.I.get<ItemLayer>().items;
-  return bestSellers.take(4).toList();
+  return bestSellers..take(4).toList();
 }
 
 getMatchingCartItems() async {

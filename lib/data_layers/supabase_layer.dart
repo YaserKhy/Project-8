@@ -128,16 +128,15 @@ class SupabaseLayer {
   }
 
   getCartItems() async {
-    log("from supabase layer");
-
+    log("from supabase layer 1");
     final List<CartItemModel> cartItems = [];
     final List data = await supabase.rpc("get_cart_items",
         params: {"customer_id": GetIt.I.get<AuthLayer>().customer?.id});
-    print(data);
+    print("imheeere $data");
     for (Map<String, dynamic> element in data) {
       cartItems.add(CartItemModel.fromJson(element));
     }
-    log("from supabase layer");
+    log("from supabase layer 22");
     GetIt.I.get<ItemLayer>().cartItems = cartItems;
     log(cartItems.toString());
   }
@@ -194,6 +193,25 @@ class SupabaseLayer {
       });
     } catch (e) {
       log("deleteCartItem error");
+      log(e.toString());
+    }
+  }
+
+  addOrder({required String cartId}) async {
+    try {
+      await supabase.from('orders').insert({
+        'status': 'waiting',
+        'customer_id' : GetIt.I.get<AuthLayer>().customer!.id,
+        'cart_id' : cartId
+      });
+      await supabase.from('cart').update({'is_valid': false}).eq('cart_id', cartId);
+      await supabase.from('cart').insert({
+        'customer_id': GetIt.I.get<AuthLayer>().customer!.id,
+        'total_price': 0,
+        'is_valid' : true
+      });
+    } catch (e) {
+      log("add order error");
       log(e.toString());
     }
   }

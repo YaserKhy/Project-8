@@ -29,6 +29,7 @@ dependencies:
   easy_stepper: ^0.8.5+1
   rive: ^0.13.14
   http: ^1.2.2
+  moyasar: ^2.0.13
 
 dev_dependencies:
   flutter_test:

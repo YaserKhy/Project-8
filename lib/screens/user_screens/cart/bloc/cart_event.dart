@@ -14,3 +14,8 @@ final class DecreaseQuantityEvent extends CartEvent {
   final int itemId;
   DecreaseQuantityEvent(this.itemId);
 }
+
+final class PayEvent extends CartEvent {
+  final String cartId;
+  PayEvent({required this.cartId});
+}

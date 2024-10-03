@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:project8/data_layers/auth_layer.dart';
+import 'package:project8/screens/auth_screens/login_screen.dart';
+import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/screens/splach_screen/splach_screen.dart';
 import 'package:project8/screens/user_screens/order/order_info_screen.dart';
 import 'package:project8/services/setup.dart';
@@ -31,12 +35,12 @@ class MainApp extends StatelessWidget {
       },
     );
     return MaterialApp(
-      navigatorKey: navigatorKey,
+      // navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      home: const SplachScreen(),
-      // home: GetIt.I.get<AuthLayer>().box.hasData("customer")
-      //     ? const UserNavigation()
-      //     : const LoginScreen()
+      // home: const SplachScreen(),
+      home: GetIt.I.get<AuthLayer>().box.hasData("customer")
+          ? const UserNavigation()
+          : const SplachScreen()
     );
   }
 }
