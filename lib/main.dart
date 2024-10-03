@@ -23,23 +23,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-    OneSignal.Notifications.addClickListener(
-      (event) {
-        navigatorKey.currentState!.push(
-          MaterialPageRoute(
-            builder: (context) => const OrderInfoScreen(),
-          ),
-        );
-      },
-    );
     return MaterialApp(
-      navigatorKey: navigatorKey,
+      theme: ThemeData(
+          textTheme: const TextTheme(
+            headlineSmall:TextStyle(
+            fontFamily: 'Average', fontSize: 17, fontWeight: FontWeight.w500) ,
+        headlineLarge: TextStyle(
+            fontFamily: 'Average', fontSize: 26, fontWeight: FontWeight.w500),
+      )),
       debugShowCheckedModeBanner: false,
-      // home: const SplachScreen(),
-      home: GetIt.I.get<AuthLayer>().box.hasData("customer")
-          ? const UserNavigation()
-          : const SplachScreen()
+      home: const SplachScreen(),
+      // home: GetIt.I.get<AuthLayer>().box.hasData("customer")
+      //     ? const UserNavigation()
+      //     : const LoginScreen()
     );
   }
 }

@@ -9,28 +9,34 @@ class CategoryTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: SizedBox(
-        width: context.getWidth(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(title,
-                style: const TextStyle(fontFamily: "Average", fontSize: 24)),
-            const SizedBox(width: 10),
-            title != 'Water'
-                ? const SizedBox.shrink()
-                : Container(
-                    margin: const EdgeInsets.only(top: 1),
-                    padding: EdgeInsets.zero,
-                    width: 75,
-                    color: AppConstants.mainRed,
-                    height: 1,
-                  ),
-            Expanded(child: Image.asset("assets/images/star_line.png"))
-          ],
-        ),
-      ),
-    );
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: SizedBox(
+          width: context.getWidth(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              const SizedBox(width: 10),
+              title != 'Water'
+                  ? const SizedBox.shrink()
+                  : Container(
+                      margin: const EdgeInsets.only(top: 1),
+                      padding: EdgeInsets.zero,
+                      width: 75,
+                      color: AppConstants.mainRed,
+                      height: 1,
+                    ),
+              Flexible(
+                child: Image.asset(
+                  "assets/images/star_line.png",
+                  fit: BoxFit.contain, // Ensures the image scales to fit
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

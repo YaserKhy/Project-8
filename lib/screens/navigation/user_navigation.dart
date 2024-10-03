@@ -11,6 +11,7 @@ import 'package:project8/screens/user_screens/home/home_screen.dart';
 import 'package:project8/screens/user_screens/order/bloc/order_bloc.dart';
 import 'package:project8/screens/user_screens/order/orders_screen.dart';
 import 'package:project8/screens/user_screens/profile_screen.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class UserNavigation extends StatelessWidget {
   const UserNavigation({super.key});
@@ -49,10 +50,10 @@ class UserNavigation extends StatelessWidget {
               unselectedLabelColor: AppConstants.unselectedColor,
               dividerColor: Colors.transparent,
               tabs: [
-                FaIcon(FontAwesomeIcons.house),
-                FaIcon(FontAwesomeIcons.heart),
-                FaIcon(FontAwesomeIcons.list),
-                Icon(Icons.person),
+                FaIcon(HugeIcons.strokeRoundedHome09,),
+                FaIcon(HugeIcons.strokeRoundedFavourite),
+                FaIcon(HugeIcons.strokeRoundedLeftToRightListBullet),
+                FaIcon(HugeIcons.strokeRoundedUser,),
               ],
             ),
           ),
