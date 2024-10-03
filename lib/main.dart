@@ -22,9 +22,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+          textTheme: const TextTheme(
+            headlineSmall:TextStyle(
+            fontFamily: 'Average', fontSize: 17, fontWeight: FontWeight.w500) ,
+        headlineLarge: TextStyle(
+            fontFamily: 'Average', fontSize: 26, fontWeight: FontWeight.w500),
+      )),
       debugShowCheckedModeBanner: false,
-      home: SplachScreen(),
+      home: const SplachScreen(),
       // home: GetIt.I.get<AuthLayer>().box.hasData("customer")
       //     ? const UserNavigation()
       //     : const LoginScreen()
