@@ -12,7 +12,7 @@ class SplachScreen extends StatelessWidget {
   const SplachScreen({super.key});
 
   void _navigate(BuildContext context) {
-    Future.delayed(const Duration(seconds: 6, milliseconds: 900), () {
+    Future.delayed(const Duration(seconds: 5), () {
       bool isLoggedIn = GetIt.I.get<AuthLayer>().box.hasData("customer");
       if (isLoggedIn) {
         context.pushRemove(screen: const UserNavigation());
@@ -38,7 +38,7 @@ class SplachScreen extends StatelessWidget {
           ),
           Expanded(
             child: Image.asset(
-              'assets/images/Splach_faster.gif',
+              'assets/images/one second splach.gif',
               fit: BoxFit.cover,
               width: double.infinity,
             ),
