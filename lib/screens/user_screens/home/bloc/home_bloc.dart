@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
-import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/helpers/db_functions.dart';
 import 'package:project8/helpers/helper.dart';

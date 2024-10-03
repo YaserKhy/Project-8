@@ -1,17 +1,12 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/item_layer.dart';
-import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/screens/user_screens/order/bloc/order_bloc.dart';
-import 'package:project8/screens/user_screens/order/order_info_screen.dart';
-
-import 'package:project8/widgets/cards/order_card.dart';
 import 'package:project8/widgets/other/custom_tapbar.dart';
 import 'package:project8/widgets/texts/page_title.dart';
 
@@ -56,16 +51,16 @@ class OrdersScreen extends StatelessWidget {
                         length: 2,
                         child: Column(
                           children: [
-                            PageTitle(title: "Orders"),
-                            SizedBox(height: 10,),
-                            CustomTapbar(),
-                            ...GetIt.I.get<ItemLayer>().orders.map((o)=>Text(o['cart_id'])).toList(),
+                            const PageTitle(title: "Orders"),
+                            const SizedBox(height: 10,),
+                            const CustomTapbar(),
+                            ...GetIt.I.get<ItemLayer>().orders.map((o)=>Text(o['cart_id'])),
                           ]
                         ),
                       );
                     }
                   }
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 },
               ),
               // child: DefaultTabController(

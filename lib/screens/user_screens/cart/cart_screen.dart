@@ -10,10 +10,7 @@ import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/helpers/helper.dart';
-import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/screens/user_screens/cart/bloc/cart_bloc.dart';
-import 'package:project8/screens/user_screens/order/orders_screen.dart';
-import 'package:project8/screens/user_screens/payment_screen.dart';
 import 'package:project8/widgets/cards/cart_card.dart';
 import 'package:moyasar/moyasar.dart';
 
@@ -38,33 +35,7 @@ class CartScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
-                  // log("message");
                   getMatchingCartItems();
-                  // log("LOOOK HERE");
-                  // log(GetIt.I
-                  //     .get<ItemLayer>()
-                  //     .matchingCartItems
-                  //     .first.cartId
-                  //     .toString());
-                  // log(GetIt.I.get<ItemLayer>().cartItems.toString());
-                  // log(GetIt.I
-                  //     .get<ItemLayer>()
-                  //     .matchingCartItems
-                  //     .length
-                  //     .toString());
-                  // double priceaa = 0.0;
-                  // for (var item in GetIt.I.get<ItemLayer>().matchingCartItems) {
-                  //   double pr = (item.quantity *
-                  //           GetIt.I
-                  //               .get<ItemLayer>()
-                  //               .items
-                  //               .where((itema) => itema.itemId == item.itemId)
-                  //               .first
-                  //               .price)
-                  //       .toDouble();
-                  //   priceaa += pr;
-                  // }
-                  // double vat = double.parse((priceaa * .15).toStringAsFixed(3));
                   if (state is LoadingState) {
                     return SizedBox(
                         height: context.getHeight(divideBy: 3),
@@ -104,39 +75,7 @@ class CartScreen extends StatelessWidget {
                             children: [
                               Image.asset('assets/images/red_stars2.png'),
                               const SizedBox(
-                                height: 31,
-                              ),
-                              Row(
-                                children: [
-                                  const Text("Sub Total",
-                                      style: TextStyle(fontSize: 20)),
-                                  const Spacer(),
-                                  Text(
-                                    state.cart!.totalPrice.toString(),
-                                    style: const TextStyle(fontSize: 20),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Row(
-                                children: [
-                                  const Text("VAT",
-                                      style: TextStyle(fontSize: 20)),
-                                  const Spacer(),
-                                  Text(
-                                    double.parse((state.cart!.totalPrice * .15).toStringAsFixed(3)).toString(),
-                                    style: const TextStyle(fontSize: 20),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Image.asset('assets/images/dotted_line.png'),
-                              const SizedBox(
-                                height: 15,
+                                height: 16,
                               ),
                               Row(
                                 children: [
@@ -144,34 +83,63 @@ class CartScreen extends StatelessWidget {
                                       style: TextStyle(fontSize: 20)),
                                   const Spacer(),
                                   Text(
-                                    (state.cart!.totalPrice+double.parse((state.cart!.totalPrice * .15).toStringAsFixed(3))).toString(),
+                                    (state.cart?.totalPrice).toString(),
                                     style: const TextStyle(fontSize: 20),
                                   )
                                 ],
                               ),
-                              const SizedBox(
-                                height: 41,
+                              ElevatedButton(
+                                onPressed: ()=>showModalBottomSheet(
+                                  context: context,
+                                  builder: (context){
+                                    return Container(
+                                      padding: const EdgeInsets.all(24),
+                                      width: context.getWidth(),
+                                      height: context.getHeight(divideBy: 2),
+                                      decoration: BoxDecoration(
+                                      color: AppConstants.mainBgColor,
+                                      borderRadius: BorderRadius.circular(20)
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          const Text("Fill Card Info"),
+                                          CreditCard(
+                                                                              config: PaymentConfig(
+                                            creditCard: CreditCardConfig(
+                                                saveCard: true, manual: false),
+                                            publishableApiKey: dotenv.env['MOYASAR_KEY']!,
+                                            amount: ((state.cart!.totalPrice*100)).toInt(),
+                                            description: "description"),
+                                                                              onPaymentResult: (PaymentResponse result) async {
+                                          bloc.add(PayEvent(cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId));
+                                          context.pop();
+                                          context.pop();
+                                          log('here is orders');
+                                          log(GetIt.I.get<ItemLayer>().orders.length.toString());
+                                                                              }),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                ),
+                                child: const Text("data")
                               ),
-                              // ElevatedButton(
-                              //   onPressed: ()=>context.push(screen: PaymentScreen(price: (priceaa*vat*100).toInt())),
-                              //   child: Text("data")
+                              // Padding(
+                              //   padding: const EdgeInsets.all(16.0),
+                              //   child: CreditCard(
+                              //       config: PaymentConfig(
+                              //           creditCard: CreditCardConfig(
+                              //               saveCard: true, manual: false),
+                              //           publishableApiKey: dotenv.env['MOYASAR_KEY']!,
+                              //           amount: ((state.cart!.totalPrice*100)).toInt(),
+                              //           description: "description"),
+                              //       onPaymentResult: (PaymentResponse result) async {
+                              //         bloc.add(PayEvent(cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId));
+                              //         context.pop();
+                              //         log('here is orders');
+                              //         log(GetIt.I.get<ItemLayer>().orders.length.toString());
+                              //       }),
                               // ),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: CreditCard(
-                                    config: PaymentConfig(
-                                        creditCard: CreditCardConfig(
-                                            saveCard: true, manual: false),
-                                        publishableApiKey: dotenv.env['MOYASAR_KEY']!,
-                                        amount: ((state.cart!.totalPrice+(state.cart!.totalPrice *.15))*100).toInt(),
-                                        description: "description"),
-                                    onPaymentResult: (PaymentResponse result) async {
-                                      bloc.add(PayEvent(cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId));
-                                      context.pop();
-                                      log('here is orders');
-                                      log(GetIt.I.get<ItemLayer>().orders.length.toString());
-                                    }),
-                              ),
                               ElevatedButton(
                                   onPressed: () {},
                                   child: const Text("Pay in cash")),

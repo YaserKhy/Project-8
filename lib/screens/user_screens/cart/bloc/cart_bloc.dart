@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
+import 'package:project8/helpers/helper.dart';
 import 'package:project8/models/cart_model.dart';
 
 part 'cart_event.dart';
@@ -35,14 +36,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       // log("from bloc1");
       emit(LoadingState());
       await GetIt.I.get<SupabaseLayer>().getCartItems();
-      final cart = await GetIt.I.get<SupabaseLayer>().supabase.from('cart').select().match({'customer_id': GetIt.I.get<AuthLayer>().customer!.id, 'is_valid': true});
+      var cart = await GetIt.I.get<SupabaseLayer>().supabase.from('cart').select().match({'customer_id': GetIt.I.get<AuthLayer>().customer!.id, 'is_valid': true});
       // log(message)
       print("LOOOK $cart");
+      if(cart.isEmpty) {
+        await GetIt.I.get<SupabaseLayer>().supabase.from('cart').insert({
+        'customer_id': GetIt.I.get<AuthLayer>().customer!.id,
+        'total_price': 0,
+        'is_valid' : true
+      });
+      }
+      cart = await GetIt.I.get<SupabaseLayer>().supabase.from('cart').select().match({'customer_id': GetIt.I.get<AuthLayer>().customer!.id, 'is_valid': true});
       CartModel currentCart = CartModel.fromJson(cart.first);
+      await getMatchingCartItems();
       emit(SuccessState(cart: currentCart));
       // log("from bloc2");
     } catch (e) {
-      log("error in getallcartitems"+e.toString());
+      log("error in getallcartitems$e");
       emit(ErrorState(msg: e.toString()));
     }
   }

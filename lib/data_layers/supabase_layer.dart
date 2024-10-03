@@ -146,9 +146,8 @@ class SupabaseLayer {
     log(itemId);
     log(GetIt.I.get<AuthLayer>().customer!.id.toString());
     bool alreadyAdded = false;
-    log(GetIt.I.get<ItemLayer>().matchingCartItems.length.toString());
     getMatchingCartItems();
-
+    log(GetIt.I.get<ItemLayer>().matchingCartItems.length.toString());
     for (var item in GetIt.I.get<ItemLayer>().matchingCartItems) {
       if (item.itemId == itemId) {
         try {
@@ -205,11 +204,6 @@ class SupabaseLayer {
         'cart_id' : cartId
       });
       await supabase.from('cart').update({'is_valid': false}).eq('cart_id', cartId);
-      await supabase.from('cart').insert({
-        'customer_id': GetIt.I.get<AuthLayer>().customer!.id,
-        'total_price': 0,
-        'is_valid' : true
-      });
     } catch (e) {
       log("add order error");
       log(e.toString());

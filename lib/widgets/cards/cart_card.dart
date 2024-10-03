@@ -7,13 +7,12 @@ import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/cart_item_model.dart';
-import 'package:project8/models/item_model.dart';
 import 'package:project8/screens/user_screens/cart/bloc/cart_bloc.dart';
 
 class CartCard extends StatelessWidget {
   final CartItemModel cartItem;
-  void Function()? onDelete;
-  CartCard({super.key, required this.cartItem, required this.onDelete});
+  final Function()? onDelete;
+  const CartCard({super.key, required this.cartItem, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +59,7 @@ class CartCard extends StatelessWidget {
                     width: 10,
                   ),
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 120),
+                    constraints: const BoxConstraints(maxWidth: 120),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
