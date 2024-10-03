@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:get_it/get_it.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
+import 'package:project8/helpers/helper.dart';
 import 'package:project8/models/cart_item_model.dart';
 import 'package:project8/models/customer_model.dart';
 import 'package:project8/models/item_model.dart';
@@ -131,20 +132,44 @@ class SupabaseLayer {
     log("from add cart item");
     log(itemId);
     log(GetIt.I.get<AuthLayer>().customer!.id.toString());
-    try {
-      await supabase.rpc("insert_to_cart", params: {
-        "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
-        "item_uuid": itemId,
-        "item_quantity": quantity,
-        "sugar_preference": "asdf"
-      });
-    } catch (e) {
-      log("addCartItem error");
-      log(e.toString());
+    bool alreadyAdded = false;
+    log(GetIt.I.get<ItemLayer>().matchingCartItems.length.toString());
+    getMatchingCartItems();
+
+    for (var item in GetIt.I.get<ItemLayer>().matchingCartItems) {
+      if (item.itemId == itemId) {
+        try {
+          alreadyAdded = true;
+          log("alreadyAdded");
+          await supabase.rpc("modify_item_quantity", params: {
+            "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
+            "item_uuid": itemId,
+            "new_quantity": item.quantity + quantity
+          });
+          getMatchingCartItems();
+        } catch (e) {
+          log("addCartItem error");
+          log(e.toString());
+        }
+      }
+    }
+    if (alreadyAdded == false) {
+      try {
+        await supabase.rpc("insert_to_cart", params: {
+          "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
+          "item_uuid": itemId,
+          "item_quantity": quantity,
+          "sugar_preference": "asdf"
+        });
+      } catch (e) {
+        log("addCartItem error");
+        log(e.toString());
+      }
+      getMatchingCartItems();
     }
   }
 
-    deleteCartItem({required String itemId}) async {
+  deleteCartItem({required String itemId}) async {
     log("from delete cart item");
     log(itemId);
     log(GetIt.I.get<AuthLayer>().customer!.id.toString());

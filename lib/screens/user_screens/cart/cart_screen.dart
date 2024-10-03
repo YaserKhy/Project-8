@@ -8,6 +8,7 @@ import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/extensions/screen_size.dart';
+import 'package:project8/helpers/helper.dart';
 import 'package:project8/screens/user_screens/cart/bloc/cart_bloc.dart';
 import 'package:project8/widgets/cards/cart_card.dart';
 
@@ -33,16 +34,18 @@ class CartScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
-                  var matchingCartItems =
-                      GetIt.I.get<ItemLayer>().cartItems.where((cartItem) {
-                    return GetIt.I
-                        .get<ItemLayer>()
-                        .items
-                        .any((item) => item.itemId == cartItem.itemId);
-                  }).toList();
+                  getMatchingCartItems();
                   log(GetIt.I.get<ItemLayer>().cartItems.toString());
-                  log(matchingCartItems.length.toString());
-                  log(matchingCartItems.length.toString());
+                  log(GetIt.I
+                      .get<ItemLayer>()
+                      .matchingCartItems
+                      .length
+                      .toString());
+                  log(GetIt.I
+                      .get<ItemLayer>()
+                      .matchingCartItems
+                      .length
+                      .toString());
                   if (state is LoadingState) {
                     return SizedBox(
                         height: context.getHeight(divideBy: 3),
@@ -51,11 +54,13 @@ class CartScreen extends StatelessWidget {
                                 "assets/images/Animation - 1727608827461.json")));
                   }
                   if (state is SuccessState) {
-                    if (matchingCartItems.isEmpty) {
+                    if (GetIt.I.get<ItemLayer>().matchingCartItems.isEmpty) {
                       return const Center(child: Text("Cart is empty"));
                     } else {
                       return Column(
-                          children: matchingCartItems
+                          children: GetIt.I
+                              .get<ItemLayer>()
+                              .matchingCartItems
                               .map((item) => CartCard(
                                     cartItem: item,
                                     onDelete: () async {

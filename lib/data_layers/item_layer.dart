@@ -6,6 +6,13 @@ class ItemLayer {
   List<ItemModel> items = [];
   List<ItemModel> favItems = [];
   List<CartItemModel> cartItems = [];
-  List<String> categories = ['All',"Classic Drinks","Cold Drinks","Drip Coffee","Water"];
+  List<CartItemModel> matchingCartItems = [];
+  List<String> categories = [
+    'All',
+    "Classic Drinks",
+    "Cold Drinks",
+    "Drip Coffee",
+    "Water"
+  ];
   final box = GetStorage();
 }
