@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/auth_layer.dart';
@@ -68,11 +69,12 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                         IconButton(
-                          onPressed: () =>
-                              context.push(screen: const CartScreen()),
-                          icon: const Icon(Icons.shopping_cart_outlined,
-                              size: 30),
-                        ),
+                            onPressed: () =>
+                                context.push(screen: const CartScreen()),
+                            icon: const HugeIcon(
+                              icon: HugeIcons.strokeRoundedShoppingCart01,
+                              color: AppConstants.subTextColor,
+                            )),
                       ],
                     ),
                   ),
@@ -173,7 +175,11 @@ class HomeScreen extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 // const FaIcon(FontAwesomeIcons.mugHot),
-                                                Icon(Icons.coffee,
+                                                Icon(
+                                                    HugeIcons
+                                                        .strokeRoundedCoffee02
+                                                    //Icons.coffee
+                                                    ,
                                                     color: isSelected
                                                         ? AppConstants.mainWhite
                                                         : null),
