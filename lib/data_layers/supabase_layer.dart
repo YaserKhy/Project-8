@@ -7,6 +7,7 @@ import 'package:project8/helpers/helper.dart';
 import 'package:project8/models/cart_item_model.dart';
 import 'package:project8/models/customer_model.dart';
 import 'package:project8/models/item_model.dart';
+import 'package:project8/models/order_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseLayer {
@@ -196,14 +197,24 @@ class SupabaseLayer {
     }
   }
 
+  getOrders() async {
+    List<OrderModel> temp = [];
+    final data = await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select().eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
+    for (var order in data) {
+      temp.add(OrderModel.fromJson(order));
+    }
+    GetIt.I.get<ItemLayer>().orders = temp;
+  }
+
   addOrder({required String cartId}) async {
     try {
       await supabase.from('orders').insert({
-        'status': 'waiting',
+        'status': 'Waiting',
         'customer_id' : GetIt.I.get<AuthLayer>().customer!.id,
         'cart_id' : cartId
       });
       await supabase.from('cart').update({'is_valid': false}).eq('cart_id', cartId);
+      await getOrders();
     } catch (e) {
       log("add order error");
       log(e.toString());

@@ -8,8 +8,8 @@ import 'package:get_it/get_it.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/widgets/other/title_logo.dart';
 
-class SplachScreen extends StatelessWidget {
-  const SplachScreen({super.key});
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
   void _navigate(BuildContext context) {
     Future.delayed(const Duration(seconds: 5), () {

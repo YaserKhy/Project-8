@@ -24,7 +24,7 @@ class UserNavigation extends StatelessWidget {
         providers: [
           BlocProvider(create: (context) => HomeBloc()..add(GetAllItemsEvent()),),
           BlocProvider(create: (context) => FavoriteBloc()..add(GetFavItemsEvent())),
-          BlocProvider(create: (context) => OrderBloc()),
+          BlocProvider(create: (context) => OrderBloc()..add(GetOrdersEvent())),
           // BlocProvider(create: (context) => ProfileBloc()),
         ],
         child: BottomBar(
