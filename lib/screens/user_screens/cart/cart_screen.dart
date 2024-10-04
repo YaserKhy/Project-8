@@ -130,7 +130,7 @@ class CartScreen extends StatelessWidget {
                                       style: TextStyle(fontSize: 20)),
                                   const Spacer(),
                                   Text(
-                                    (state.cart?.totalPrice).toString(),
+                                    '${state.cart?.totalPrice} SR',
                                     style: const TextStyle(fontSize: 20),
                                   )
                                 ],
@@ -149,7 +149,13 @@ class CartScreen extends StatelessWidget {
                                           AppConstants.mainlightBlue,
                                       // fixedSize: const Size(350, 41)
                                     ),
-                                    onPressed: ()=>log(GetIt.I.get<ItemLayer>().prevCarts.toString()),
+                                    onPressed: (){
+                                      bloc.add(PayEvent(
+                                                          cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId,
+                                                  paymentMethod: 'cash',
+                                                  pickupOrDelivery: 'pickup'));
+                                                  context.pop();
+                                    },
                                     child: const Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
