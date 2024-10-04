@@ -27,7 +27,7 @@ class ImageSlider extends StatelessWidget {
               fit: BoxFit.fill,
             ),
             Image.asset(
-              'assets/images/image_slider_1.png',
+              'assets/images/group_box.png',
               fit: BoxFit.fill,
             ),
           ],
