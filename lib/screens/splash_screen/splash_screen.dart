@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   void _navigate(BuildContext context) {
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 2, milliseconds: 800), () {
       bool isLoggedIn = GetIt.I.get<AuthLayer>().box.hasData("customer");
       if (isLoggedIn) {
         context.pushRemove(screen: const UserNavigation());
