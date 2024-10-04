@@ -5,7 +5,7 @@ class OrderModel {
   String? pickupOrDelivery;
   String? address;
   String? paymentMethod;
-  String? estimatedTime;
+  int? estimatedTime;
   final String customerId;
   final String cartId;
 

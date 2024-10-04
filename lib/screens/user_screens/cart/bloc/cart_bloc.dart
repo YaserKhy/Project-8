@@ -22,9 +22,14 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     try {
       log('adding order');
       emit(LoadingState());
-      await GetIt.I.get<SupabaseLayer>().addOrder(cartId: event.cartId);
+      await GetIt.I.get<SupabaseLayer>().addOrder(
+        cartId: event.cartId,
+        paymentMethod: event.paymentMethod,
+        pickupOrDelivery: event.pickupOrDelivery,
+        address: event.address,
+        estimatedTime: event.estimatedTime
+      );
       emit(SuccessState());
-      log("done");
     } catch (e) {
       log(e.toString());
       emit(ErrorState(msg: e.toString()));

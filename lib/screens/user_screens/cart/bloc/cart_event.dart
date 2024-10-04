@@ -17,5 +17,9 @@ final class DecreaseQuantityEvent extends CartEvent {
 
 final class PayEvent extends CartEvent {
   final String cartId;
-  PayEvent({required this.cartId});
+  final String pickupOrDelivery;
+  final String? address;
+  final String paymentMethod;
+  final int? estimatedTime;
+  PayEvent({required this.cartId, required this.pickupOrDelivery, this.address, required this.paymentMethod, this.estimatedTime});
 }
