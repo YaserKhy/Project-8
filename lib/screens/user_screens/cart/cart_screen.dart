@@ -52,76 +52,142 @@ class CartScreen extends StatelessWidget {
                   if (state is SuccessState) {
                     if (GetIt.I.get<ItemLayer>().matchingCartItems.isEmpty) {
                       return SizedBox(
-                        height: context.getHeight(divideBy: 3),
-                        child: const Center(child: Text("Cart is empty"))
-                      );
-                    }
-                    else {
-                      return Column(
-                        children: [
-                          ...GetIt.I.get<ItemLayer>().matchingCartItems.map(
-                            (item) => CartCard(
-                              cartItem: item,
-                              onDelete: () async {
-                                await GetIt.I.get<SupabaseLayer>().deleteCartItem(itemId: item.itemId);
-                                bloc.add(GetAllCartItemsEvent());
-                              },
-                            )
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              children: [
-                                Image.asset('assets/images/red_stars2.png'),
-                                const SizedBox(height: 16,),
-                                Row(
-                                  children: [
-                                    const Text("Total Price",style: TextStyle(fontSize: 20)),
-                                    const Spacer(),
-                                    Text(
-                                      (state.cart?.totalPrice).toString(),
-                                      style: const TextStyle(fontSize: 20),
-                                    )
-                                  ],
-                                ),
-                                ElevatedButton(
-                                  onPressed: () => showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(24),
-                                        width: context.getWidth(),
-                                        height:context.getHeight(divideBy: 2),
-                                        decoration: BoxDecoration(color: AppConstants.mainBgColor,borderRadius:BorderRadius.circular(20)),
-                                        child: Column(
-                                          children: [
-                                            const Text("Fill Card Info"),
-                                            CreditCard(
-                                              config: PaymentConfig(
-                                                creditCard: CreditCardConfig(saveCard: true,manual: false),
-                                                publishableApiKey: dotenv.env['MOYASAR_KEY']!,
-                                                amount: ((state.cart!.totalPrice *100)).toInt(),
-                                                description: "description"
-                                              ),
-                                              onPaymentResult: (PaymentResponse result) async {
-                                                bloc.add(PayEvent(
-                                                  cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId,
-                                                  paymentMethod: 'credit card',
-                                                  pickupOrDelivery: 'pickup',
-                                                ));
-                                                context.pop();
-                                                context.pop();
-                                                log('here is orders');
-                                                log(GetIt.I.get<ItemLayer>().orders.length.toString());
-                                              }
-                                            ),
-                                          ],
-                                        ),
-                                      );
+                          height: context.getHeight(divideBy: 3),
+                          child: const Center(child: Text("Cart is empty")));
+                    } else {
+                      return Column(children: [
+                        ...GetIt.I
+                            .get<ItemLayer>()
+                            .matchingCartItems
+                            .map((item) => CartCard(
+                                  cartItem: item,
+                                  onDelete: () async {
+                                    await GetIt.I
+                                        .get<SupabaseLayer>()
+                                        .deleteCartItem(itemId: item.itemId);
+                                    bloc.add(GetAllCartItemsEvent());
+                                  },
+                                  onIncreaseQuantity: () async {
+                                    final quantity = GetIt.I
+                                        .get<ItemLayer>()
+                                        .matchingCartItems
+                                        .where((cartItem) =>
+                                            cartItem.itemId == item.itemId)
+                                        .first
+                                        .quantity;
+                                    if (quantity < 9) {
+                                      await GetIt.I
+                                          .get<SupabaseLayer>()
+                                          .increaseItemQuantity(
+                                              itemId: item.itemId,
+                                              quantity: quantity);
+                                      bloc.add(GetAllCartItemsEvent());
                                     }
-                                  ),
-                                  child: const Text("data")
-                                ),
+                                  },
+                                  onDecreaseQuantity: () async {
+                                    final quantity = GetIt.I
+                                        .get<ItemLayer>()
+                                        .matchingCartItems
+                                        .where((cartItem) =>
+                                            cartItem.itemId == item.itemId)
+                                        .first
+                                        .quantity;
+                                    if (quantity > 1) {
+                                      await GetIt.I
+                                          .get<SupabaseLayer>()
+                                          .decreaseItemQuantity(
+                                              itemId: item.itemId,
+                                              quantity: quantity);
+                                      bloc.add(GetAllCartItemsEvent());
+                                    }
+                                  },
+                                )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              Image.asset('assets/images/red_stars2.png'),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                children: [
+                                  const Text("Total Price",
+                                      style: TextStyle(fontSize: 20)),
+                                  const Spacer(),
+                                  Text(
+                                    (state.cart?.totalPrice).toString(),
+                                    style: const TextStyle(fontSize: 20),
+                                  )
+                                ],
+                              ),
+                              ElevatedButton(
+                                  onPressed: () => showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          padding: const EdgeInsets.all(24),
+                                          width: context.getWidth(),
+                                          height:
+                                              context.getHeight(divideBy: 2),
+                                          decoration: BoxDecoration(
+                                              color: AppConstants.mainBgColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Column(
+                                            children: [
+                                              const Text("Fill Card Info"),
+                                              CreditCard(
+                                                  config: PaymentConfig(
+                                                      creditCard:
+                                                          CreditCardConfig(
+                                                              saveCard: true,
+                                                              manual: false),
+                                                      publishableApiKey: dotenv
+                                                          .env['MOYASAR_KEY']!,
+                                                      amount: ((state.cart!
+                                                                  .totalPrice *
+                                                              100))
+                                                          .toInt(),
+                                                      description:
+                                                          "description"),
+                                                  onPaymentResult:
+                                                      (PaymentResponse
+                                                          result) async {
+                                                    bloc.add(PayEvent(
+                                                        cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId,
+                                                  paymentMethod: 'credit card',
+                                                  pickupOrDelivery: 'pickup'));
+                                                    context.pop();
+                                                    context.pop();
+                                                    log('here is orders');
+                                                    log(GetIt.I
+                                                        .get<ItemLayer>()
+                                                        .orders
+                                                        .length
+                                                        .toString());
+                                                  }),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                  child: const Text("data")),
+                              // Padding(
+                              //   padding: const EdgeInsets.all(16.0),
+                              //   child: CreditCard(
+                              //       config: PaymentConfig(
+                              //           creditCard: CreditCardConfig(
+                              //               saveCard: true, manual: false),
+                              //           publishableApiKey: dotenv.env['MOYASAR_KEY']!,
+                              //           amount: ((state.cart!.totalPrice*100)).toInt(),
+                              //           description: "description"),
+                              //       onPaymentResult: (PaymentResponse result) async {
+                              //         bloc.add(PayEvent(cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId));
+                              //         context.pop();
+                              //         log('here is orders');
+                              //         log(GetIt.I.get<ItemLayer>().orders.length.toString());
+                              //       }),
+                              // ),
                               ElevatedButton(
                                 onPressed: () {},
                                 child: const Text("Pay in cash")

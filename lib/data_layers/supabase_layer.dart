@@ -37,9 +37,8 @@ class SupabaseLayer {
           .signInWithPassword(email: email, password: password);
 
       OneSignal.login(externalId);
-      await supabase
-          .from('customer')
-          .update({'notification_id': externalId}).eq('customer_id', response.user!.id);
+      await supabase.from('customer').update(
+          {'notification_id': externalId}).eq('customer_id', response.user!.id);
 
       final temp = await supabase
           .from('customer')
@@ -197,9 +196,52 @@ class SupabaseLayer {
     }
   }
 
+  increaseItemQuantity({required String itemId, required int quantity}) async {
+    log("from increaseItemQuantity");
+    log("------------------");
+    log(quantity.toString());
+    log(itemId.toString());
+    log("------------------");
+    log(GetIt.I.get<AuthLayer>().customer!.id.toString());
+    try {
+      await supabase.rpc("modify_item_quantity", params: {
+        "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
+        "item_uuid": itemId,
+        "new_quantity": ++quantity
+      });
+    } catch (e) {
+      log("increaseItemQuantity error");
+      log(e.toString());
+    }
+  }
+
+  decreaseItemQuantity({required String itemId, required int quantity}) async {
+    log("from decreaseItemQuantity");
+    log("------------------");
+    log(quantity.toString());
+    log(itemId.toString());
+    log("------------------");
+    try {
+      await supabase.rpc("modify_item_quantity", params: {
+        "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
+        "item_uuid": itemId,
+        "new_quantity": --quantity
+      });
+      log("updated");
+    } catch (e) {
+      log("decreaseItemQuantity error");
+      log(e.toString());
+    }
+  }
+
   getOrders() async {
     List<OrderModel> temp = [];
-    final data = await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select().eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
+    final data = await GetIt.I
+        .get<SupabaseLayer>()
+        .supabase
+        .from('orders')
+        .select()
+        .eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
     for (var order in data) {
       temp.add(OrderModel.fromJson(order));
       final res = await supabase.rpc('get_order_items', params: {'order_uuid' : order['order_id']});
@@ -216,12 +258,21 @@ class SupabaseLayer {
         'address' : address ?? 'undefined',
         'payment_method' : paymentMethod,
         'estimated_time' : estimatedTime ?? 1,
-        'customer_id' : GetIt.I.get<AuthLayer>().customer!.id,
-        'cart_id' : cartId
+        'customer_id': GetIt.I.get<AuthLayer>().customer!.id,
+        'cart_id': cartId
       });
-      await supabase.from('cart').update({'is_valid': false}).eq('cart_id', cartId);
-      final orderId = await supabase.from('orders').select('order_id').eq('cart_id', cartId);
-      final res = await supabase.rpc('get_order_items', params: {'order_uuid' : orderId.first['order_id']});
+      await supabase
+          .from('cart')
+          .update({'is_valid': false}).eq('cart_id', cartId);
+      final orderId = await supabase
+          .from('orders')
+          .select('order_id')
+          .eq('cart_id', cartId);
+      log("Hi Turki");
+      log(orderId.toString());
+      final res = await supabase.rpc('get_order_items',
+          params: {'order_uuid': orderId.first['order_id']});
+      log(res.toString());
       GetIt.I.get<ItemLayer>().prevCarts.add(res);
       await getOrders();
     } catch (e) {
