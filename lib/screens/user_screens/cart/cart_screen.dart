@@ -68,6 +68,40 @@ class CartScreen extends StatelessWidget {
                                         .deleteCartItem(itemId: item.itemId);
                                     bloc.add(GetAllCartItemsEvent());
                                   },
+                                  onIncreaseQuantity: () async {
+                                    final quantity = GetIt.I
+                                        .get<ItemLayer>()
+                                        .matchingCartItems
+                                        .where((cartItem) =>
+                                            cartItem.itemId == item.itemId)
+                                        .first
+                                        .quantity;
+                                    if (quantity < 9) {
+                                      await GetIt.I
+                                          .get<SupabaseLayer>()
+                                          .increaseItemQuantity(
+                                              itemId: item.itemId,
+                                              quantity: quantity);
+                                      bloc.add(GetAllCartItemsEvent());
+                                    }
+                                  },
+                                  onDecreaseQuantity: () async {
+                                    final quantity = GetIt.I
+                                        .get<ItemLayer>()
+                                        .matchingCartItems
+                                        .where((cartItem) =>
+                                            cartItem.itemId == item.itemId)
+                                        .first
+                                        .quantity;
+                                    if (quantity > 1) {
+                                      await GetIt.I
+                                          .get<SupabaseLayer>()
+                                          .decreaseItemQuantity(
+                                              itemId: item.itemId,
+                                              quantity: quantity);
+                                      bloc.add(GetAllCartItemsEvent());
+                                    }
+                                  },
                                 )),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -89,41 +123,58 @@ class CartScreen extends StatelessWidget {
                                 ],
                               ),
                               ElevatedButton(
-                                onPressed: ()=>showModalBottomSheet(
-                                  context: context,
-                                  builder: (context){
-                                    return Container(
-                                      padding: const EdgeInsets.all(24),
-                                      width: context.getWidth(),
-                                      height: context.getHeight(divideBy: 2),
-                                      decoration: BoxDecoration(
-                                      color: AppConstants.mainBgColor,
-                                      borderRadius: BorderRadius.circular(20)
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          const Text("Fill Card Info"),
-                                          CreditCard(
-                                                                              config: PaymentConfig(
-                                            creditCard: CreditCardConfig(
-                                                saveCard: true, manual: false),
-                                            publishableApiKey: dotenv.env['MOYASAR_KEY']!,
-                                            amount: ((state.cart!.totalPrice*100)).toInt(),
-                                            description: "description"),
-                                                                              onPaymentResult: (PaymentResponse result) async {
-                                          bloc.add(PayEvent(cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId));
-                                          context.pop();
-                                          context.pop();
-                                          log('here is orders');
-                                          log(GetIt.I.get<ItemLayer>().orders.length.toString());
-                                                                              }),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                ),
-                                child: const Text("data")
-                              ),
+                                  onPressed: () => showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          padding: const EdgeInsets.all(24),
+                                          width: context.getWidth(),
+                                          height:
+                                              context.getHeight(divideBy: 2),
+                                          decoration: BoxDecoration(
+                                              color: AppConstants.mainBgColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Column(
+                                            children: [
+                                              const Text("Fill Card Info"),
+                                              CreditCard(
+                                                  config: PaymentConfig(
+                                                      creditCard:
+                                                          CreditCardConfig(
+                                                              saveCard: true,
+                                                              manual: false),
+                                                      publishableApiKey: dotenv
+                                                          .env['MOYASAR_KEY']!,
+                                                      amount: ((state.cart!
+                                                                  .totalPrice *
+                                                              100))
+                                                          .toInt(),
+                                                      description:
+                                                          "description"),
+                                                  onPaymentResult:
+                                                      (PaymentResponse
+                                                          result) async {
+                                                    bloc.add(PayEvent(
+                                                        cartId: GetIt.I
+                                                            .get<ItemLayer>()
+                                                            .matchingCartItems
+                                                            .first
+                                                            .cartId));
+                                                    context.pop();
+                                                    context.pop();
+                                                    log('here is orders');
+                                                    log(GetIt.I
+                                                        .get<ItemLayer>()
+                                                        .orders
+                                                        .length
+                                                        .toString());
+                                                  }),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                  child: const Text("data")),
                               // Padding(
                               //   padding: const EdgeInsets.all(16.0),
                               //   child: CreditCard(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:project8/models/cart_item_model.dart';
 part 'view_item_event.dart';
 part 'view_item_state.dart';
 

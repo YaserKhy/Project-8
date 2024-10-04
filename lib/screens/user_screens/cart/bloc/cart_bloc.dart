@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/helpers/helper.dart';
+import 'package:project8/models/cart_item_model.dart';
 import 'package:project8/models/cart_model.dart';
 
 part 'cart_event.dart';

@@ -12,7 +12,9 @@ import 'package:project8/screens/user_screens/cart/bloc/cart_bloc.dart';
 class CartCard extends StatelessWidget {
   final CartItemModel cartItem;
   final Function()? onDelete;
-  const CartCard({super.key, required this.cartItem, required this.onDelete});
+  final Function() onIncreaseQuantity;
+  final Function() onDecreaseQuantity;
+  const CartCard({super.key, required this.cartItem, required this.onDelete, required this.onIncreaseQuantity, required this.onDecreaseQuantity});
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,8 @@ class CartCard extends StatelessWidget {
                                 width: 5,
                               ),
                               Text("${item.calories} Cal",
-                                  style: const TextStyle(fontFamily: "Average")),
+                                  style:
+                                      const TextStyle(fontFamily: "Average")),
                             ],
                           ),
                         ),
@@ -115,10 +118,7 @@ class CartCard extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {
-                            cartItem.quantity--;
-                            print(cartItem.quantity);
-                          },
+                          onPressed: onDecreaseQuantity,
                           icon: const Icon(
                             Icons.remove_circle_outline,
                             size: 20,
@@ -129,9 +129,7 @@ class CartCard extends StatelessWidget {
                         },
                       ),
                       IconButton(
-                          onPressed: () {
-                            cartItem.quantity++;
-                          },
+                          onPressed: onIncreaseQuantity,
                           icon: const Icon(Icons.add_circle_outline, size: 20)),
                     ],
                   )

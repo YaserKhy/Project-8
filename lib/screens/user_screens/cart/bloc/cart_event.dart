@@ -5,15 +5,6 @@ sealed class CartEvent {}
 
 final class GetAllCartItemsEvent extends CartEvent {}
 
-final class IncreaseQuantityEvent extends CartEvent {
-  final int itemId;
-  IncreaseQuantityEvent(this.itemId);
-}
-
-final class DecreaseQuantityEvent extends CartEvent {
-  final int itemId;
-  DecreaseQuantityEvent(this.itemId);
-}
 
 final class PayEvent extends CartEvent {
   final String cartId;
