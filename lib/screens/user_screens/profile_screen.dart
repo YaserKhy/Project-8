@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/auth_layer.dart';
@@ -49,11 +50,13 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 50),
                 const CategoryTitle(title: "Information"),
-                ProfileCard(title: profile!.name, icon: Icons.person_outline),
                 ProfileCard(
-                    title: profile.email, icon: Icons.mail_outline_outlined),
+                    title: profile!.name, icon: HugeIcons.strokeRoundedUser),
                 ProfileCard(
-                    title: profile.phoneNumber, icon: Icons.phone_outlined),
+                    title: profile.email, icon: HugeIcons.strokeRoundedMail01),
+                ProfileCard(
+                    title: profile.phoneNumber,
+                    icon: HugeIcons.strokeRoundedSmartPhone01),
                 const SizedBox(height: 20),
                 const CategoryTitle(title: "Settings"),
                 ProfileCard(
@@ -66,8 +69,10 @@ class ProfileScreen extends StatelessWidget {
                       }
                     }),
                 const ProfileCard(
-                    title: "Q&A", icon: Icons.question_answer_outlined),
-                const ProfileCard(title: "Dark mode", icon: Icons.dark_mode),
+                    title: "Q&A",
+                    icon: HugeIcons.strokeRoundedMessageQuestion),
+                const ProfileCard(
+                    title: "Dark mode", icon: HugeIcons.strokeRoundedMoon02),
                 TextButton.icon(
                   label: const Text("Logout",
                       style: TextStyle(
