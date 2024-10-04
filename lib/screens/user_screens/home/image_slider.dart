@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:project8/constants/app_constants.dart';
-import 'package:project8/extensions/screen_size.dart';
 
 class ImageSlider extends StatelessWidget {
   const ImageSlider({super.key});
