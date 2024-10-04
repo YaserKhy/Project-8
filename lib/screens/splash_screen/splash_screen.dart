@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_nav.dart';
+import 'package:project8/screens/employee_screens/employee_orders_screen.dart';
 import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/screens/auth_screens/login_screen.dart';
 import 'package:get_it/get_it.dart';
@@ -15,7 +17,12 @@ class SplashScreen extends StatelessWidget {
     Future.delayed(const Duration(seconds: 5), () {
       bool isLoggedIn = GetIt.I.get<AuthLayer>().box.hasData("customer");
       if (isLoggedIn) {
-        context.pushRemove(screen: const UserNavigation());
+        log(GetIt.I.get<AuthLayer>().customer!.role);
+        if (GetIt.I.get<AuthLayer>().customer!.role == "employee") {
+          context.pushRemove(screen: const EmployeeOrdersScreen());
+        } else {
+          context.pushRemove(screen: const UserNavigation());
+        }
       } else {
         context.pushRemove(screen: const LoginScreen());
       }

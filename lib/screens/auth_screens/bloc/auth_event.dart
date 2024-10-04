@@ -7,7 +7,8 @@ final class CreateAccountEvent extends AuthEvent {
   final String email;
   final String password;
   final String name;
-  CreateAccountEvent({required this.email,required this.password, required this.name});
+  CreateAccountEvent(
+      {required this.email, required this.password, required this.name});
 }
 
 final class LoginEvent extends AuthEvent {
@@ -22,6 +23,12 @@ final class VerifyOtpEvent extends AuthEvent {
   final String otp;
   final String email;
   final String name;
+  final String role;
   final String phoneNumber;
-  VerifyOtpEvent({required this.email,required this.name,required this.phoneNumber,required this.otp});
+  VerifyOtpEvent(
+      {required this.email,
+      required this.name,
+      required this.role,
+      required this.phoneNumber,
+      required this.otp});
 }
