@@ -55,8 +55,17 @@ class CartScreen extends StatelessWidget {
                       return Center(
                         child: SizedBox(
                             height: context.getHeight(divideBy: 1.5),
-                            child: Image.asset(
-                              "assets/images/defult_empty.png",
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  width: context.getWidth(),
+                                  height: context.getHeight(divideBy: 2),
+                                  "assets/images/defult_empty.png",
+                                ),
+                                const SizedBox(height: 10,),
+                                const Text("What are you waiting for ?\nAdd items to your cart now.",style: TextStyle(fontSize: 20),)
+                              ],
                             )),
                       );
                     } else {
@@ -228,7 +237,7 @@ class CartScreen extends StatelessWidget {
                                       style: TextStyle(color: Colors.white),
                                     )),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Row(

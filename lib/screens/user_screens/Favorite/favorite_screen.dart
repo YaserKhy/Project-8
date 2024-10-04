@@ -55,9 +55,18 @@ class FavoriteScreen extends StatelessWidget {
                               if (fav.isEmpty) {
                                 return SizedBox(
                                     height: context.getHeight(divideBy: 1.5),
-                                    child: Image.asset(
-                                      "assets/images/defult_empty.png",
-                                    ));
+                                    child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  width: context.getWidth(),
+                                  height: context.getHeight(divideBy: 2),
+                                  "assets/images/defult_empty.png",
+                                ),
+                                const SizedBox(height: 10,),
+                                const Text("No favorite items added yet.",style: TextStyle(fontSize: 20),)
+                              ],
+                            ));
                               }
                               return Padding(
                                 padding:
