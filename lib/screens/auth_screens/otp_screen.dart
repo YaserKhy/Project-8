@@ -82,7 +82,7 @@ class OtpScreen extends StatelessWidget {
                                 child: Pinput(
                                   length: 6,
                                   controller: otpController,
-                                  onCompleted: (value) => bloc.add(VerifyOtpEvent(email:email,otp: value, name: name, phoneNumber: phoneNumber)),
+                                  onCompleted: (value) => bloc.add(VerifyOtpEvent(email:email,otp: value, name: name,role: "customer", phoneNumber: phoneNumber)),
                                   defaultPinTheme: PinTheme(
                                     width: 50,
                                     height: 50,

@@ -7,10 +7,15 @@ class AuthLayer {
   final box = GetStorage();
 
   AuthLayer() {
+    // box.erase();
     if (box.hasData('customer')) {
       log("wow");
+      // print(box.read('customer'));
+      log((customer?.toJson()).toString());
       Map<String, dynamic> customerAsMap = box.read('customer');
+      log("readed as map");
       customer = CustomerModel.fromJson(customerAsMap);
+      log("formjson ");
     }
   }
 

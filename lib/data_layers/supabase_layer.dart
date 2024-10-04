@@ -61,6 +61,7 @@ class SupabaseLayer {
       {required String email,
       required String otp,
       required String name,
+      required String role,
       required String phoneNumber,
       required String externalId}) async {
     try {
@@ -74,6 +75,7 @@ class SupabaseLayer {
         'customer_id': id,
         'email': email,
         'name': name,
+        'role': role,
         'phone_number': phoneNumber,
         'notification_id': externalId
       });

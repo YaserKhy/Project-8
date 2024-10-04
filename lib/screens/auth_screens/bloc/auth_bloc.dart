@@ -50,6 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: event.email,
             otp: event.otp,
             name: event.name,
+            role: event.role,
             phoneNumber: event.phoneNumber,
             externalId: extrnailId);
         emit(SuccessState(email: event.email));
