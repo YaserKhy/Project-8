@@ -1,12 +1,15 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/screens/auth_screens/bloc/auth_bloc.dart';
 import 'package:project8/screens/auth_screens/sign_up_screen.dart';
+import 'package:project8/screens/employee_screens/employee_orders_screen.dart';
 import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/widgets/fields/auth_field.dart';
 import 'package:project8/widgets/buttons/auth_button.dart';
@@ -55,7 +58,11 @@ class LoginScreen extends StatelessWidget {
                       ));
             }
             if (state is SuccessState) {
-              context.pushRemove(screen: const UserNavigation());
+              if (GetIt.I.get<AuthLayer>().customer!.role == "employee") {
+                context.pushRemove(screen: const EmployeeOrdersScreen());
+              } else {
+                context.pushRemove(screen: const UserNavigation());
+              }
             }
           },
           child: GestureDetector(
