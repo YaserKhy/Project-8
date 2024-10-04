@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
@@ -51,7 +52,13 @@ class ViewItem extends StatelessWidget {
                             isSelected: isFavorite,
                             selectedIcon: const Icon(Icons.favorite, size: 28),
                             onPressed: () {
-                              favbloc.add(ToggleFavoriteEvent(item: item));
+                              GetIt.I.get<AuthLayer>().isGuest() == true
+                                  ? ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                      content: Text("You must login first"),
+                                    ))
+                                  : favbloc
+                                      .add(ToggleFavoriteEvent(item: item));
                               isClicked = true;
                             },
                             icon: const Icon(Icons.favorite_border, size: 28));
@@ -156,9 +163,16 @@ class ViewItem extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5))),
                               onPressed: () async {
-                                await GetIt.I.get<SupabaseLayer>().addCartItem(
-                                    itemId: item.itemId,
-                                    quantity: viewItemBloc.quantity);
+                                GetIt.I.get<AuthLayer>().isGuest() == true
+                                    ? ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                        content: Text("You must login first"),
+                                      ))
+                                    : await GetIt.I
+                                        .get<SupabaseLayer>()
+                                        .addCartItem(
+                                            itemId: item.itemId,
+                                            quantity: viewItemBloc.quantity);
                                 log("added");
                               },
                               child: const Text(
