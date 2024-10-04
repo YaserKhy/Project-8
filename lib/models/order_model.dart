@@ -1,5 +1,5 @@
 class OrderModel {
-  final String orderId;
+  final int orderId;
   String? orderDate;
   String? status;
   String? pickupOrDelivery;

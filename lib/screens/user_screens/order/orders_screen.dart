@@ -87,9 +87,9 @@ class OrdersScreen extends StatelessWidget {
                                     log(GetIt.I.get<ItemLayer>().cartItems.length.toString());
                                     return OrderCard(
                                       onTap: () => context.push(screen: const OrderInfoScreen()),
-                                      order: order.orderId.split('-').first, // this should be items as string, check figma, also check getOrderItems in db functions
-                                      orderDate: order.orderDate ?? 'undefined',
-                                      status: index==0 ? "Waiting" : index==1 ? "Preparing" : "Delivered"
+                                      order: order, // this should be items as string, check figma, also check getOrderItems in db functions
+                                      // orderDate: order.orderDate ?? 'undefined',
+                                      // status: index==0 ? "Waiting" : index==1 ? "Preparing" : "Delivered"
                                     );
                                   },
                                 ),
