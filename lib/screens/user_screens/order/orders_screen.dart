@@ -18,95 +18,125 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          backgroundColor: AppConstants.mainBgColor,
-          body: SafeArea(
-            child: Column(
-              children: [
-                const PageTitle(title: "Orders"),
-                const SizedBox(
-                  height: 10,
-                ),
-                const TabBar(
-                  unselectedLabelStyle:TextStyle(
-                    color: AppConstants.unselectedColor, fontSize: 25, fontFamily: "Average"
-                  ),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        backgroundColor: AppConstants.mainBgColor,
+        body: SafeArea(
+          child: Column(
+            children: [
+              const PageTitle(title: "Orders"),
+              const SizedBox(
+                height: 10,
+              ),
+              const TabBar(
+                  unselectedLabelStyle: TextStyle(
+                      color: AppConstants.unselectedColor,
+                      fontSize: 25,
+                      fontFamily: "Average"),
                   labelStyle: TextStyle(
-                    fontFamily: "Average",
-                        color: AppConstants.mainBlue,
-                        fontSize: 25),
-                    indicatorColor: AppConstants.mainBlue,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    tabs: [Tab(text: "Waiting"), Tab(text: "Preparing"), Text("Delivered")]),
-                Expanded(
-                  child: BlocBuilder<OrderBloc, OrderState>(
-                    builder: (context, state) {
-                      if (state is LoadingState) {
-                        return SizedBox(
+                      fontFamily: "Average",
+                      color: AppConstants.mainBlue,
+                      fontSize: 25),
+                  indicatorColor: AppConstants.mainBlue,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  tabs: [
+                    Tab(text: "Waiting"),
+                    Tab(text: "Preparing"),
+                    Text("Delivered")
+                  ]),
+              Expanded(
+                child: BlocBuilder<OrderBloc, OrderState>(
+                  builder: (context, state) {
+                    if (state is LoadingState) {
+                      return SizedBox(
+                        height: context.getHeight(divideBy: 3),
+                        child: Center(
+                          child: LottieBuilder.asset(
+                              "assets/images/Animation - 1727608827461.json"),
+                        ),
+                      );
+                    }
+                    if (state is ErrorState) {
+                      log("error loading orders");
+                      return SizedBox(
                           height: context.getHeight(divideBy: 3),
-                          child: Center(
-                            child: LottieBuilder.asset(
-                                "assets/images/Animation - 1727608827461.json"),
-                          ),
-                        );
-                      }
-                      if (state is ErrorState) {
-                        log("error loading orders");
+                          child: const Center(
+                              child: Text("Error loading orders")));
+                    }
+                    if (state is SuccessState) {
+                      if (GetIt.I.get<ItemLayer>().orders.isEmpty) {
                         return SizedBox(
-                            height: context.getHeight(divideBy: 3),
-                            child: const Center(
-                                child: Text("Error loading orders")));
-                      }
-                      if (state is SuccessState) {
-                        if (GetIt.I.get<ItemLayer>().orders.isEmpty) {
-                          return SizedBox(
-                            height: context.getHeight(divideBy: 3),
-                            child: const Center(
-                              child: Text("No Orders yet"),
+                            height: context.getHeight(divideBy: 1.5),
+                            child: Image.asset(
+                              "assets/images/defult_empty.png",
+                            ));
+                      } else {
+                        List<OrderModel> waiting = GetIt.I
+                            .get<ItemLayer>()
+                            .orders
+                            .where((order) => order.status == 'Waiting')
+                            .toList();
+                        List<OrderModel> preparing = GetIt.I
+                            .get<ItemLayer>()
+                            .orders
+                            .where((order) => order.status == 'Preparing')
+                            .toList();
+                        List<OrderModel> delivered = GetIt.I
+                            .get<ItemLayer>()
+                            .orders
+                            .where((order) => order.status == 'Delivered')
+                            .toList();
+                        List<List<OrderModel>> statusList = [
+                          waiting,
+                          preparing,
+                          delivered
+                        ];
+                        return TabBarView(
+                            children:
+                                List.generate(statusList.length, (statusIndex) {
+                          if (statusList[statusIndex].isEmpty) {
+                            return const Text("data");
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ListView.builder(
+                              itemCount: statusList[statusIndex].length,
+                              itemBuilder: (context, index) {
+                                OrderModel order =
+                                    statusList[statusIndex][index];
+                                log('message');
+                                log(GetIt.I
+                                    .get<ItemLayer>()
+                                    .cartItems
+                                    .length
+                                    .toString());
+                                return OrderCard(
+                                    onTap: () => context.push(
+                                        screen: const OrderInfoScreen()),
+                                    order: order.orderId
+                                        .split('-')
+                                        .first, // this should be items as string, check figma, also check getOrderItems in db functions
+                                    orderDate: order.orderDate ?? 'undefined',
+                                    status: index == 0
+                                        ? "Waiting"
+                                        : index == 1
+                                            ? "Preparing"
+                                            : "Delivered");
+                              },
                             ),
                           );
-                        } else {
-                          List<OrderModel> waiting = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Waiting').toList();
-                          List<OrderModel> preparing = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Preparing').toList();
-                          List<OrderModel> delivered = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Delivered').toList();
-                          List<List<OrderModel>> statusList = [waiting,preparing,delivered];
-                          return TabBarView(
-                            children: List.generate(statusList.length,(statusIndex){
-                              if(statusList[statusIndex].isEmpty) {
-                                return const Text("data");
-                              }
-                              return Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: ListView.builder(
-                                  itemCount: statusList[statusIndex].length,
-                                  itemBuilder: (context, index) {
-                                    OrderModel order = statusList[statusIndex][index];
-                                    log('message');
-                                    log(GetIt.I.get<ItemLayer>().cartItems.length.toString());
-                                    return OrderCard(
-                                      onTap: () => context.push(screen: const OrderInfoScreen()),
-                                      order: order.orderId.split('-').first, // this should be items as string, check figma, also check getOrderItems in db functions
-                                      orderDate: order.orderDate ?? 'undefined',
-                                      status: index==0 ? "Waiting" : index==1 ? "Preparing" : "Delivered"
-                                    );
-                                  },
-                                ),
-                              );
-                            }
-                            )
-                          );
-                        }
+                        }));
                       }
-                      return const SizedBox.shrink();
-                    },
-                  ),
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 }
