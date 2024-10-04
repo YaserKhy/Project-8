@@ -19,7 +19,7 @@ class OrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         backgroundColor: AppConstants.mainBgColor,
         body: SafeArea(
@@ -28,6 +28,7 @@ class OrdersScreen extends StatelessWidget {
               const PageTitle(title: "Orders"),
               const SizedBox(height: 10,),
               const TabBar(
+                overlayColor: WidgetStateColor.transparent,
                 unselectedLabelStyle:TextStyle(
                   fontFamily: "Average",
                   color: AppConstants.unselectedColor,
@@ -40,7 +41,7 @@ class OrdersScreen extends StatelessWidget {
                 ),
                 indicatorColor: AppConstants.mainBlue,
                 indicatorSize: TabBarIndicatorSize.tab,
-                tabs: [Tab(text: "Waiting"), Tab(text: "Preparing"), Text("Delivered")]
+                tabs: [Tab(text: "Waiting"), Text("Delivered")]
               ),
               Expanded(
                 child: BlocBuilder<OrderBloc, OrderState>(
@@ -67,9 +68,8 @@ class OrdersScreen extends StatelessWidget {
                       }
                       else {
                         List<OrderModel> waiting = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Waiting').toList();
-                        List<OrderModel> preparing = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Preparing').toList();
                         List<OrderModel> delivered = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Delivered').toList();
-                        List<List<OrderModel>> statusList = [waiting,preparing,delivered];
+                        List<List<OrderModel>> statusList = [waiting,delivered];
                         return TabBarView(
                           children: List.generate(statusList.length,(statusIndex){
                             if(statusList[statusIndex].isEmpty) {

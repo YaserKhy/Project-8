@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/extensions/screen_size.dart';
 
 class ImageSlider extends StatelessWidget {
   const ImageSlider({super.key});
@@ -23,12 +24,12 @@ class ImageSlider extends StatelessWidget {
               fit: BoxFit.fill,
             ),
             Image.asset(
-              'assets/images/image_slider_1.png',
+              'assets/images/Advertising.png',
               fit: BoxFit.fill,
             ),
             Image.asset(
-              'assets/images/image_slider_1.png',
-              fit: BoxFit.fill,
+              'assets/images/group_box.png',
+              fit: BoxFit.cover,
             ),
           ],
         ),

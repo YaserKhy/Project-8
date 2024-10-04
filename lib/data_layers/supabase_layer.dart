@@ -235,6 +235,7 @@ class SupabaseLayer {
   }
 
   getOrders() async {
+    GetIt.I.get<ItemLayer>().prevCarts.clear();
     List<OrderModel> temp = [];
     final data = await GetIt.I
         .get<SupabaseLayer>()
@@ -264,16 +265,16 @@ class SupabaseLayer {
       await supabase
           .from('cart')
           .update({'is_valid': false}).eq('cart_id', cartId);
-      final orderId = await supabase
-          .from('orders')
-          .select('order_id')
-          .eq('cart_id', cartId);
-      log("Hi Turki");
-      log(orderId.toString());
-      final res = await supabase.rpc('get_order_items',
-          params: {'order_uuid': orderId.first['order_id']});
-      log(res.toString());
-      GetIt.I.get<ItemLayer>().prevCarts.add(res);
+      // final orderId = await supabase
+      //     .from('orders')
+      //     .select('order_id')
+      //     .eq('cart_id', cartId);
+      // log("Hi Turki");
+      // log(orderId.toString());
+      // final res = await supabase.rpc('get_order_items',
+      //     params: {'order_uuid': orderId.first['order_id']});
+      // log(res.toString());
+      // GetIt.I.get<ItemLayer>().prevCarts.add(res);
       await getOrders();
     } catch (e) {
       log("add order error");
