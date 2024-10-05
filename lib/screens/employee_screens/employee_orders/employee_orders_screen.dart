@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/order_model.dart';
+import 'package:project8/screens/auth_screens/login_screen.dart';
 import 'package:project8/screens/employee_screens/employee_orders/bloc/employee_orders_bloc.dart';
 import 'package:project8/screens/user_screens/order/order_info_screen.dart';
 import 'package:project8/widgets/cards/employee_order_card.dart';
@@ -24,14 +26,22 @@ class EmployeeOrdersScreen extends StatelessWidget {
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: AppConstants.mainBgColor,
+            title: Text("Orders", style: TextStyle(fontFamily: "Average", fontSize: 32),),
+            actions: [
+              IconButton(onPressed: (){
+                GetIt.I.get<AuthLayer>().customer = null;
+                GetIt.I.get<AuthLayer>().box.erase();
+                context.pushRemove(screen: LoginScreen());
+              }, icon: Icon(Icons.logout))
+            ],
+          ),
           backgroundColor: AppConstants.mainBgColor,
           body: SafeArea(
             child: Column(
               children: [
-                const PageTitle(title: "Orders"),
-                const SizedBox(
-                  height: 10,
-                ),
                 const TabBar(
                     unselectedLabelStyle: TextStyle(
                       fontFamily: "Average",
