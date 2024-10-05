@@ -46,7 +46,7 @@ class CartScreen extends StatelessWidget {
                   if (state is ErrorState) {
                     return SizedBox(
                       height: context.getHeight(divideBy: 3),
-                      child: const Center(child: Text("Error loading cart items"))
+                      child: Center(child: Text(state.msg))
                     );
                   }
                   if (state is SuccessState || state is ToggleDeliveryState) {

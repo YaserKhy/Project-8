@@ -117,7 +117,10 @@ class EmployeeOrdersScreen extends StatelessWidget {
   stream: GetIt.I.get<SupabaseLayer>().employeeRealTimeGetOrders(),
   builder: (context, snapshot) {
     if (snapshot.connectionState == ConnectionState.waiting) {
-      return const Center(child: CircularProgressIndicator());
+      return SizedBox(
+        height: context.getHeight(divideBy: 1.5),
+        child: Center(child: LottieBuilder.asset("assets/images/Animation - 1727608827461.json"))
+      );
     }
 
     if (snapshot.hasError) {

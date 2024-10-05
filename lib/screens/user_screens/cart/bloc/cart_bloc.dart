@@ -44,6 +44,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   // function to get all items of specific cart
   Future<void> getAllCartItems(GetAllCartItemsEvent event, Emitter<CartState> emit) async {
+    if(GetIt.I.get<AuthLayer>().customer==null) {
+      emit(ErrorState(msg: "You must login first"));
+      return;
+    }
     try {
       emit(LoadingState());
       await GetIt.I.get<SupabaseLayer>().getCartItems();
@@ -60,7 +64,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       GetIt.I.get<ItemLayer>().currentCart = CartModel.fromJson(cart.first);
       emit(SuccessState(cart: GetIt.I.get<ItemLayer>().currentCart));
     } catch (e) {
-      emit(ErrorState(msg: e.toString()));
+      emit(ErrorState(msg:'Error loading cart items ${e.toString()}'));
     }
   }
 }

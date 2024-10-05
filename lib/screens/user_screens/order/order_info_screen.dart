@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/models/order_model.dart';
 import 'package:project8/screens/user_screens/order/bloc/order_bloc.dart';
@@ -58,11 +59,11 @@ class OrderInfoScreen extends StatelessWidget {
                           '${order.orderDate?.split('T').first} | ${order.orderDate?.split('T')[1].split('.').first.substring(0, 5)}'),
                   const SizedBox(height: 20),
                   OrderText(
-                      title: "Customer name: ", content: order.customer!.name),
+                      title: "Customer name: ", content: order.customer?.name ?? GetIt.I.get<AuthLayer>().customer!.name),
                   const SizedBox(height: 20),
                   OrderText(
                       title: "Customer Phone: ",
-                      content: order.customer!.phoneNumber),
+                      content: order.customer?.phoneNumber ?? GetIt.I.get<AuthLayer>().customer!.phoneNumber),
                   const SizedBox(height: 20),
                   const CategoryTitle(title: "Payment details"),
                   Column(

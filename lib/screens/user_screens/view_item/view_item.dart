@@ -51,13 +51,7 @@ class ViewItem extends StatelessWidget {
                             isSelected: isFavorite,
                             selectedIcon: const Icon(Icons.favorite, size: 28),
                             onPressed: () {
-                              GetIt.I.get<AuthLayer>().isGuest() == true
-                                  ? ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                      content: Text("You must login first"),
-                                    ))
-                                  : favbloc
-                                      .add(ToggleFavoriteEvent(item: item));
+                              favbloc.add(ToggleFavoriteEvent(item: item));
                               isClicked = true;
                             },
                             icon: const Icon(Icons.favorite_border, size: 28));
@@ -162,16 +156,15 @@ class ViewItem extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5))),
                               onPressed: () async {
-                                GetIt.I.get<AuthLayer>().isGuest() == true
-                                    ? ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                        content: Text("You must login first"),
-                                      ))
-                                    : await GetIt.I
-                                        .get<SupabaseLayer>()
-                                        .addCartItem(
-                                            itemId: item.itemId,
-                                            quantity: viewItemBloc.quantity);
+                                if(GetIt.I.get<AuthLayer>().isGuest()) {
+                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                    content: Text("You must login first", style: TextStyle(fontSize: 14),),
+                                  ));
+                                }
+                                else {
+                                  await GetIt.I.get<SupabaseLayer>().addCartItem(itemId: item.itemId,quantity: viewItemBloc.quantity);
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${item.name} is added to your cart", style: TextStyle(fontSize: 14),)));
+                                }
                               },
                               child: const Text(
                                 "add to cart",

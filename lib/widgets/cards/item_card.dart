@@ -12,7 +12,7 @@ import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart' 
 class ItemCard extends StatelessWidget {
   final ItemModel item;
   final Function()? onView;
-  const ItemCard({super.key, required this.item, this.onView});
+  const ItemCard({super.key,required this.item, this.onView});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,7 @@ class ItemCard extends StatelessWidget {
           onTap: onView,
           child: Container(
             width: 150,
-            decoration: BoxDecoration(
-              color: const Color(0xffF7F6F4),
-              borderRadius: BorderRadius.circular(20),
-            ),
+            decoration: BoxDecoration(color: const Color(0xffF7F6F4),borderRadius: BorderRadius.circular(20),),
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(
@@ -72,7 +69,7 @@ class ItemCard extends StatelessWidget {
                                 : ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                     behavior: SnackBarBehavior.floating,
                                     margin: EdgeInsets.only(bottom: 65.0),
-                                    content: Text("You must login first"),
+                                    content: Text("You must login first", style: TextStyle(fontSize: 14),),
                                   )
                                 );
                               }

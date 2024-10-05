@@ -85,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                         )
                       ),
                       onPressed: ()=> context.pushRemove(screen: const LoginScreen()),
-                      child: Text("Login",style: Theme.of(context).textTheme.titleLarge,)
+                      child: Text("Login",style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppConstants.mainWhite),)
                     ),
                   ],
                 ),
