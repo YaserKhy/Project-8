@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -45,7 +44,6 @@ class OrdersScreen extends StatelessWidget {
                       );
                     }
                     if (state is ErrorState) {
-                      log("error loading orders");
                       return SizedBox(
                         height: context.getHeight(divideBy: 3),
                         child: const Center(child: Text("Error loading orders"))
@@ -79,8 +77,6 @@ class OrdersScreen extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemCount: statusList[statusIndex].length,
                                       itemBuilder: (context, index) {
-                                        log('message');
-                                        log(statusList[statusIndex].length.toString());
                                         OrderModel order = statusList[statusIndex][index];
                                         return OrderCard(
                                           order: order,

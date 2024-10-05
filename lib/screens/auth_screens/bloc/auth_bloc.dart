@@ -22,7 +22,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(LoadingState());
         await supabase.createAccount(
             email: event.email, password: event.password);
-        // log("check your email !!");
         emit(SuccessState(email: event.email));
       } catch (e) {
         emit(ErrorState(msg: e.toString()));
@@ -36,7 +35,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: event.email,
             password: event.password,
             externalId: extrnailId);
-        // log("Signing in !!");
         emit(SuccessState(email: event.email));
       } catch (e) {
         emit(ErrorState(msg: e.toString()));

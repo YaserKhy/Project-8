@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -28,13 +27,13 @@ class EmployeeOrdersScreen extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             backgroundColor: AppConstants.mainBgColor,
-            title: Text("Orders", style: TextStyle(fontFamily: "Average", fontSize: 32),),
+            title: const Text("Orders", style: TextStyle(fontFamily: "Average", fontSize: 32),),
             actions: [
               IconButton(onPressed: (){
                 GetIt.I.get<AuthLayer>().customer = null;
                 GetIt.I.get<AuthLayer>().box.erase();
-                context.pushRemove(screen: LoginScreen());
-              }, icon: Icon(Icons.logout))
+                context.pushRemove(screen: const LoginScreen());
+              }, icon: const Icon(Icons.logout))
             ],
           ),
           backgroundColor: AppConstants.mainBgColor,
@@ -61,7 +60,6 @@ class EmployeeOrdersScreen extends StatelessWidget {
                   child: BlocBuilder<EmployeeOrdersBloc, EmployeeOrdersState>(
                     builder: (context, state) {
                       if (state is LoadingState) {
-                        log("loading state");
 
                         return SizedBox(
                           height: context.getHeight(divideBy: 3),
@@ -71,14 +69,12 @@ class EmployeeOrdersScreen extends StatelessWidget {
                         );
                       }
                       if (state is ErrorState) {
-                        log("error loading orders");
                         return SizedBox(
                             height: context.getHeight(divideBy: 3),
                             child: const Center(
                                 child: Text("Error loading orders")));
                       }
                       if (state is SuccessState) {
-                        log("success state");
                         if (GetIt.I.get<ItemLayer>().orders.isEmpty) {
                           return SizedBox(
                             height: context.getHeight(divideBy: 3),
@@ -172,7 +168,6 @@ class EmployeeOrdersScreen extends StatelessWidget {
                         screen: OrderInfoScreen(order: order),
                       ),
                       changeStatus: () async {
-                        log(order.orderId.toString());
                         int statusIndex = GetIt.I
                             .get<ItemLayer>()
                             .statuses

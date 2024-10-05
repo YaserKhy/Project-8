@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -18,16 +17,12 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   // function to add/delete from/to favorites
   FutureOr<void> toggleFavorite(event, emit) async {
     if (GetIt.I.get<ItemLayer>().favItems.map((item) => item.itemId).contains(event.item.itemId)) {
-      log("deleting");
       await GetIt.I.get<SupabaseLayer>().deleteFromFav(itemId: event.item.itemId);
       await GetIt.I.get<SupabaseLayer>().getFav();
     }
     else {
-      log(GetIt.I.get<ItemLayer>().favItems.map((item) => item.name).toString());
-      log("adding");
       await GetIt.I.get<SupabaseLayer>().addToFav(itemId: event.item.itemId);
       await GetIt.I.get<SupabaseLayer>().getFav();
-      log(GetIt.I.get<ItemLayer>().favItems.map((item) => item.name).toString());
     }
     emit(SuccessState());
   }

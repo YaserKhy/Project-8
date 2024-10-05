@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -173,7 +172,6 @@ class ViewItem extends StatelessWidget {
                                         .addCartItem(
                                             itemId: item.itemId,
                                             quantity: viewItemBloc.quantity);
-                                log("added");
                               },
                               child: const Text(
                                 "add to cart",

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:get_it/get_it.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:project8/data_layers/auth_layer.dart';
@@ -16,13 +15,10 @@ class SupabaseLayer {
   Future createAccount(
       {required String email, required String password}) async {
     try {
-      log("entered");
       final AuthResponse response =
           await supabase.auth.signUp(email: email, password: password);
-      log("finished");
       return response;
     } catch (e) {
-      log(e.toString());
       return e;
     }
   }
@@ -32,7 +28,6 @@ class SupabaseLayer {
       required String password,
       required String externalId}) async {
     try {
-      log("entered");
       final AuthResponse response = await supabase.auth
           .signInWithPassword(email: email, password: password);
 
@@ -49,10 +44,8 @@ class SupabaseLayer {
           .get<AuthLayer>()
           .box
           .write('customer', GetIt.I.get<AuthLayer>().customer);
-      log("finished");
       return response;
     } catch (e) {
-      log(e.toString());
       return e;
     }
   }
@@ -65,7 +58,6 @@ class SupabaseLayer {
       required String phoneNumber,
       required String externalId}) async {
     try {
-      log("otp verify");
       final AuthResponse response = await supabase.auth
           .verifyOTP(email: email, token: otp, type: OtpType.email);
       final id = response.user!.id;
@@ -82,10 +74,8 @@ class SupabaseLayer {
       await supabase.from("customer").insert(customer.toJson());
       GetIt.I.get<AuthLayer>().box.write('customer', customer.toJson());
       GetIt.I.get<AuthLayer>().customer = customer;
-      log("finished adding customer to box");
       return response;
     } catch (e) {
-      log(e.toString());
       return e;
     }
   }
@@ -106,9 +96,6 @@ class SupabaseLayer {
   }
 
   deleteFromFav({required String itemId}) async {
-    log("deleting from fav");
-    log(itemId);
-    log(GetIt.I.get<AuthLayer>().customer!.id.toString());
     await GetIt.I
         .get<SupabaseLayer>()
         .supabase
@@ -127,38 +114,26 @@ class SupabaseLayer {
     for (Map<String, dynamic> element in data) {
       favList.add(ItemModel.fromJson(element));
     }
-
     GetIt.I.get<ItemLayer>().favItems = favList;
-
-    log(favList.toString());
   }
 
   getCartItems() async {
-    log("from supabase layer 1");
     final List<CartItemModel> cartItems = [];
     final List data = await supabase.rpc("get_cart_items",
         params: {"customer_id": GetIt.I.get<AuthLayer>().customer?.id});
-    print("imheeere $data");
     for (Map<String, dynamic> element in data) {
       cartItems.add(CartItemModel.fromJson(element));
     }
-    log("from supabase layer 22");
     GetIt.I.get<ItemLayer>().cartItems = cartItems;
-    log(cartItems.toString());
   }
 
   addCartItem({required String itemId, required int quantity}) async {
-    log("from add cart item");
-    log(itemId);
-    log(GetIt.I.get<AuthLayer>().customer!.id.toString());
     bool alreadyAdded = false;
     getMatchingCartItems();
-    log(GetIt.I.get<ItemLayer>().matchingCartItems.length.toString());
     for (var item in GetIt.I.get<ItemLayer>().matchingCartItems) {
       if (item.itemId == itemId) {
         try {
           alreadyAdded = true;
-          log("alreadyAdded");
           await supabase.rpc("modify_item_quantity", params: {
             "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
             "item_uuid": itemId,
@@ -166,8 +141,7 @@ class SupabaseLayer {
           });
           getMatchingCartItems();
         } catch (e) {
-          log("addCartItem error");
-          log(e.toString());
+          return e;
         }
       }
     }
@@ -180,35 +154,24 @@ class SupabaseLayer {
           "sugar_preference": "asdf"
         });
       } catch (e) {
-        log("addCartItem error");
-        log(e.toString());
+        return e;
       }
       getMatchingCartItems();
     }
   }
 
   deleteCartItem({required String itemId}) async {
-    log("from delete cart item");
-    log(itemId);
-    log(GetIt.I.get<AuthLayer>().customer!.id.toString());
     try {
       await supabase.rpc("delete_item_from_cart", params: {
         "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
         "item_uuid": itemId
       });
     } catch (e) {
-      log("deleteCartItem error");
-      log(e.toString());
+      return e;
     }
   }
 
   increaseItemQuantity({required String itemId, required int quantity}) async {
-    log("from increaseItemQuantity");
-    log("------------------");
-    log(quantity.toString());
-    log(itemId.toString());
-    log("------------------");
-    log(GetIt.I.get<AuthLayer>().customer!.id.toString());
     try {
       await supabase.rpc("modify_item_quantity", params: {
         "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
@@ -216,37 +179,35 @@ class SupabaseLayer {
         "new_quantity": ++quantity
       });
     } catch (e) {
-      log("increaseItemQuantity error");
-      log(e.toString());
+      return e;
     }
   }
 
   decreaseItemQuantity({required String itemId, required int quantity}) async {
-    log("from decreaseItemQuantity");
-    log("------------------");
-    log(quantity.toString());
-    log(itemId.toString());
-    log("------------------");
     try {
       await supabase.rpc("modify_item_quantity", params: {
         "customer_uuid": GetIt.I.get<AuthLayer>().customer!.id,
         "item_uuid": itemId,
         "new_quantity": --quantity
       });
-      log("updated");
     } catch (e) {
-      log("decreaseItemQuantity error");
-      log(e.toString());
+      return e;
     }
   }
 
   getOrders() async {
     GetIt.I.get<ItemLayer>().prevCarts.clear();
     List<OrderModel> temp = [];
-    final data = await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select().eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
+    final data = await GetIt.I
+        .get<SupabaseLayer>()
+        .supabase
+        .from('orders')
+        .select()
+        .eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
     for (var order in data) {
       temp.add(OrderModel.fromJson(order));
-      final res = await supabase.rpc('get_order_items', params: {'order_uuid': order['order_id']});
+      final res = await supabase
+          .rpc('get_order_items', params: {'order_uuid': order['order_id']});
       GetIt.I.get<ItemLayer>().prevCarts.add(res);
     }
     GetIt.I.get<ItemLayer>().orders = temp;
@@ -255,25 +216,23 @@ class SupabaseLayer {
   employeeGetOrders() async {
     GetIt.I.get<ItemLayer>().prevCarts.clear();
     List<OrderModel> temp = [];
-    final data = await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select();
+    final data =
+        await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select();
     for (var d in data) {
       temp.add(OrderModel.fromJson(d));
-      final res = await supabase.rpc('get_order_items', params: {'order_uuid': d['order_id']});
+      final res = await supabase
+          .rpc('get_order_items', params: {'order_uuid': d['order_id']});
       GetIt.I.get<ItemLayer>().prevCarts.add(res);
     }
     GetIt.I.get<ItemLayer>().orders = temp;
   }
 
   Stream employeeRealTimeGetOrders() {
-    final stream = GetIt.I.get<SupabaseLayer>().supabase.from('orders').stream(primaryKey: ['order_id']);
-    stream.listen((event) {
-      log('Real-time event received: $event');
-      if (event.isEmpty) {
-        log('No data received from real-time stream');
-      } else {
-        log('Real-time data: ${event.toString()}');
-      }
-    });
+    final stream = GetIt.I
+        .get<SupabaseLayer>()
+        .supabase
+        .from('orders')
+        .stream(primaryKey: ['order_id']);
     return stream;
   }
 
@@ -298,8 +257,7 @@ class SupabaseLayer {
           .update({'is_valid': false}).eq('cart_id', cartId);
       await getOrders();
     } catch (e) {
-      log("add order error");
-      log(e.toString());
+      return e;
     }
   }
 }
