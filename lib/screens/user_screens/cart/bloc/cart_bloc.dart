@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:project8/data_layers/auth_layer.dart';
+import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/helpers/helper.dart';
 import 'package:project8/models/cart_model.dart';
@@ -13,9 +15,18 @@ part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
+  bool isDelivery = false;
+  TextEditingController addressController = TextEditingController();
   CartBloc() : super(CartInitial()) {
     on<GetAllCartItemsEvent>(getAllCartItems);
     on<PayEvent>(addOrder);
+    on<ToggleDeliveryEvent>(toggleDelivery);
+  }
+
+  toggleDelivery(ToggleDeliveryEvent event, Emitter<CartState> emit) async {
+    isDelivery=!isDelivery;
+    log(isDelivery.toString());
+    emit(ToggleDeliveryState(isDelivery: isDelivery));
   }
 
   Future<void> addOrder(PayEvent event, Emitter<CartState> emit) async {
@@ -26,7 +37,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         cartId: event.cartId,
         paymentMethod: event.paymentMethod,
         pickupOrDelivery: event.pickupOrDelivery,
-        address: event.address,
+        address: addressController.text,
         estimatedTime: event.estimatedTime
       );
       emit(SuccessState());
@@ -42,8 +53,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(LoadingState());
       await GetIt.I.get<SupabaseLayer>().getCartItems();
       var cart = await GetIt.I.get<SupabaseLayer>().supabase.from('cart').select().match({'customer_id': GetIt.I.get<AuthLayer>().customer!.id, 'is_valid': true});
-      // log(message)
-      print("LOOOK $cart");
       if(cart.isEmpty) {
         await GetIt.I.get<SupabaseLayer>().supabase.from('cart').insert({
         'customer_id': GetIt.I.get<AuthLayer>().customer!.id,
@@ -53,6 +62,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       }
       cart = await GetIt.I.get<SupabaseLayer>().supabase.from('cart').select().match({'customer_id': GetIt.I.get<AuthLayer>().customer!.id, 'is_valid': true});
       CartModel currentCart = CartModel.fromJson(cart.first);
+      GetIt.I.get<ItemLayer>().currentCart = currentCart;
       await getMatchingCartItems();
       emit(SuccessState(cart: currentCart));
       // log("from bloc2");

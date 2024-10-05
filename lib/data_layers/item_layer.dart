@@ -1,5 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:project8/models/cart_item_model.dart';
+import 'package:project8/models/cart_model.dart';
 import 'package:project8/models/item_model.dart';
 import 'package:project8/models/order_model.dart';
 
@@ -10,6 +11,9 @@ class ItemLayer {
   // fav items by this user
   List<ItemModel> favItems = [];
   
+  // this customer's cart
+  CartModel? currentCart;
+
   // this customer's cart items
   List<CartItemModel> cartItems = [];
 

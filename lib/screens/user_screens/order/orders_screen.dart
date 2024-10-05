@@ -68,7 +68,7 @@ class OrdersScreen extends StatelessWidget {
                       }
                       else {
                         List<OrderModel> waiting = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Waiting').toList();
-                        List<OrderModel> delivered = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Delivered').toList();
+                        List<OrderModel> delivered = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Done').toList();
                         List<List<OrderModel>> statusList = [waiting,delivered];
                         return TabBarView(
                           children: List.generate(statusList.length,(statusIndex){
@@ -84,6 +84,8 @@ class OrdersScreen extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemCount: statusList[statusIndex].length,
                                       itemBuilder: (context, index) {
+                                        log('message');
+                                        log(statusList[statusIndex].length.toString());
                                         OrderModel order = statusList[statusIndex][index];
                                         return OrderCard(
                                           order: order,

@@ -5,6 +5,7 @@ sealed class CartEvent {}
 
 final class GetAllCartItemsEvent extends CartEvent {}
 
+final class ToggleDeliveryEvent extends CartEvent {}
 
 final class PayEvent extends CartEvent {
   final String cartId;

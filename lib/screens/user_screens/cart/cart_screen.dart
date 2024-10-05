@@ -50,7 +50,8 @@ class CartScreen extends StatelessWidget {
                       child: const Center(child: Text("Error loading cart items"))
                     );
                   }
-                  if (state is SuccessState) {
+                  if (state is SuccessState || state is ToggleDeliveryState) {
+                    bool isDelivery = (state is ToggleDeliveryState) ? state.isDelivery : bloc.isDelivery;
                     if (GetIt.I.get<ItemLayer>().matchingCartItems.isEmpty) {
                       return Center(
                         child: SizedBox(
@@ -130,14 +131,48 @@ class CartScreen extends StatelessWidget {
                                       style: TextStyle(fontSize: 20)),
                                   const Spacer(),
                                   Text(
-                                    '${state.cart?.totalPrice} SR',
+                                    '${GetIt.I.get<ItemLayer>().currentCart?.totalPrice} SR',
                                     style: const TextStyle(fontSize: 20),
                                   )
                                 ],
                               ),
                               const SizedBox(
-                                height: 50,
+                                height: 20,
                               ),
+                              Row(
+                                children: [
+                                  Text("Delivery"),
+                                  Spacer(),
+                                  Checkbox(
+                                    value: bloc.isDelivery,
+                                    fillColor: WidgetStatePropertyAll(bloc.isDelivery ? AppConstants.mainBlue : WidgetStateColor.transparent),
+                                    checkColor: AppConstants.mainWhite,
+                                    onChanged: (v)=>{bloc.add(ToggleDeliveryEvent())},
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              isDelivery ? TextFormField(
+                                autovalidateMode: AutovalidateMode.onUnfocus,
+                                controller: bloc.addressController,
+                                validator: (value) {
+                                  if(bloc.addressController.text.isEmpty) {
+                                    return "Address is required in delivery case";
+                                  }
+                                },
+                                maxLength: 50,
+                                onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(5),),
+                                  hintText: "Enter your address",
+                                  counterText: '',
+                                  filled: true,
+                                  fillColor: AppConstants.mainWhite
+                                ),
+                              ) : SizedBox.shrink(),
+                              SizedBox(height: 20,),
                               SizedBox(
                                 width: context.getHeight(divideBy: 1),
                                 child: ElevatedButton(
@@ -153,7 +188,7 @@ class CartScreen extends StatelessWidget {
                                       bloc.add(PayEvent(
                                                           cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId,
                                                   paymentMethod: 'cash',
-                                                  pickupOrDelivery: 'pickup'));
+                                                  pickupOrDelivery: bloc.isDelivery ? 'delivery' : 'pickup'));
                                                   context.pop();
                                     },
                                     child: const Row(
@@ -212,7 +247,7 @@ class CartScreen extends StatelessWidget {
                                                         publishableApiKey:
                                                             dotenv.env[
                                                                 'MOYASAR_KEY']!,
-                                                        amount: ((state.cart!
+                                                        amount: ((GetIt.I.get<ItemLayer>().currentCart!
                                                                     .totalPrice *
                                                                 100))
                                                             .toInt(),
@@ -224,7 +259,7 @@ class CartScreen extends StatelessWidget {
                                                       bloc.add(PayEvent(
                                                           cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId,
                                                   paymentMethod: 'credit card',
-                                                  pickupOrDelivery: 'pickup'));
+                                                  pickupOrDelivery: bloc.isDelivery ? 'delivery' : 'pickup'));
                                                       context.pop();
                                                       context.pop();
                                                       log('here is orders');
