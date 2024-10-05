@@ -7,8 +7,7 @@ import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/item_model.dart';
-import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart'
-    as fav_bloc;
+import 'package:project8/screens/user_screens/Favorite/bloc/favorite_bloc.dart' as fav_bloc;
 
 class ItemCard extends StatelessWidget {
   final ItemModel item;
@@ -45,64 +44,39 @@ class ItemCard extends StatelessWidget {
                     ),
                     child: Image.network(item.image),
                   ),
-                  Text(
-                    item.name,
-                    style: const TextStyle(
-                        fontSize: 17,
-                        overflow: TextOverflow.ellipsis,
-                        fontFamily: "Average"),
-                  ),
-                  Text("${item.price} SR",
-                      style:
-                          const TextStyle(fontSize: 12, fontFamily: "Average")),
+                  Text(item.name,style: Theme.of(context).textTheme.titleMedium),
+                  Text("${item.price} SR", style:Theme.of(context).textTheme.titleSmall),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          const FaIcon(
-                            FontAwesomeIcons.fireFlameCurved,
-                            size: 15,
-                            color: AppConstants.mainRed,
-                          ),
+                          const FaIcon(FontAwesomeIcons.fireFlameCurved,size: 15,color: AppConstants.mainRed,),
                           const SizedBox(width: 5),
-                          Text(
-                            "${item.calories} Cal",
-                            style: const TextStyle(fontFamily: "Average"),
-                          ),
+                          Text("${item.calories} Cal",style: Theme.of(context).textTheme.titleSmall),
                         ],
                       ),
-                      BlocBuilder<fav_bloc.FavoriteBloc,
-                          fav_bloc.FavoriteState>(
+                      BlocBuilder<fav_bloc.FavoriteBloc,fav_bloc.FavoriteState>(
                         builder: (context, state) {
-                          final isFavorite = GetIt.I
-                              .get<ItemLayer>()
-                              .favItems
-                              .map((item) => item.itemId)
-                              .toList()
-                              .contains(item.itemId);
+                          final isFavorite = GetIt.I.get<ItemLayer>().favItems.map((item) => item.itemId).toList().contains(item.itemId);
                           return SizedBox(
                             height: 40,
                             width: 40,
                             child: IconButton(
-                                isSelected: isFavorite,
-                                selectedIcon: const Icon(
-                                  Icons.favorite,
-                                  color: AppConstants.mainRed,
-                                ),
-                                icon: const Icon(Icons.favorite_border),
-                                onPressed: () {
-                                  GetIt.I.get<AuthLayer>().isGuest() == false
-                                      ? favbloc.add(
-                                          fav_bloc.ToggleFavoriteEvent(
-                                              item: item))
-                                      : ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                          behavior: SnackBarBehavior.floating,
-                                          margin: EdgeInsets.only(bottom: 65.0),
-                                          content: Text("You must login first"),
-                                        ));
-                                }),
+                              isSelected: isFavorite,
+                              selectedIcon: const Icon(Icons.favorite,color: AppConstants.mainRed),
+                              icon: const Icon(Icons.favorite_border),
+                              onPressed: () {
+                                GetIt.I.get<AuthLayer>().isGuest() == false
+                                ? favbloc.add(fav_bloc.ToggleFavoriteEvent(item: item))
+                                : ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                    behavior: SnackBarBehavior.floating,
+                                    margin: EdgeInsets.only(bottom: 65.0),
+                                    content: Text("You must login first"),
+                                  )
+                                );
+                              }
+                            ),
                           );
                         },
                       )

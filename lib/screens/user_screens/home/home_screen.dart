@@ -25,6 +25,8 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        backgroundColor: AppConstants.mainBgColor,
+        // appbar
         appBar: PreferredSize(
           preferredSize: Size(context.getWidth(), context.getHeight(divideBy: 13)),
           child: AppBar(
@@ -38,25 +40,17 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 53,
-                          child: Image.asset("assets/images/default_profile_img.png",fit: BoxFit.cover,),
-                        ),
+                        child: Image.asset("assets/images/default_profile_img.png",fit: BoxFit.cover,),
                       ),
                       const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average", fontSize: 16),),
+                          Text("Welcome Coffee Addict", style: Theme.of(context).textTheme.headlineSmall),
                           Text(
-                            GetIt.I.get<AuthLayer>().isGuest() == false
-                            ? GetIt.I.get<AuthLayer>().customer!.name
-                            : "Guest",
-                            style: const TextStyle(
-                              fontFamily: "Average",
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold
-                            ),
+                            GetIt.I.get<AuthLayer>().isGuest() ? "Guest"
+                            : GetIt.I.get<AuthLayer>().customer!.name,
+                            style: Theme.of(context).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -74,7 +68,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-        backgroundColor: AppConstants.mainBgColor,
+        // home content
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -93,6 +87,7 @@ class HomeScreen extends StatelessWidget {
                         );
                       }
                       if (state is ErrorState) {
+                      // NOTICE
                         log("error loading items");
                         return SizedBox(
                           height: context.getHeight(divideBy: 3),
@@ -154,15 +149,11 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       child: Row(
                                         children: [
-                                          Icon(
-                                            HugeIcons.strokeRoundedCoffee02,
-                                            color: isSelected ? AppConstants.mainWhite : null
-                                          ),
+                                          Icon(HugeIcons.strokeRoundedCoffee02, color: isSelected ? AppConstants.mainWhite : null),
                                           const SizedBox(width: 10),
                                           Text(
                                             category,
-                                            style: TextStyle(
-                                              fontSize: 16,
+                                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                               fontWeight: FontWeight.bold,
                                               color: isSelected ? AppConstants.mainBgColor : Colors.black,
                                             ),

@@ -21,14 +21,16 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         textTheme: const TextTheme(
-          headlineSmall:TextStyle(fontFamily: 'Average', fontSize: 17, fontWeight: FontWeight.w500) ,
-          headlineLarge: TextStyle(fontFamily: 'Average', fontSize: 26, fontWeight: FontWeight.w500),
-      )),
+          headlineSmall:TextStyle(fontFamily: 'Average', fontSize: 16),
+          headlineMedium:TextStyle(fontFamily: 'Average', fontSize: 18),
+
+          titleSmall: TextStyle(fontFamily: "Average", fontSize: 14),
+          titleMedium: TextStyle(fontFamily: "Average", fontSize: 17, overflow: TextOverflow.ellipsis),
+          titleLarge: TextStyle(fontFamily: "Average", fontSize: 26)
+        )
+      ),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
-      // home: GetIt.I.get<AuthLayer>().box.hasData("customer")
-      //     ? const UserNavigation()
-      //     : const LoginScreen()
     );
   }
 }
