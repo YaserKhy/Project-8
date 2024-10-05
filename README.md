@@ -1,7 +1,7 @@
 
 ## Onze Coffee shope☕
 
-
+![page cover](https://github.com/user-attachments/assets/c624c48d-61d6-44b2-87e4-e48715469978)
 
 <p align ="center">
  <a href="#problemdefinition">Problem Definition</a> •
@@ -38,7 +38,8 @@ To ensure a seamless user experience, we’ve implemented key features such as:
 - Pay directly through the app (via credit card) or cash payment.
 - Receive notifications about their order status.
 
-
+### Guest:
+if the user don't want to create an account he can explore the application as a guest 
 
 ### Tools and Technologies 📱
 - **Figma:** For creating wireframes and designing the app interface.
