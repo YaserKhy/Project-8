@@ -17,6 +17,8 @@ class ItemLayer {
   // order and customer info
   Map<int,List<String>> orderInfo = {};
 
+  List<CartModel> allCarts = [];
+
   // this customer's cart items
   List<CartItemModel> cartItems = [];
 

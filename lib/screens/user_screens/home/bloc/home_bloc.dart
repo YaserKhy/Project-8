@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
-import 'package:project8/helpers/db_functions.dart';
 import 'package:project8/helpers/helper.dart';
 import 'package:project8/models/item_model.dart';
 
@@ -21,7 +20,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> getItems(GetAllItemsEvent event, Emitter<HomeState> emit) async {
     try {
       emit(LoadingState());
-      await getAllItems();
+      await GetIt.I.get<SupabaseLayer>().getAllItems();
       await GetIt.I.get<SupabaseLayer>().getFav();
       await GetIt.I.get<SupabaseLayer>().getCartItems();
       getMatchingCartItems();

@@ -36,7 +36,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         cartId: event.cartId,
         paymentMethod: event.paymentMethod,
         pickupOrDelivery: event.pickupOrDelivery,
-        address: addressController.text,
+        address: addressController.text.isEmpty ? 'pickup' : addressController.text,
         estimatedTime: event.estimatedTime
       );
       emit(SuccessState());

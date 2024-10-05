@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project8/constants/app_constants.dart';
@@ -16,6 +18,7 @@ class EmployeeOrderCard extends StatelessWidget {
     String summary = '';
     double price = 0.0;
     for (var list in GetIt.I.get<ItemLayer>().prevCarts) {
+      log("CAN U SEE ME >?");
       for (var map in list) {
         if (map['order_id'] == order.orderId) {
           itemAndPrice[map['item_name']] = map['item_price'];
@@ -59,7 +62,7 @@ class EmployeeOrderCard extends StatelessWidget {
               ],
             ),
             Text(
-              summary.substring(0, summary.length - 2),
+              summary,
               style: const TextStyle(fontSize: 15),
             ),
             Text(

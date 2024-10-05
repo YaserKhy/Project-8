@@ -90,6 +90,14 @@ class SupabaseLayer {
     }
   }
 
+  getAllItems() async {
+    final itemsAsMap = await Supabase.instance.client.from("item").select();
+    GetIt.I.get<ItemLayer>().items = itemsAsMap.map((item) {
+      ItemModel newItem = ItemModel.fromJson(item);
+      return newItem;
+    }).toList();
+  }
+
   addToFav({required String itemId}) async {
     await GetIt.I.get<SupabaseLayer>().supabase.rpc('fav_item', params: {
       'item_id': itemId,
@@ -101,10 +109,6 @@ class SupabaseLayer {
     log("deleting from fav");
     log(itemId);
     log(GetIt.I.get<AuthLayer>().customer!.id.toString());
-    // await GetIt.I.get<SupabaseLayer>().supabase.rpc('unfav', params: {
-    //   'item_id': itemId,
-    //   'customer_id': GetIt.I.get<AuthLayer>().customer?.id
-    // });
     await GetIt.I
         .get<SupabaseLayer>()
         .supabase
@@ -239,16 +243,10 @@ class SupabaseLayer {
   getOrders() async {
     GetIt.I.get<ItemLayer>().prevCarts.clear();
     List<OrderModel> temp = [];
-    final data = await GetIt.I
-        .get<SupabaseLayer>()
-        .supabase
-        .from('orders')
-        .select()
-        .eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
+    final data = await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select().eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
     for (var order in data) {
       temp.add(OrderModel.fromJson(order));
-      final res = await supabase
-          .rpc('get_order_items', params: {'order_uuid': order['order_id']});
+      final res = await supabase.rpc('get_order_items', params: {'order_uuid': order['order_id']});
       GetIt.I.get<ItemLayer>().prevCarts.add(res);
     }
     GetIt.I.get<ItemLayer>().orders = temp;
@@ -257,12 +255,10 @@ class SupabaseLayer {
   employeeGetOrders() async {
     GetIt.I.get<ItemLayer>().prevCarts.clear();
     List<OrderModel> temp = [];
-    final data =
-        await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select();
-    for (var order in data) {
-      temp.add(OrderModel.fromJson(order));
-      final res = await supabase
-          .rpc('get_order_items', params: {'order_uuid': order['order_id']});
+    final data = await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select();
+    for (var d in data) {
+      temp.add(OrderModel.fromJson(d));
+      final res = await supabase.rpc('get_order_items', params: {'order_uuid': d['order_id']});
       GetIt.I.get<ItemLayer>().prevCarts.add(res);
     }
     GetIt.I.get<ItemLayer>().orders = temp;
@@ -287,16 +283,6 @@ class SupabaseLayer {
       await supabase
           .from('cart')
           .update({'is_valid': false}).eq('cart_id', cartId);
-      // final orderId = await supabase
-      //     .from('orders')
-      //     .select('order_id')
-      //     .eq('cart_id', cartId);
-      // log("Hi Turki");
-      // log(orderId.toString());
-      // final res = await supabase.rpc('get_order_items',
-      //     params: {'order_uuid': orderId.first['order_id']});
-      // log(res.toString());
-      // GetIt.I.get<ItemLayer>().prevCarts.add(res);
       await getOrders();
     } catch (e) {
       log("add order error");
