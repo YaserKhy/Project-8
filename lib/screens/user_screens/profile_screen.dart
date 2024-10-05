@@ -29,96 +29,69 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: SizedBox(
-                        height: 53,
-                        child: Image.asset(
-                            "assets/images/default_profile_img.png",
-                            fit: BoxFit.cover),
-                      ),
+                      child: Image.asset("assets/images/default_profile_img.png",fit: BoxFit.cover),
                     ),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Take a coffee & give me\n something",
-                            style: TextStyle(
-                                color: AppConstants.subTextColor,
-                                fontFamily: "Average",
-                                fontSize: 18)),
-                      ],
-                    ),
+                    Text("Take a coffee & give me\n something",style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: AppConstants.subTextColor)),
                   ],
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 20),
                 GetIt.I.get<AuthLayer>().isGuest() == false
-                    ? Column(
-                        children: [
-                          const CategoryTitle(title: "Information"),
-                          ProfileCard(
-                              title: profile!.name, icon: HugeIcons.strokeRoundedUser),
-                          ProfileCard(
-                              title: profile.email, icon: HugeIcons.strokeRoundedMail01),
-                          ProfileCard(
-                              title: profile.phoneNumber,
-                              icon: HugeIcons.strokeRoundedSmartPhone01),
-                        ],
-                      )
-                    : const SizedBox.shrink(),
+                ? Column(
+                    children: [
+                      const CategoryTitle(title: "Information"),
+                      ProfileCard(title: profile!.name, icon: HugeIcons.strokeRoundedUser),
+                      ProfileCard(title: profile.email, icon: HugeIcons.strokeRoundedMail01),
+                      ProfileCard(title: profile.phoneNumber,icon: HugeIcons.strokeRoundedSmartPhone01),
+                    ],
+                  )
+                : const SizedBox.shrink(),
                 const SizedBox(height: 20),
                 const CategoryTitle(title: "Settings"),
                 ProfileCard(
-                    title: "Contact us",
-                    icon: Icons.link,
-                    onTap: () async {
-                      if (!await launchUrl(
-                          Uri.parse("https://linktr.ee/Onzecafe11"))) {
-                        throw Exception('Could not launch link');
-                      }
-                    }),
-                const ProfileCard(
-                    title: "Q&A", icon: HugeIcons.strokeRoundedMessageQuestion),
+                  title: "Contact us",
+                  icon: Icons.link,
+                  onTap: () async {
+                    if (!await launchUrl(Uri.parse("https://linktr.ee/Onzecafe11"))) {
+                      throw Exception('Could not launch link');
+                    }
+                  }
+                ),
+                const ProfileCard(title: "Q&A", icon: HugeIcons.strokeRoundedMessageQuestion),
                 const ProfileCard(title: "Dark mode", icon: HugeIcons.strokeRoundedMoon02),
                 const SizedBox(height: 20),
                 GetIt.I.get<AuthLayer>().isGuest() == false
-                    ? TextButton.icon(
-                        label: const Text("Logout",
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontFamily: "Average",
-                                color: AppConstants.mainRed)),
-                        icon: const Icon(Icons.power_settings_new,
-                            color: AppConstants.mainRed, size: 30),
-                        style: const ButtonStyle(
-                            overlayColor: WidgetStateColor.transparent,
-                            padding: WidgetStatePropertyAll(
-                                EdgeInsets.only(top: 8))),
-                        onPressed: () {
-                          log("bye bye");
-                          GetIt.I.get<AuthLayer>().customer = null;
-                          GetIt.I.get<AuthLayer>().box.erase();
-                          log("box now is empty");
-                          OneSignal.logout();
-                          context.pushRemove(screen: const LoginScreen());
-                        },
-                      )
-                    : Column(
-                        children: [
-                          const SizedBox(height: 70),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(150, 45),
-                                  backgroundColor: AppConstants.mainBlue,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5))),
-                              onPressed: () {
-                                context.pushRemove(screen: const LoginScreen());
-                              },
-                              child: const Text("Login",
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: "Average",
-                                      color: AppConstants.mainWhite))),
-                        ],
+                ? TextButton.icon(
+                    label: Text("Logout",style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppConstants.mainRed),),
+                    icon: const Icon(Icons.power_settings_new,color: AppConstants.mainRed, size: 30),
+                    style: const ButtonStyle(
+                      overlayColor: WidgetStateColor.transparent,
+                      padding: WidgetStatePropertyAll(EdgeInsets.only(top: 8))
+                    ),
+                    onPressed: () {
+                      log("bye bye");
+                      GetIt.I.get<AuthLayer>().customer = null;
+                      GetIt.I.get<AuthLayer>().box.erase();
+                      log("box now is empty");
+                      OneSignal.logout();
+                      context.pushRemove(screen: const LoginScreen());
+                    },
+                  )
+                  : Column(
+                    children: [
+                      const SizedBox(height: 70),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(150, 45),
+                          backgroundColor: AppConstants.mainBlue,
+                          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)
+                        )
                       ),
+                      onPressed: ()=> context.pushRemove(screen: const LoginScreen()),
+                      child: Text("Login",style: Theme.of(context).textTheme.titleLarge,)
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 70)
               ],
             ),

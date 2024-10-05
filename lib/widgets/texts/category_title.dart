@@ -17,7 +17,7 @@ class CategoryTitle extends StatelessWidget {
           children: [
             Text(title,style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(width: 10),
-            title != 'Water' && title != 'Best Seller'
+            title != 'Water' && title != 'Best Seller' && title != 'Settings'
             ? const SizedBox.shrink()
             : Container(
               margin: const EdgeInsets.only(top: 1),
