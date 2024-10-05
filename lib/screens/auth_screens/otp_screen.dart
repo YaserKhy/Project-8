@@ -75,7 +75,7 @@ class OtpScreen extends StatelessWidget {
                               const SizedBox(height: 163,),
                               const Text("OTP VERIFICATION", style: TextStyle(fontSize: 20, fontFamily: "Average", fontWeight: FontWeight.w700, color: Colors.white)),
                               const SizedBox(height: 12,),
-                              Text("Enter the OTP sent to - $email", style: const TextStyle(color: AppConstants.mainWhite),),
+                              Text("Enter the OTP sent to - $email", style: const TextStyle(color: AppConstants.mainWhite, fontSize: 14),),
                               const SizedBox(height: 38),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -102,9 +102,9 @@ class OtpScreen extends StatelessWidget {
                                 children: [
                                   const Text("Didn’t receive code ? ", style: TextStyle(color: AppConstants.mainWhite,fontFamily: "Average", fontSize: 15),),
                                   OtpTimerButton(
-                                    onPressed: ()=>log("message"),
+                                    onPressed: ()=>bloc.add(SendOtpEvent()),
                                     text: const Text("Re-send", style: TextStyle(fontFamily: "Average", color: AppConstants.mainRed, fontSize: 15, fontWeight: FontWeight.w700),),
-                                    duration: 10,
+                                    duration: 60,
                                     buttonType: ButtonType.text_button,
                                   ),
                                 ],

@@ -9,6 +9,7 @@ import 'package:project8/data_layers/item_layer.dart';
 import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
+import 'package:project8/helpers/send_notification.dart';
 import 'package:project8/models/order_model.dart';
 import 'package:project8/screens/auth_screens/login_screen.dart';
 import 'package:project8/screens/employee_screens/employee_orders/bloc/employee_orders_bloc.dart';
@@ -28,13 +29,13 @@ class EmployeeOrdersScreen extends StatelessWidget {
           appBar: AppBar(
             centerTitle: true,
             backgroundColor: AppConstants.mainBgColor,
-            title: Text("Orders", style: TextStyle(fontFamily: "Average", fontSize: 32),),
+            title: const Text("Orders", style: TextStyle(fontFamily: "Average", fontSize: 32),),
             actions: [
               IconButton(onPressed: (){
                 GetIt.I.get<AuthLayer>().customer = null;
                 GetIt.I.get<AuthLayer>().box.erase();
-                context.pushRemove(screen: LoginScreen());
-              }, icon: Icon(Icons.logout))
+                context.pushRemove(screen: const LoginScreen());
+              }, icon: const Icon(Icons.logout))
             ],
           ),
           backgroundColor: AppConstants.mainBgColor,
@@ -109,7 +110,7 @@ class EmployeeOrdersScreen extends StatelessWidget {
                               children: List.generate(statusList.length,
                                   (statusIndex) {
                             if (statusList[statusIndex].isEmpty) {
-                              return const Text("data");
+                              return const Center(child: Text("No Orders yet"));
                             }
                             return Padding(
                               padding: const EdgeInsets.all(16.0),
@@ -193,6 +194,9 @@ class EmployeeOrdersScreen extends StatelessWidget {
                           context
                               .read<EmployeeOrdersBloc>()
                               .add(GetOrdersEvent());
+                              if(statusIndex==2) {
+                                await sendNotification(extrnalId: order.customer!.notificationId);
+                              }
                         }
                       },
                     );

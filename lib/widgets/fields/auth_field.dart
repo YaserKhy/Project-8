@@ -16,6 +16,8 @@ class AuthField extends StatelessWidget {
           Text(title, style: const TextStyle(color: Colors.white,fontFamily: "Average", fontWeight: FontWeight.w300, fontSize: 20),),
           const SizedBox(height: 10,),
           TextFormField(
+            obscureText: title=='Password',
+            style: TextStyle(fontSize: 16),
             decoration: InputDecoration(
               errorStyle: const TextStyle(fontFamily: "Average"),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),

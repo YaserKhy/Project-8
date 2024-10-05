@@ -24,10 +24,8 @@ class MainApp extends StatelessWidget {
           headlineSmall:TextStyle(fontFamily: 'Average', fontSize: 16),
           headlineMedium:TextStyle(fontFamily: 'Average', fontSize: 18),
           headlineLarge: TextStyle(fontFamily: "Average", fontSize: 32),
-
           bodyMedium: TextStyle(fontFamily: "Average", fontSize: 20),
           bodyLarge: TextStyle(fontFamily: "Average", fontSize: 26),
-
           titleSmall: TextStyle(fontFamily: "Average", fontSize: 14),
           titleMedium: TextStyle(fontFamily: "Average", fontSize: 17, overflow: TextOverflow.ellipsis),
           titleLarge: TextStyle(fontFamily: "Average", fontSize: 22)

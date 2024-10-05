@@ -175,41 +175,46 @@ class CartScreen extends StatelessWidget {
                                   width: context.getHeight(divideBy: 1),
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(5)),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                       backgroundColor: AppConstants.mainRed,
                                     ),
                                     onPressed: () => showModalBottomSheet(
                                       context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
                                       builder: (context) {
                                         return Container(
                                           padding: const EdgeInsets.all(24),
                                           width: context.getWidth(),
-                                          height: context.getHeight(divideBy: 1.5),
-                                          decoration: BoxDecoration(
+                                          height: context.getHeight(divideBy: 1.35),
+                                          decoration: const BoxDecoration(
                                             color: AppConstants.mainBgColor,
-                                            borderRadius: BorderRadius.circular(20)
+                                            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                                           ),
                                           child: Column(
                                             children: [
-                                              const Text("Fill Card Info",style: TextStyle(fontSize: 20)),
-                                              CreditCard(
-                                                config: PaymentConfig(
-                                                  creditCard:CreditCardConfig(saveCard: true,manual: false),
-                                                  publishableApiKey:dotenv.env['MOYASAR_KEY']!,
-                                                  amount: ((GetIt.I.get<ItemLayer>().currentCart!.totalPrice * 100)).toInt(),
-                                                  description: "description"
+                                              const Text("Fill Card Info", style: TextStyle(fontSize: 20)),
+                                              Theme(
+                                                data: ThemeData(textTheme: const TextTheme()),
+                                                child: CreditCard(
+                                                  config: PaymentConfig(
+                                                    creditCard: CreditCardConfig(saveCard: false, manual: false),
+                                                    publishableApiKey: dotenv.env['MOYASAR_KEY']!,
+                                                    amount: ((GetIt.I.get<ItemLayer>().currentCart!.totalPrice * 100)).toInt(),
+                                                    description: "description",
+                                                  ),
+                                                  onPaymentResult: (PaymentResponse result) async {
+                                                    bloc.add(PayEvent(
+                                                      cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId,
+                                                      paymentMethod: 'credit card',
+                                                      pickupOrDelivery: bloc.isDelivery ? 'delivery' : 'pickup',
+                                                    ));
+                                                    context.pop();
+                                                    context.pop();
+                                                    log('here are orders');
+                                                    log(GetIt.I.get<ItemLayer>().orders.length.toString());
+                                                  },
                                                 ),
-                                                onPaymentResult: (PaymentResponse result) async {
-                                                  bloc.add(PayEvent(
-                                                    cartId: GetIt.I.get<ItemLayer>().matchingCartItems.first.cartId,
-                                                    paymentMethod: 'credit card',
-                                                    pickupOrDelivery: bloc.isDelivery ? 'delivery' : 'pickup'
-                                                  ));
-                                                  context.pop();
-                                                  context.pop();
-                                                  log('here is orders');
-                                                  log(GetIt.I.get<ItemLayer>().orders.length.toString());
-                                                }
                                               ),
                                             ],
                                           ),
