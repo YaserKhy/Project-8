@@ -7,7 +7,7 @@ import 'package:project8/models/order_model.dart';
 class ItemLayer {
   // all items in the app
   List<ItemModel> items = [];
-  
+
   // fav items by this user
   List<ItemModel> favItems = [];
   
@@ -19,13 +19,13 @@ class ItemLayer {
 
   // this customer's previous carts
   List<dynamic> prevCarts = [];
-  
+
   // non-duplicated customer's cart
   List<CartItemModel> matchingCartItems = [];
-  
+
   // this customer's orders
   List<OrderModel> orders = [];
-  
+
   // ONZE categories
   List<String> categories = [
     'All',
@@ -34,6 +34,9 @@ class ItemLayer {
     "Drip Coffee",
     "Water"
   ];
+
+  // order statuses
+  List<String> statuses = ['Waiting', "Preparing", "Ready", "Done"];
 
   final box = GetStorage();
 }

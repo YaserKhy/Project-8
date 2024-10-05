@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/extensions/screen_nav.dart';
-import 'package:project8/screens/employee_screens/employee_orders_screen.dart';
+import 'package:project8/screens/employee_screens/employee_orders/employee_orders_screen.dart';
 import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/screens/auth_screens/login_screen.dart';
 import 'package:get_it/get_it.dart';

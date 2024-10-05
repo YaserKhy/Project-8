@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project8/constants/app_constants.dart';
+import 'package:project8/extensions/screen_size.dart';
 
 class TitleLogo extends StatelessWidget {
   const TitleLogo({super.key});
@@ -27,7 +28,7 @@ class TitleLogo extends StatelessWidget {
                 ),
               ],
             ),
-            Image.asset('assets/images/logo_title1.png', width: 385, height: 100),
+            Image.asset('assets/images/logo_title1.png', width: context.getWidth(), height: 100),
           ],
         ),
       ],

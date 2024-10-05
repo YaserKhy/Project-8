@@ -247,20 +247,40 @@ class SupabaseLayer {
         .eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
     for (var order in data) {
       temp.add(OrderModel.fromJson(order));
-      final res = await supabase.rpc('get_order_items', params: {'order_uuid' : order['order_id']});
+      final res = await supabase
+          .rpc('get_order_items', params: {'order_uuid': order['order_id']});
       GetIt.I.get<ItemLayer>().prevCarts.add(res);
     }
     GetIt.I.get<ItemLayer>().orders = temp;
   }
 
-  addOrder({required String cartId, required String pickupOrDelivery, String? address, required String paymentMethod, int? estimatedTime}) async {
+  employeeGetOrders() async {
+    GetIt.I.get<ItemLayer>().prevCarts.clear();
+    List<OrderModel> temp = [];
+    final data =
+        await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select();
+    for (var order in data) {
+      temp.add(OrderModel.fromJson(order));
+      final res = await supabase
+          .rpc('get_order_items', params: {'order_uuid': order['order_id']});
+      GetIt.I.get<ItemLayer>().prevCarts.add(res);
+    }
+    GetIt.I.get<ItemLayer>().orders = temp;
+  }
+
+  addOrder(
+      {required String cartId,
+      required String pickupOrDelivery,
+      String? address,
+      required String paymentMethod,
+      int? estimatedTime}) async {
     try {
       await supabase.from('orders').insert({
         'status': 'Waiting',
-        'pickup_or_delivery' : pickupOrDelivery,
-        'address' : address ?? 'undefined',
-        'payment_method' : paymentMethod,
-        'estimated_time' : estimatedTime ?? 1,
+        'pickup_or_delivery': pickupOrDelivery,
+        'address': address ?? 'undefined',
+        'payment_method': paymentMethod,
+        'estimated_time': estimatedTime ?? 1,
         'customer_id': GetIt.I.get<AuthLayer>().customer!.id,
         'cart_id': cartId
       });

@@ -8,7 +8,7 @@ import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/screens/auth_screens/bloc/auth_bloc.dart';
 import 'package:project8/screens/auth_screens/sign_up_screen.dart';
-import 'package:project8/screens/employee_screens/employee_orders_screen.dart';
+import 'package:project8/screens/employee_screens/employee_orders/employee_orders_screen.dart';
 import 'package:project8/screens/navigation/user_navigation.dart';
 import 'package:project8/widgets/fields/auth_field.dart';
 import 'package:project8/widgets/buttons/auth_button.dart';
