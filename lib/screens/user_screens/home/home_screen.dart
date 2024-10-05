@@ -25,6 +25,55 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size(context.getWidth(), context.getHeight(divideBy: 13)),
+          child: AppBar(
+            backgroundColor: AppConstants.mainBgColor,
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 8, top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: 53,
+                          child: Image.asset("assets/images/default_profile_img.png",fit: BoxFit.cover,),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average", fontSize: 16),),
+                          Text(
+                            GetIt.I.get<AuthLayer>().isGuest() == false
+                            ? GetIt.I.get<AuthLayer>().customer!.name
+                            : "Guest",
+                            style: const TextStyle(
+                              fontFamily: "Average",
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () => context.push(screen: const CartScreen()),
+                    icon: const HugeIcon(
+                      icon: HugeIcons.strokeRoundedShoppingCart01,
+                      color: AppConstants.subTextColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         backgroundColor: AppConstants.mainBgColor,
         body: SafeArea(
           child: Padding(
@@ -32,49 +81,6 @@ class HomeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                height: 53,
-                                child: Image.asset("assets/images/default_profile_img.png",fit: BoxFit.cover,),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text("Welcome Coffee Addict",style: TextStyle(fontFamily: "Average", fontSize: 16),),
-                                Text(
-                                  GetIt.I.get<AuthLayer>().isGuest() == false
-                                  ? GetIt.I.get<AuthLayer>().customer!.name
-                                  : "Guest",
-                                  style: const TextStyle(
-                                    fontFamily: "Average",
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                          onPressed: () => context.push(screen: const CartScreen()),
-                          icon: const HugeIcon(
-                            icon: HugeIcons.strokeRoundedShoppingCart01,
-                            color: AppConstants.subTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   const OffersSlider(),
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
