@@ -107,56 +107,101 @@ class EmployeeOrdersScreen extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Expanded(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: statusList[statusIndex].length,
-                                      itemBuilder: (context, index) {
-                                        OrderModel order =
-                                            statusList[statusIndex][index];
-                                        return EmployeeOrderCard(
-                                          order: order,
-                                          onTap: () => context.push(
-                                              screen: OrderInfoScreen(
-                                                  order: order)),
-                                          changeStatus: () async {
-                                            log(order.orderId.toString());
-                                            int statusIndex = GetIt.I
-                                                .get<ItemLayer>()
-                                                .statuses
-                                                .indexOf(order.status!);
-                                            log(GetIt.I
-                                                .get<ItemLayer>()
-                                                .statuses[statusIndex]
-                                                .toString());
-                                            if (statusIndex <
-                                                GetIt.I
-                                                    .get<ItemLayer>()
-                                                    .statuses
-                                                    .length-1) {
-                                              await GetIt.I
-                                                  .get<SupabaseLayer>()
-                                                  .supabase
-                                                  .from('orders')
-                                                  .update({
-                                                'status': GetIt.I
-                                                    .get<ItemLayer>()
-                                                    .statuses[statusIndex + 1]
-                                              }).match({
-                                                'order_id': order.orderId
-                                              });
-                                              context
-                                                  .read<EmployeeOrdersBloc>()
-                                                  .add(GetOrdersEvent());
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 70,
-                                  )
-                                ],
+  child: StreamBuilder(
+  stream: GetIt.I.get<SupabaseLayer>().employeeRealTimeGetOrders(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (snapshot.hasError) {
+      return Center(child: Text('Error: ${snapshot.error}'));
+    }
+
+    if (snapshot.hasData) {
+      return FutureBuilder(
+        future: GetIt.I.get<SupabaseLayer>().employeeGetOrders(),
+        builder: (context, futureSnapshot) {
+          if (futureSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (futureSnapshot.hasError) {
+            return Center(child: Text('Error: ${futureSnapshot.error}'));
+          }
+
+          if (futureSnapshot.connectionState == ConnectionState.done) {
+            List<OrderModel> waiting = GetIt.I.get<ItemLayer>().orders
+                .where((order) =>
+                    order.status == 'Waiting' ||
+                    order.status == 'Preparing' ||
+                    order.status == 'Ready')
+                .toList()
+              ..sort((a, b) => a.orderId.compareTo(b.orderId));
+
+            List<OrderModel> done = GetIt.I.get<ItemLayer>().orders
+                .where((order) => order.status == 'Done')
+                .toList()
+              ..sort((a, b) => a.orderId.compareTo(b.orderId));
+
+            List<List<OrderModel>> statusList = [waiting, done];
+
+            return TabBarView(
+              children: List.generate(statusList.length, (statusIndex) {
+                if (statusList[statusIndex].isEmpty) {
+                  return const Center(child: Text("No Orders yet"));
+                }
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: statusList[statusIndex].length,
+                  itemBuilder: (context, index) {
+                    OrderModel order = statusList[statusIndex][index];
+                    return EmployeeOrderCard(
+                      order: order,
+                      onTap: () => context.push(
+                        screen: OrderInfoScreen(order: order),
+                      ),
+                      changeStatus: () async {
+                        log(order.orderId.toString());
+                        int statusIndex = GetIt.I
+                            .get<ItemLayer>()
+                            .statuses
+                            .indexOf(order.status!);
+
+                        if (statusIndex <
+                            GetIt.I.get<ItemLayer>().statuses.length - 1) {
+                          await GetIt.I
+                              .get<SupabaseLayer>()
+                              .supabase
+                              .from('orders')
+                              .update({
+                            'status': GetIt.I.get<ItemLayer>().statuses[
+                                statusIndex + 1],
+                          }).match({
+                            'order_id': order.orderId,
+                          });
+                          context
+                              .read<EmployeeOrdersBloc>()
+                              .add(GetOrdersEvent());
+                        }
+                      },
+                    );
+                  },
+                );
+              }),
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
+      );
+    }
+
+    return const Center(child: Text('No orders available'));
+  },
+),
+                              )],
                               ),
                             );
                           }));

@@ -62,7 +62,8 @@ class EmployeeOrderCard extends StatelessWidget {
               ],
             ),
             Text(
-              summary,
+              summary.substring(0, summary.length - 2),
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 15),
             ),
             Text(

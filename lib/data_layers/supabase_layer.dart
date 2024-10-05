@@ -264,6 +264,19 @@ class SupabaseLayer {
     GetIt.I.get<ItemLayer>().orders = temp;
   }
 
+  Stream employeeRealTimeGetOrders() {
+    final stream = GetIt.I.get<SupabaseLayer>().supabase.from('orders').stream(primaryKey: ['order_id']);
+    stream.listen((event) {
+      log('Real-time event received: $event');
+      if (event.isEmpty) {
+        log('No data received from real-time stream');
+      } else {
+        log('Real-time data: ${event.toString()}');
+      }
+    });
+    return stream;
+  }
+
   addOrder(
       {required String cartId,
       required String pickupOrDelivery,
