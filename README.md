@@ -91,6 +91,12 @@ $ git push
 <img src="https://github.com/user-attachments/assets/0e995bc6-22ef-4443-abdb-0af11deceba4" alt="Add to Favorite" width="100"/>
 
 
+## Figma file 
+check the process of our design in figma file 
+ - https://www.figma.com/design/tlR7qSjkKKMWrbuDuFZqFJ/coffee-app?node-id=0-1&t=lkJgK6SliNRboBha-1
+
+ 
+
 
 
 Thank you for reading ❤️
