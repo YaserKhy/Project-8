@@ -9,9 +9,8 @@ class PaymentText extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(item, style: const TextStyle(fontSize: 20, fontFamily: "Average")),
-        Text("$price SR",
-            style: const TextStyle(fontSize: 20, fontFamily: "Average"))
+        Text(item, style: Theme.of(context).textTheme.bodyMedium,),
+        Text("$price SR",style: Theme.of(context).textTheme.bodyMedium,)
       ],
     );
   }

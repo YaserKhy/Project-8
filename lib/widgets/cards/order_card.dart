@@ -42,47 +42,27 @@ class OrderCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Text(
-                  "Order No. ",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: "Average",
-                    color: AppConstants.mainRed
-                  ),
-                ),
-                Text(
-                  '#${order.orderId.toString()}',
-                  style: const TextStyle(fontSize: 20, fontFamily: "Average"),
-                ),
+                Text("Order No. ", style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppConstants.mainRed)),
+                Text('#${order.orderId.toString()}',style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
-            Text(summary.substring(0,summary.length-2), style: const TextStyle(fontSize: 15),),
-            Text('Total Price : $price', style: const TextStyle(fontSize: 15),),
+            Text(summary.substring(0,summary.length-2), style: Theme.of(context).textTheme.headlineSmall),
+            Text('Total Price : $price SR', style: Theme.of(context).textTheme.headlineSmall),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${order.orderDate?.split('T').first} | ${order.orderDate?.split('T')[1].split('.').first}',
-                  style: const TextStyle(
-                    color: AppConstants.subTextColor,
-                    fontSize: 15,
-                    fontFamily: "Average"
-                  ),
+                  '${order.orderDate?.split('T').first} | ${order.orderDate?.split('T')[1].split('.').first.substring(0,5)}',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppConstants.subTextColor),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: AppConstants.mainlightBlue.withOpacity(0.2),
                     border: Border.all(color: AppConstants.mainlightBlue)
                   ),
-                  child: Text(order.status ?? 'why',
-                    style: const TextStyle(
-                      color: AppConstants.mainlightBlue,
-                      fontSize: 18,
-                      fontFamily: "Average"
-                    )
-                  ),
+                  child: Text(order.status ?? 'Unknown', style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: AppConstants.mainlightBlue),),
                 )
               ],
             )

@@ -10,12 +10,7 @@ class PageTitle extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Image.asset("assets/images/red_stars.png"),
-        Center(
-          child: Text(
-            title,
-            style: const TextStyle(fontFamily: "Average", fontSize: 32)
-          )
-        ),
+        Center(child: Text(title, style: Theme.of(context).textTheme.headlineLarge)),
       ],
     );
   }

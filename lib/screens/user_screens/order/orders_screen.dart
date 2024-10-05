@@ -27,18 +27,10 @@ class OrdersScreen extends StatelessWidget {
             children: [
               const PageTitle(title: "Orders"),
               const SizedBox(height: 10,),
-              const TabBar(
+              TabBar(
                 overlayColor: WidgetStateColor.transparent,
-                unselectedLabelStyle:TextStyle(
-                  fontFamily: "Average",
-                  color: AppConstants.unselectedColor,
-                  fontSize: 25,
-                ),
-                labelStyle: TextStyle(
-                  fontFamily: "Average",
-                  color: AppConstants.mainBlue,
-                  fontSize: 25
-                ),
+                unselectedLabelStyle:Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppConstants.unselectedColor),
+                labelStyle:Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppConstants.mainBlue),
                 indicatorColor: AppConstants.mainBlue,
                 indicatorSize: TabBarIndicatorSize.tab,
                 tabs: [Tab(text: "Waiting"), Text("Delivered")]
@@ -63,7 +55,7 @@ class OrdersScreen extends StatelessWidget {
                       if (GetIt.I.get<ItemLayer>().orders.isEmpty) {
                         return SizedBox(
                           height: context.getHeight(divideBy: 3),
-                          child: const Center(child: Text("No Orders yet")),
+                          child: Center(child: Text("No Orders yet", style: Theme.of(context).textTheme.bodyMedium)),
                         );
                       }
                       else {
@@ -73,7 +65,10 @@ class OrdersScreen extends StatelessWidget {
                         return TabBarView(
                           children: List.generate(statusList.length,(statusIndex){
                             if(statusList[statusIndex].isEmpty) {
-                              return const Text("data");
+                              return SizedBox(
+                                height: context.getHeight(divideBy: 3),
+                                child: Center(child: Text("No Orders yet", style: Theme.of(context).textTheme.bodyMedium)),
+                              );
                             }
                             return Padding(
                               padding: const EdgeInsets.all(16.0),

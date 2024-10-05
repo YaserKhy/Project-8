@@ -10,19 +10,8 @@ class OrderText extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-              fontSize: 20, fontFamily: "Average", color: AppConstants.mainRed),
-        ),
-        Expanded(
-          child: Text(
-            overflow: TextOverflow.visible,
-            softWrap: true,
-            content,
-            style: const TextStyle(fontSize: 20, fontFamily: "Average"),
-          ),
-        ),
+        Text(title, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppConstants.mainRed)),
+        Expanded(child: Text(content, softWrap: true, overflow: TextOverflow.visible,style: Theme.of(context).textTheme.bodyMedium)),
       ],
     );
   }
