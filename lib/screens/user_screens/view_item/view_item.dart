@@ -88,7 +88,7 @@ class ViewItem extends StatelessWidget {
                             // stars
                             Row(
                               children: [
-                                const SizedBox(width: 250),
+                                const SizedBox(width: 230),
                                 Image.asset('assets/images/stars.png'),
                               ],
                             ),
