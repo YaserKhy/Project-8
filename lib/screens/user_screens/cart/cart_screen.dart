@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -43,7 +44,6 @@ class CartScreen extends StatelessWidget {
                     );
                   }
                   if (state is ErrorState) {
-                    log("error loading cart items");
                     return SizedBox(
                       height: context.getHeight(divideBy: 3),
                       child: const Center(child: Text("Error loading cart items"))

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class CustomerModel {
   final String id;
   final String email;
@@ -17,8 +15,6 @@ class CustomerModel {
       this.notificationId});
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
-    print(json);
-
     return CustomerModel(
         id: json['customer_id'],
         name: json['name'],
@@ -29,7 +25,6 @@ class CustomerModel {
   }
 
   Map<String, dynamic> toJson() {
-    log("tojson");
     return {
       'customer_id': id,
       'name': name,

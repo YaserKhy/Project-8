@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -80,7 +79,6 @@ class HomeScreen extends StatelessWidget {
                     builder: (context, state) {
                       final bloc = context.read<HomeBloc>();
                       if (state is LoadingState) {
-                        log("loading items");
                         return SizedBox(
                           height: context.getHeight(divideBy: 3),
                           child: Center(child: LottieBuilder.asset("assets/images/Animation - 1727608827461.json"))
@@ -88,7 +86,6 @@ class HomeScreen extends StatelessWidget {
                       }
                       if (state is ErrorState) {
                       // NOTICE
-                        log("error loading items");
                         return SizedBox(
                           height: context.getHeight(divideBy: 3),
                           child: const Center(child: Text("Error loading items"))
@@ -193,7 +190,7 @@ class HomeScreen extends StatelessWidget {
                                           physics: const NeverScrollableScrollPhysics(),
                                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
-                                            childAspectRatio: 1.69 / 2,
+                                            childAspectRatio: 1.66 / 2,
                                             crossAxisSpacing: 10,
                                             mainAxisSpacing: 10,
                                           ),

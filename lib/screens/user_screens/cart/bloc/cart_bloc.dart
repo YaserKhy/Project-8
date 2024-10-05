@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -23,14 +22,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   // function to switch how customer recieve order
   toggleDelivery(ToggleDeliveryEvent event, Emitter<CartState> emit) async {
     isDelivery=!isDelivery;
-    log(isDelivery.toString());
     emit(ToggleDeliveryState(isDelivery: isDelivery));
   }
 
   // function to close cart & add order
   Future<void> addOrder(PayEvent event, Emitter<CartState> emit) async {
     try {
-      log('adding order');
       emit(LoadingState());
       await GetIt.I.get<SupabaseLayer>().addOrder(
         cartId: event.cartId,
@@ -41,7 +38,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       );
       emit(SuccessState());
     } catch (e) {
-      log(e.toString());
       emit(ErrorState(msg: e.toString()));
     }
   }
@@ -64,7 +60,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       GetIt.I.get<ItemLayer>().currentCart = CartModel.fromJson(cart.first);
       emit(SuccessState(cart: GetIt.I.get<ItemLayer>().currentCart));
     } catch (e) {
-      log("error in getallcartitems : $e");
       emit(ErrorState(msg: e.toString()));
     }
   }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,7 +87,7 @@ class ViewItem extends StatelessWidget {
                             // stars
                             Row(
                               children: [
-                                const SizedBox(width: 250),
+                                const SizedBox(width: 230),
                                 Image.asset('assets/images/stars.png'),
                               ],
                             ),
@@ -173,7 +172,6 @@ class ViewItem extends StatelessWidget {
                                         .addCartItem(
                                             itemId: item.itemId,
                                             quantity: viewItemBloc.quantity);
-                                log("added");
                               },
                               child: const Text(
                                 "add to cart",

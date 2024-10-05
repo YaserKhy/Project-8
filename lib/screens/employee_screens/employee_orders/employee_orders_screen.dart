@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -62,7 +61,6 @@ class EmployeeOrdersScreen extends StatelessWidget {
                   child: BlocBuilder<EmployeeOrdersBloc, EmployeeOrdersState>(
                     builder: (context, state) {
                       if (state is LoadingState) {
-                        log("loading state");
 
                         return SizedBox(
                           height: context.getHeight(divideBy: 3),
@@ -72,14 +70,12 @@ class EmployeeOrdersScreen extends StatelessWidget {
                         );
                       }
                       if (state is ErrorState) {
-                        log("error loading orders");
                         return SizedBox(
                             height: context.getHeight(divideBy: 3),
                             child: const Center(
                                 child: Text("Error loading orders")));
                       }
                       if (state is SuccessState) {
-                        log("success state");
                         if (GetIt.I.get<ItemLayer>().orders.isEmpty) {
                           return SizedBox(
                             height: context.getHeight(divideBy: 3),
@@ -133,7 +129,10 @@ class EmployeeOrdersScreen extends StatelessWidget {
         future: GetIt.I.get<SupabaseLayer>().employeeGetOrders(),
         builder: (context, futureSnapshot) {
           if (futureSnapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return SizedBox(
+              height: context.getHeight(divideBy: 1.5),
+              child: Center(child: LottieBuilder.asset("assets/images/Animation - 1727608827461.json"))
+            );
           }
 
           if (futureSnapshot.hasError) {
@@ -173,7 +172,6 @@ class EmployeeOrdersScreen extends StatelessWidget {
                         screen: OrderInfoScreen(order: order),
                       ),
                       changeStatus: () async {
-                        log(order.orderId.toString());
                         int statusIndex = GetIt.I
                             .get<ItemLayer>()
                             .statuses
@@ -194,7 +192,7 @@ class EmployeeOrdersScreen extends StatelessWidget {
                           context
                               .read<EmployeeOrdersBloc>()
                               .add(GetOrdersEvent());
-                              if(statusIndex==2) {
+                              if(statusIndex==1) {
                                 await sendNotification(extrnalId: order.customer!.notificationId);
                               }
                         }

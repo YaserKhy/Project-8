@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -68,10 +67,8 @@ class ProfileScreen extends StatelessWidget {
                       padding: WidgetStatePropertyAll(EdgeInsets.only(top: 8))
                     ),
                     onPressed: () {
-                      log("bye bye");
                       GetIt.I.get<AuthLayer>().customer = null;
                       GetIt.I.get<AuthLayer>().box.erase();
-                      log("box now is empty");
                       OneSignal.logout();
                       context.pushRemove(screen: const LoginScreen());
                     },
