@@ -60,8 +60,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         });
       }
       cart = await GetIt.I.get<SupabaseLayer>().supabase.from('cart').select().match({'customer_id': GetIt.I.get<AuthLayer>().customer!.id, 'is_valid': true});
-      GetIt.I.get<ItemLayer>().currentCart = CartModel.fromJson(cart.first);
       await getMatchingCartItems();
+      GetIt.I.get<ItemLayer>().currentCart = CartModel.fromJson(cart.first);
       emit(SuccessState(cart: GetIt.I.get<ItemLayer>().currentCart));
     } catch (e) {
       log("error in getallcartitems : $e");

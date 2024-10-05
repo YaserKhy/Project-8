@@ -46,7 +46,7 @@ class OrderCard extends StatelessWidget {
                 Text('#${order.orderId.toString()}',style: Theme.of(context).textTheme.bodyMedium),
               ],
             ),
-            Text(summary.substring(0,summary.length-2), style: Theme.of(context).textTheme.headlineSmall),
+            Text(summary,overflow: TextOverflow.ellipsis,style: Theme.of(context).textTheme.headlineSmall),
             Text('Total Price : $price SR', style: Theme.of(context).textTheme.headlineSmall),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -8,9 +8,8 @@ import 'package:project8/models/order_model.dart';
 class EmployeeOrderCard extends StatelessWidget {
   final OrderModel order;
   final Function()? onTap;
-  void Function()? changeStatus;
-  EmployeeOrderCard(
-      {super.key, required this.order, this.onTap, this.changeStatus});
+  final Function()? changeStatus;
+  const EmployeeOrderCard({super.key, required this.order, this.onTap, this.changeStatus});
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> itemAndPrice = {};

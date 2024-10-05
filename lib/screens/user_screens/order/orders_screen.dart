@@ -33,7 +33,7 @@ class OrdersScreen extends StatelessWidget {
                 labelStyle:Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppConstants.mainBlue),
                 indicatorColor: AppConstants.mainBlue,
                 indicatorSize: TabBarIndicatorSize.tab,
-                tabs: [Tab(text: "Waiting"), Text("Delivered")]
+                tabs: const [Tab(text: "Current"), Text("Done")]
               ),
               Expanded(
                 child: BlocBuilder<OrderBloc, OrderState>(
@@ -59,9 +59,9 @@ class OrdersScreen extends StatelessWidget {
                         );
                       }
                       else {
-                        List<OrderModel> waiting = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Waiting').toList();
-                        List<OrderModel> delivered = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Done').toList();
-                        List<List<OrderModel>> statusList = [waiting,delivered];
+                        List<OrderModel> currentOrders = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status!='Done').toList();
+                        List<OrderModel> doneOrders = GetIt.I.get<ItemLayer>().orders.where((order)=>order.status=='Done').toList();
+                        List<List<OrderModel>> statusList = [currentOrders,doneOrders];
                         return TabBarView(
                           children: List.generate(statusList.length,(statusIndex){
                             if(statusList[statusIndex].isEmpty) {

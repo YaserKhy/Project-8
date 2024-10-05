@@ -19,14 +19,12 @@ class OrderInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> itemAndPrice = {};
-    String summary = '';
     double price = 0.0;
     List<int> quantities = [];
     for (var list in GetIt.I.get<ItemLayer>().prevCarts) {
       for (var map in list) {
         if(map['order_id']==order.orderId) {
           itemAndPrice[map['item_name']] = map['item_price'];
-          summary+='${map['quantity']}x ${map['item_name']}, ';
           quantities.add(map['quantity']);
           price+=map['item_price']*map['quantity'];
         }
@@ -78,7 +76,7 @@ class OrderInfoScreen extends StatelessWidget {
                   ),
                   const CategoryTitle(title: "Order details"),
                   const SizedBox(height: 20),
-                  OrderText(title: "Order: ",content: summary.substring(0,summary.length-2),),
+                  OrderText(title: "Order No. ",content: '#${order.orderId}'),
                   const SizedBox(height: 20),
                   OrderText(title: "Order time: ", content: '${order.orderDate?.split('T').first} | ${order.orderDate?.split('T')[1].split('.').first.substring(0,5)}'),
                   const SizedBox(height: 20),
@@ -101,20 +99,20 @@ class OrderInfoScreen extends StatelessWidget {
                     }),
                   ),
                   const SizedBox(height: 20),
-                  Image.asset('assets/images/dotted_line.png'),
-                  // Row(
-                  //   children: List.generate(
-                  //     150 ~/ 6,
-                  //     (index) => Expanded(
-                  //       child: Container(
-                  //         color: index % 2 == 0 ? Colors.transparent : AppConstants.mainRed,
-                  //         height: 2,
-                  //       ),
-                  //     )
-                  //   ),
-                  // ),
+                  Row(
+                    children: List.generate(
+                      150 ~/ 6,
+                      (index) => Expanded(
+                        child: Container(
+                          color: index % 2 == 0 ? Colors.transparent : AppConstants.mainRed,
+                          height: 2,
+                        ),
+                      )
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   PaymentText(item: "Total", price: price.toString()),
+                  const SizedBox(height: 50),
                 ],
               ),
             ),

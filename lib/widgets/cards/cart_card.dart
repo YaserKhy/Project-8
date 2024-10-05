@@ -19,11 +19,7 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log(GetIt.I.get<ItemLayer>().cartItems.toString());
-    final item = GetIt.I
-        .get<ItemLayer>()
-        .items
-        .where((item) => item.itemId == cartItem.itemId)
-        .first;
+    final item = GetIt.I.get<ItemLayer>().items.where((item) => item.itemId == cartItem.itemId).first;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
@@ -34,8 +30,7 @@ class CartCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: const Color.fromARGB(255, 191, 191, 191)
-                  .withOpacity(0.8), // Shadow color
+              color: const Color.fromARGB(255, 191, 191, 191).withOpacity(0.8), // Shadow color
               spreadRadius: 3, // Spread of the shadow
               blurRadius: 5, // Softness of the shadow
               offset: const Offset(6, 6), // Horizontal and vertical offset
@@ -53,52 +48,32 @@ class CartCard extends StatelessWidget {
                     height: 100,
                     width: context.getWidth(divideBy: 3.9),
                     decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 232, 231, 231),
-                        borderRadius: BorderRadius.circular(15)),
+                      color: const Color.fromARGB(255, 232, 231, 231),
+                      borderRadius: BorderRadius.circular(15)
+                    ),
                     child: Image.network(item.image),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10,),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 120),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          item.name,
-                          style: const TextStyle(
-                              fontSize: 17,
-                              fontFamily: "Average",
-                              overflow: TextOverflow.ellipsis),
-                        ),
+                        const SizedBox(height: 10,),
+                        Text(item.name,overflow: TextOverflow.ellipsis,style: Theme.of(context).textTheme.headlineMedium),
                         SizedBox(
                           width: 70,
                           child: Row(
+                            // NOTICE
                             children: [
-                              const FaIcon(
-                                FontAwesomeIcons.fireFlameCurved,
-                                size: 15,
-                                color: AppConstants.mainRed,
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text("${item.calories} Cal",
-                                  style:
-                                      const TextStyle(fontFamily: "Average")),
+                              const FaIcon(FontAwesomeIcons.fireFlameCurved,size: 15,color: AppConstants.mainRed,),
+                              const SizedBox(width: 5,),
+                              Text("${item.calories} Cal",style: Theme.of(context).textTheme.headlineSmall,),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("${item.price} SR",
-                            style: const TextStyle(
-                                fontSize: 16, fontFamily: "Average")),
+                        const SizedBox(height: 10,),
+                        Text("${item.price} SR",style: Theme.of(context).textTheme.headlineSmall),
                       ],
                     ),
                   ),
@@ -109,28 +84,24 @@ class CartCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   IconButton(
-                      onPressed: onDelete,
-                      icon: const Icon(
-                        Icons.delete,
-                        size: 20,
-                        color: AppConstants.mainRed,
-                      )),
+                    onPressed: onDelete,
+                    icon: const Icon(Icons.delete,size: 20,color: AppConstants.mainRed,)
+                  ),
                   Row(
                     children: [
                       IconButton(
-                          onPressed: onDecreaseQuantity,
-                          icon: const Icon(
-                            Icons.remove_circle_outline,
-                            size: 20,
-                          )),
+                        onPressed: onDecreaseQuantity,
+                        icon: const Icon(Icons.remove_circle_outline,size: 20,)
+                      ),
                       BlocBuilder<CartBloc, CartState>(
                         builder: (context, state) {
-                          return Text("${cartItem.quantity}");
+                          return Text("${cartItem.quantity}", style: Theme.of(context).textTheme.headlineMedium,);
                         },
                       ),
                       IconButton(
-                          onPressed: onIncreaseQuantity,
-                          icon: const Icon(Icons.add_circle_outline, size: 20)),
+                        onPressed: onIncreaseQuantity,
+                        icon: const Icon(Icons.add_circle_outline, size: 20)
+                      ),
                     ],
                   )
                 ],
