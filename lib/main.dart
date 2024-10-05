@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -10,7 +11,12 @@ void main() async {
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
   OneSignal.initialize(dotenv.env['ONE_SIGNAL_APP_ID']!);
-  runApp(const MainApp());
+  runApp(DevicePreview(
+    // enabled: !kReleaseMode,
+    builder: (context) => MainApp(), // Wrap your app
+  ));
+
+  // const MainApp());
 }
 
 class MainApp extends StatelessWidget {
@@ -20,9 +26,11 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textTheme: const TextTheme(
-          headlineSmall:TextStyle(fontFamily: 'Average', fontSize: 17, fontWeight: FontWeight.w500) ,
-          headlineLarge: TextStyle(fontFamily: 'Average', fontSize: 26, fontWeight: FontWeight.w500),
+          textTheme: const TextTheme(
+        headlineSmall: TextStyle(
+            fontFamily: 'Average', fontSize: 17, fontWeight: FontWeight.w500),
+        headlineLarge: TextStyle(
+            fontFamily: 'Average', fontSize: 26, fontWeight: FontWeight.w500),
       )),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
