@@ -88,7 +88,7 @@ class EmployeeOrderCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5),
                         color: AppConstants.mainlightBlue.withOpacity(0.2),
                         border: Border.all(color: AppConstants.mainlightBlue)),
-                    child: Text(order.status ?? 'why',
+                    child: Text(order.status ?? 'unknown',
                         style: const TextStyle(
                             color: AppConstants.mainlightBlue,
                             fontSize: 18,

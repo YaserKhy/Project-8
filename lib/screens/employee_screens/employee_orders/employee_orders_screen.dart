@@ -14,7 +14,6 @@ import 'package:project8/screens/auth_screens/login_screen.dart';
 import 'package:project8/screens/employee_screens/employee_orders/bloc/employee_orders_bloc.dart';
 import 'package:project8/screens/user_screens/order/order_info_screen.dart';
 import 'package:project8/widgets/cards/employee_order_card.dart';
-import 'package:project8/widgets/texts/page_title.dart';
 
 class EmployeeOrdersScreen extends StatelessWidget {
   const EmployeeOrdersScreen({super.key});

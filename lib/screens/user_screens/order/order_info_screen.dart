@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/auth_layer.dart';
 import 'package:project8/data_layers/item_layer.dart';
-import 'package:project8/helpers/send_notification.dart';
 import 'package:project8/models/order_model.dart';
 import 'package:project8/screens/user_screens/order/bloc/order_bloc.dart';
 import 'package:project8/widgets/texts/category_title.dart';
@@ -33,33 +32,10 @@ class OrderInfoScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => OrderBloc(),
       child: Builder(builder: (context) {
-        final bloc = context.read<OrderBloc>();
-        int activeStep = bloc.activeStep;
         return Scaffold(
           backgroundColor: AppConstants.mainBgColor,
           appBar: AppBar(
             backgroundColor: AppConstants.mainBgColor,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                    backgroundColor: AppConstants.mainBlue,
-                    foregroundColor: Colors.white
-                  ),
-                  onPressed: () async {
-                    activeStep = activeStep + 1;
-                    if (activeStep >= 2) {
-                      bloc.add(ChangeIndcatorEvent());
-                      await sendNotification();
-                    }
-                    bloc.add(ChangeIndcatorEvent());
-                  },
-                  child: const Text("Done")
-                ),
-              )
-            ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -69,8 +45,7 @@ class OrderInfoScreen extends StatelessWidget {
                   BlocBuilder<OrderBloc, OrderState>(
                     builder: (context, state) {
                       return CustomSteppr(
-                        activeStep: activeStep,
-                        onStepReached: (index) => activeStep = index,
+                        activeStep: GetIt.I.get<ItemLayer>().statuses.indexOf(order.status!),
                       );
                     },
                   ),

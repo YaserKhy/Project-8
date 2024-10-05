@@ -19,7 +19,7 @@ class CustomSteppr extends StatelessWidget {
                 lineSpace: 0,
                 defaultLineColor: Colors.black26,
                 finishedLineColor: AppConstants.mainlightBlue,
-                lineLength: 100,
+                lineLength: 70,
                 lineType: LineType.normal,
               ),
               activeStep: activeStep,
@@ -52,6 +52,15 @@ class CustomSteppr extends StatelessWidget {
                   customStep: CircleAvatar(
                     radius: 13,
                     backgroundColor: activeStep >= 2
+                        ? AppConstants.mainlightBlue
+                        : Colors.black26,
+                  ),
+                  title: 'Ready',
+                ),
+                EasyStep(
+                  customStep: CircleAvatar(
+                    radius: 13,
+                    backgroundColor: activeStep >= 3
                         ? AppConstants.mainlightBlue
                         : Colors.black26,
                   ),

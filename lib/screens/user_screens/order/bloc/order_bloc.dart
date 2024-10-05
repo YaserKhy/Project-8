@@ -11,12 +11,7 @@ part 'order_state.dart';
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   int activeStep = 0;
   Map<String,dynamic> itemAndPrice = {};
-    
-    Future<String> ssss() async {
-      return await "hello";
-    }
   OrderBloc() : super(OrderInitial()) {
-
     on<ChangeIndcatorEvent>((event, emit) {
       emit(ChangeIndcatorState());
     });
