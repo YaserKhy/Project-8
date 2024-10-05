@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get_it/get_it.dart';
-import 'package:project8/data_layers/auth_layer.dart';
 import 'package:http/http.dart' as http;
 
-sendNotification() async {
+sendNotification({required String? extrnalId}) async {
   var url = Uri.parse('https://api.onesignal.com/notifications?c=push');
-  final String? extrnalId = GetIt.I.get<AuthLayer>().customer?.notificationId;
+
   try {
     await http.post(
       url,

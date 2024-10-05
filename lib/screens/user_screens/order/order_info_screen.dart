@@ -23,10 +23,10 @@ class OrderInfoScreen extends StatelessWidget {
     List<int> quantities = [];
     for (var list in GetIt.I.get<ItemLayer>().prevCarts) {
       for (var map in list) {
-        if(map['order_id']==order.orderId) {
+        if (map['order_id'] == order.orderId) {
           itemAndPrice[map['item_name']] = map['item_price'];
           quantities.add(map['quantity']);
-          price+=map['item_price']*map['quantity'];
+          price += map['item_price'] * map['quantity'];
         }
       }
     }
@@ -43,21 +43,21 @@ class OrderInfoScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                    backgroundColor: AppConstants.mainBlue,
-                    foregroundColor: Colors.white
-                  ),
-                  onPressed: () async {
-                    activeStep = activeStep + 1;
-                    if (activeStep >= 2) {
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        backgroundColor: AppConstants.mainBlue,
+                        foregroundColor: Colors.white),
+                    onPressed: () async {
+                      activeStep = activeStep + 1;
+                      if (activeStep >= 2) {
+                        bloc.add(ChangeIndcatorEvent());
+                        await sendNotification(
+                            extrnalId: order.customer?.notificationId);
+                      }
                       bloc.add(ChangeIndcatorEvent());
-                      await sendNotification();
-                    }
-                    bloc.add(ChangeIndcatorEvent());
-                  },
-                  child: const Text("Done")
-                ),
+                    },
+                    child: const Text("Done")),
               )
             ],
           ),
@@ -76,23 +76,31 @@ class OrderInfoScreen extends StatelessWidget {
                   ),
                   const CategoryTitle(title: "Order details"),
                   const SizedBox(height: 20),
-                  OrderText(title: "Order No. ",content: '#${order.orderId}'),
+                  OrderText(title: "Order No. ", content: '#${order.orderId}'),
                   const SizedBox(height: 20),
-                  OrderText(title: "Order time: ", content: '${order.orderDate?.split('T').first} | ${order.orderDate?.split('T')[1].split('.').first.substring(0,5)}'),
+                  OrderText(
+                      title: "Order time: ",
+                      content:
+                          '${order.orderDate?.split('T').first} | ${order.orderDate?.split('T')[1].split('.').first.substring(0, 5)}'),
                   const SizedBox(height: 20),
-                  OrderText(title: "Customer name: ", content: GetIt.I.get<AuthLayer>().customer!.name),
+                  OrderText(
+                      title: "Customer name: ", content: order.customer!.name),
                   const SizedBox(height: 20),
-                  OrderText(title: "Customer Phone: ", content: GetIt.I.get<AuthLayer>().customer!.phoneNumber),
+                  OrderText(
+                      title: "Customer Phone: ",
+                      content: order.customer!.phoneNumber),
                   const SizedBox(height: 20),
                   const CategoryTitle(title: "Payment details"),
                   Column(
-                    children: List.generate(itemAndPrice.length, (index){
+                    children: List.generate(itemAndPrice.length, (index) {
                       return Column(
                         children: [
                           PaymentText(
-                            item: '${quantities[index]}x ${itemAndPrice.keys.toList()[index]}',
-                            price: (itemAndPrice.values.toList()[index]*quantities[index]).toString()
-                          ),
+                              item:
+                                  '${quantities[index]}x ${itemAndPrice.keys.toList()[index]}',
+                              price: (itemAndPrice.values.toList()[index] *
+                                      quantities[index])
+                                  .toString()),
                           const SizedBox(height: 20)
                         ],
                       );
@@ -101,14 +109,15 @@ class OrderInfoScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   Row(
                     children: List.generate(
-                      150 ~/ 6,
-                      (index) => Expanded(
-                        child: Container(
-                          color: index % 2 == 0 ? Colors.transparent : AppConstants.mainRed,
-                          height: 2,
-                        ),
-                      )
-                    ),
+                        150 ~/ 6,
+                        (index) => Expanded(
+                              child: Container(
+                                color: index % 2 == 0
+                                    ? Colors.transparent
+                                    : AppConstants.mainRed,
+                                height: 2,
+                              ),
+                            )),
                   ),
                   const SizedBox(height: 20),
                   PaymentText(item: "Total", price: price.toString()),

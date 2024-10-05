@@ -243,10 +243,16 @@ class SupabaseLayer {
   getOrders() async {
     GetIt.I.get<ItemLayer>().prevCarts.clear();
     List<OrderModel> temp = [];
-    final data = await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select().eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
+    final data = await GetIt.I
+        .get<SupabaseLayer>()
+        .supabase
+        .from('orders')
+        .select()
+        .eq('customer_id', GetIt.I.get<AuthLayer>().customer!.id);
     for (var order in data) {
       temp.add(OrderModel.fromJson(order));
-      final res = await supabase.rpc('get_order_items', params: {'order_uuid': order['order_id']});
+      final res = await supabase
+          .rpc('get_order_items', params: {'order_uuid': order['order_id']});
       GetIt.I.get<ItemLayer>().prevCarts.add(res);
     }
     GetIt.I.get<ItemLayer>().orders = temp;
@@ -255,17 +261,26 @@ class SupabaseLayer {
   employeeGetOrders() async {
     GetIt.I.get<ItemLayer>().prevCarts.clear();
     List<OrderModel> temp = [];
-    final data = await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select();
+    final data =
+        await GetIt.I.get<SupabaseLayer>().supabase.from('orders').select();
     for (var d in data) {
       temp.add(OrderModel.fromJson(d));
-      final res = await supabase.rpc('get_order_items', params: {'order_uuid': d['order_id']});
+      final res = await supabase
+          .rpc('get_order_items', params: {'order_uuid': d['order_id']});
       GetIt.I.get<ItemLayer>().prevCarts.add(res);
+    }
+    for (var element in temp) {
+      getOrderCustomer(element.customerId);
     }
     GetIt.I.get<ItemLayer>().orders = temp;
   }
 
   Stream employeeRealTimeGetOrders() {
-    final stream = GetIt.I.get<SupabaseLayer>().supabase.from('orders').stream(primaryKey: ['order_id']);
+    final stream = GetIt.I
+        .get<SupabaseLayer>()
+        .supabase
+        .from('orders')
+        .stream(primaryKey: ['order_id']);
     stream.listen((event) {
       log('Real-time event received: $event');
       if (event.isEmpty) {
@@ -300,6 +315,21 @@ class SupabaseLayer {
     } catch (e) {
       log("add order error");
       log(e.toString());
+    }
+  }
+
+  getOrderCustomer(String customrId) async {
+    CustomerModel? orderCustomer;
+    final customer =
+        await supabase.from("customer").select().eq('customer_id', customrId);
+    for (var element in customer) {
+      orderCustomer = CustomerModel.fromJson(element);
+    }
+
+    for (var element in GetIt.I.get<ItemLayer>().orders) {
+      if (element.customerId == customrId) {
+        element.customer = orderCustomer;
+      }
     }
   }
 }
