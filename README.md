@@ -86,6 +86,10 @@ $ git push
 
 ### Output
 
+![output_coffe app](https://github.com/user-attachments/assets/c4611ad1-495f-4c1f-a94a-7e21b64d8f34)
+
+<img src="https://github.com/user-attachments/assets/0e995bc6-22ef-4443-abdb-0af11deceba4" alt="Add to Favorite" width="100"/>
+
 
 
 
