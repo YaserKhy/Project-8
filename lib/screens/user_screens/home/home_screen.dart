@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                         );
                       }
                       if (state is ErrorState) {
-                      // NOTICE
+                      
                         return SizedBox(
                           height: context.getHeight(divideBy: 3),
                           child: const Center(child: Text("Error loading items"))

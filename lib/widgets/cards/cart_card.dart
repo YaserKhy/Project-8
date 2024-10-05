@@ -62,7 +62,6 @@ class CartCard extends StatelessWidget {
                         SizedBox(
                           width: 70,
                           child: Row(
-                            // NOTICE
                             children: [
                               const FaIcon(FontAwesomeIcons.fireFlameCurved,size: 15,color: AppConstants.mainRed,),
                               const SizedBox(width: 5,),
