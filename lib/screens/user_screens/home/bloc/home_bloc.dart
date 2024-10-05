@@ -17,8 +17,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<ChangeCategoryEvent>(changeCategory);
   }
 
-  FutureOr<void> getItems(
-      GetAllItemsEvent event, Emitter<HomeState> emit) async {
+  // function to get all ONZE items
+  FutureOr<void> getItems(GetAllItemsEvent event, Emitter<HomeState> emit) async {
     try {
       emit(LoadingState());
       await getAllItems();
@@ -31,8 +31,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  FutureOr<void> changeCategory(
-      ChangeCategoryEvent event, Emitter<HomeState> emit) {
+  // function to switch category
+  FutureOr<void> changeCategory(ChangeCategoryEvent event, Emitter<HomeState> emit) {
     emit(SuccessState(selectedCategory: event.category));
   }
 }
