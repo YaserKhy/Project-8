@@ -5,12 +5,13 @@ import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project8/constants/app_constants.dart';
 import 'package:project8/data_layers/item_layer.dart';
+import 'package:project8/data_layers/supabase_layer.dart';
 import 'package:project8/extensions/screen_nav.dart';
 import 'package:project8/extensions/screen_size.dart';
 import 'package:project8/models/order_model.dart';
 import 'package:project8/screens/employee_screens/employee_orders/bloc/employee_orders_bloc.dart';
 import 'package:project8/screens/user_screens/order/order_info_screen.dart';
-import 'package:project8/widgets/cards/order_card.dart';
+import 'package:project8/widgets/cards/employee_order_card.dart';
 import 'package:project8/widgets/texts/page_title.dart';
 
 class EmployeeOrdersScreen extends StatelessWidget {
@@ -44,8 +45,8 @@ class EmployeeOrdersScreen extends StatelessWidget {
                     indicatorColor: AppConstants.mainBlue,
                     indicatorSize: TabBarIndicatorSize.tab,
                     tabs: [
-                      Tab(text: "Waiting"),
-                      Tab(text: "Preparing"),
+                      Tab(text: "Current"),
+                      Tab(text: "Done"),
                     ]),
                 Expanded(
                   child: BlocBuilder<EmployeeOrdersBloc, EmployeeOrdersState>(
@@ -78,17 +79,22 @@ class EmployeeOrdersScreen extends StatelessWidget {
                           List<OrderModel> waiting = GetIt.I
                               .get<ItemLayer>()
                               .orders
-                              .where((order) => order.status == 'Waiting')
-                              .toList();
-                          List<OrderModel> preparing = GetIt.I
+                              .where((order) =>
+                                  order.status == 'Waiting' ||
+                                  order.status == 'Preparing' ||
+                                  order.status == 'Ready')
+                              .toList()
+                            ..sort((a, b) => a.orderId.compareTo(b.orderId));
+
+                          List<OrderModel> done = GetIt.I
                               .get<ItemLayer>()
                               .orders
-                              .where((order) => order.status == 'Preparing')
-                              .toList();
-
+                              .where((order) => order.status == 'Done')
+                              .toList()
+                            ..sort((a, b) => a.orderId.compareTo(b.orderId));
                           List<List<OrderModel>> statusList = [
                             waiting,
-                            preparing,
+                            done,
                           ];
                           return TabBarView(
                               children: List.generate(statusList.length,
@@ -107,11 +113,42 @@ class EmployeeOrdersScreen extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         OrderModel order =
                                             statusList[statusIndex][index];
-                                        return OrderCard(
+                                        return EmployeeOrderCard(
                                           order: order,
                                           onTap: () => context.push(
                                               screen: OrderInfoScreen(
                                                   order: order)),
+                                          changeStatus: () async {
+                                            log(order.orderId.toString());
+                                            int statusIndex = GetIt.I
+                                                .get<ItemLayer>()
+                                                .statuses
+                                                .indexOf(order.status!);
+                                            log(GetIt.I
+                                                .get<ItemLayer>()
+                                                .statuses[statusIndex]
+                                                .toString());
+                                            if (statusIndex <
+                                                GetIt.I
+                                                    .get<ItemLayer>()
+                                                    .statuses
+                                                    .length-1) {
+                                              await GetIt.I
+                                                  .get<SupabaseLayer>()
+                                                  .supabase
+                                                  .from('orders')
+                                                  .update({
+                                                'status': GetIt.I
+                                                    .get<ItemLayer>()
+                                                    .statuses[statusIndex + 1]
+                                              }).match({
+                                                'order_id': order.orderId
+                                              });
+                                              context
+                                                  .read<EmployeeOrdersBloc>()
+                                                  .add(GetOrdersEvent());
+                                            }
+                                          },
                                         );
                                       },
                                     ),

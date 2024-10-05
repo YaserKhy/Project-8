@@ -55,7 +55,7 @@ class CustomSteppr extends StatelessWidget {
                         ? AppConstants.mainlightBlue
                         : Colors.black26,
                   ),
-                  title: 'Delivered',
+                  title: 'Done',
                 ),
               ],
               steppingEnabled: true,

@@ -31,5 +31,18 @@ class EmployeeOrdersBloc
         emit(ErrorState(msg: e.toString()));
       }
     });
+    on<ChangeStatusEvent>((event, emit) async {
+      try {
+        log("getting orders");
+        emit(LoadingState());
+        await GetIt.I.get<SupabaseLayer>().employeeGetOrders();
+        emit(SuccessState());
+        log('doeneenen');
+        log(GetIt.I.get<ItemLayer>().orders.length.toString());
+      } catch (e) {
+        log("get orders error");
+        emit(ErrorState(msg: e.toString()));
+      }
+    });
   }
 }

@@ -11,3 +11,6 @@ final class GAGA extends EmployeeOrdersEvent {
   final String cartId;
   GAGA({required this.cartId});
 }
+
+final class ChangeStatusEvent extends EmployeeOrdersEvent {}
+
