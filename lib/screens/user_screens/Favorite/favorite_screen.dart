@@ -62,7 +62,7 @@ class FavoriteScreen extends StatelessWidget {
                                         "assets/images/defult_empty.png",
                                       ),
                                       const SizedBox(height: 10,),
-                                      const Text("No favorite items added yet.",style: TextStyle(fontSize: 20),)
+                                      Text("No favorite items added yet.", style:Theme.of(context).textTheme.bodyMedium)
                                     ],
                                   )
                                 );

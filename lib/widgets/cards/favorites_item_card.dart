@@ -25,56 +25,11 @@ class FavoritesCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: const Color.fromARGB(255, 191, 191, 191).withOpacity(0.8), // Shadow color
-              spreadRadius: 3, // Spread of the shadow
-              blurRadius: 5, // Softness of the shadow
-              offset: const Offset(6, 6), // Horizontal and vertical offset
+              color: const Color.fromARGB(255, 191, 191, 191).withOpacity(0.8),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(6, 6),
             ),
-// <<<<<<< HEAD
-// =======
-            // const SizedBox(width: 10,),
-            // Column(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            //   children: [
-            //     const SizedBox(height: 10,),
-            //     Text(
-            //       favItem.name,
-            //       style: const TextStyle(fontSize: 22, fontFamily: "Average"),
-            //     ),
-            //     Text(
-            //       "${favItem.price} SR",
-            //       style:const TextStyle(fontSize: 16, fontFamily: "Average")
-            //     ),
-            //     Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         SizedBox(
-            //           width: 70,
-            //           child: Row(
-            //             children: [
-            //               const FaIcon(FontAwesomeIcons.fireFlameCurved,size: 15,color: AppConstants.mainRed,),
-            //               const SizedBox(width: 5,),
-            //               Text(
-            //                 "${favItem.calories} Cal",
-            //                 style: const TextStyle(fontFamily: "Average")
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //         const SizedBox(width: 80,),
-            //         BlocBuilder<FavoriteBloc, FavoriteState>(
-            //           builder: (context, state) {
-            //             return IconButton(
-            //               onPressed: () => bloc.add(ToggleFavoriteEvent(item: favItem)),
-            //               icon: const Icon(Icons.favorite,color: AppConstants.mainRed)
-            //             );
-            //           },
-            //         )
-            //       ],
-            //     )
-            //   ],
-            // )
-// >>>>>>> origin/turki
           ],
         ),
         child: Padding(
@@ -94,15 +49,9 @@ class FavoritesCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10,),
-                  Text(
-                    favItem.name,
-                    style: const TextStyle(fontSize: 22, fontFamily: "Average"),
-                  ),
-                  Text(
-                    "${favItem.price} SR",
-                    style:const TextStyle(fontSize: 16, fontFamily: "Average")
-                  ),
+                  const SizedBox(height: 10),
+                  Text(favItem.name,style: Theme.of(context).textTheme.titleLarge),
+                  Text("${favItem.price} SR", style:Theme.of(context).textTheme.headlineSmall),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -112,10 +61,7 @@ class FavoritesCard extends StatelessWidget {
                           children: [
                             const FaIcon(FontAwesomeIcons.fireFlameCurved,size: 15,color: AppConstants.mainRed,),
                             const SizedBox(width: 5,),
-                            Text(
-                              "${favItem.calories} Cal",
-                              style: const TextStyle(fontFamily: "Average")
-                            ),
+                            Text("${favItem.calories} Cal",style: Theme.of(context).textTheme.headlineSmall),
                           ],
                         ),
                       ),

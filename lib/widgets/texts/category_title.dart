@@ -15,7 +15,7 @@ class CategoryTitle extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(title,style: Theme.of(context).textTheme.titleLarge),
+            Text(title,style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(width: 10),
             title != 'Water' && title != 'Best Seller'
             ? const SizedBox.shrink()
