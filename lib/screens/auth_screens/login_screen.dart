@@ -84,12 +84,12 @@ class LoginScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               const SizedBox(
-                                height: 74,
+                                height: 50,
                               ),
                               // title logo
                               const TitleLogo(),
                               const SizedBox(
-                                height: 80,
+                                height: 50,
                               ),
                               // form content
                               AuthField(
@@ -123,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                                   isBold: true,
                                   onPressed: () => context.pushRemove(
                                       screen: const SignUpScreen())),
-                              const SizedBox(height: 51),
+                              const SizedBox(height: 20),
                               Stack(
                                 children: [
                                   // stars decoration around the row button

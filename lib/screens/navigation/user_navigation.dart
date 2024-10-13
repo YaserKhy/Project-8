@@ -45,6 +45,7 @@ class UserNavigation extends StatelessWidget {
           child: const Padding(
             padding: EdgeInsets.all(16),
             child: TabBar(
+              overlayColor: WidgetStateColor.transparent,
               indicatorColor: Colors.transparent,
               labelColor: AppConstants.mainWhite,
               unselectedLabelColor: AppConstants.unselectedColor,

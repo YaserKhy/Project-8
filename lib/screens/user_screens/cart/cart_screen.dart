@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -160,6 +158,20 @@ class CartScreen extends StatelessWidget {
                                         pickupOrDelivery: bloc.isDelivery ? 'delivery' : 'pickup'
                                       ));
                                       context.pop();
+                                      showDialog(context: context, builder: (context)=>const AlertDialog(
+                                        content: Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 50),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(Icons.check_circle_outline, color: Colors.green,size: 35,),
+                                                Text("Thank you for ordering !"),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      );
                                     },
                                     child: const Row(
                                       mainAxisAlignment:MainAxisAlignment.center,
@@ -211,8 +223,19 @@ class CartScreen extends StatelessWidget {
                                                     ));
                                                     context.pop();
                                                     context.pop();
-                                                    log('here are orders');
-                                                    log(GetIt.I.get<ItemLayer>().orders.length.toString());
+                                                    showDialog(context: context, builder: (context)=>const AlertDialog(
+                                                      content: Padding(
+                                                        padding: EdgeInsets.symmetric(vertical: 50),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: [
+                                                            Icon(Icons.check_circle_outline, color: Colors.green,size: 35,),
+                                                            Text("Thank you for ordering !"),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ));
                                                   },
                                                 ),
                                               ),
